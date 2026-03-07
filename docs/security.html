@@ -78,24 +78,29 @@
         <div class="section-label">Authentication</div>
         <h2>API Authentication</h2>
         <p>
-          Every request to the Luminarr API requires a valid API key. The key is generated
-          automatically on first start using Go's <code>crypto/rand</code> — 32 bytes of
-          cryptographically random data, rendered as a 64-character hex string. It is never
-          derived from a password or a predictable seed.
+          The web UI works without any API key — the server trusts same-origin browser requests
+          using the <code>Sec-Fetch-Site</code> header, a Fetch Metadata Request Header that
+          browsers set automatically and JavaScript cannot spoof. Cross-origin requests send
+          <code>cross-site</code>, so CSRF is handled automatically.
         </p>
         <p>
-          At startup, the server bakes the key directly into the HTML it serves. The browser
-          receives the key as a JavaScript constant and attaches it as an <code>X-Api-Key</code>
-          header on every API call. The server validates the header using constant-time
-          comparison, which prevents timing-based key guessing attacks.
+          External API consumers (scripts, Home Assistant, other *arr apps) authenticate with
+          an <code>X-Api-Key</code> header. The key is generated automatically on first start
+          using Go's <code>crypto/rand</code> — 32 bytes of cryptographically random data,
+          rendered as a 64-character hex string. Find it in <strong>Settings &rarr; General</strong>.
         </p>
 
         <div class="flow">
           <div class="flow-step">Browser</div>
           <div class="flow-arrow">&#8594;</div>
-          <div class="flow-step"><code>X-Api-Key</code> header</div>
+          <div class="flow-step"><code>Sec-Fetch-Site: same-origin</code></div>
           <div class="flow-arrow">&#8594;</div>
-          <div class="flow-step">Huma middleware</div>
+          <div class="flow-step">Trusted</div>
+        </div>
+        <div class="flow" style="margin-top:12px">
+          <div class="flow-step">External client</div>
+          <div class="flow-arrow">&#8594;</div>
+          <div class="flow-step"><code>X-Api-Key</code> header</div>
           <div class="flow-arrow">&#8594;</div>
           <div class="flow-step">Constant-time compare</div>
           <div class="flow-arrow">&#8594;</div>
@@ -107,7 +112,7 @@
           <li>Key is generated with <code>crypto/rand.Read</code> — no Math.random, no time seeds.</li>
           <li>Comparison uses <code>crypto/subtle.ConstantTimeCompare</code> to prevent timing attacks regardless of key length or match prefix.</li>
           <li>The <code>GET /health</code> endpoint is intentionally unauthenticated so load balancers and container orchestrators can probe liveness without credentials.</li>
-          <li>In Docker, the key regenerates on every container restart unless you set <code>LUMINARR_AUTH_API_KEY</code> as an environment variable or mount a <code>config.yaml</code> with a fixed value. After any restart without a fixed key, hard-refresh your browser tab to pick up the new key.</li>
+          <li>The API key persists in <code>/config/config.yaml</code> and is stable across restarts.</li>
         </ul>
       </div>
 
@@ -116,7 +121,7 @@
         <div class="section-label">Secret Handling</div>
         <h2>The <code>Secret</code> Type</h2>
         <p>
-          Credentials that Luminarr stores — TMDB API keys, indexer API keys, download client
+          Credentials that Luminarr stores — indexer API keys, download client
           passwords, notification webhook URLs — are all wrapped in a <code>Secret</code> type
           that actively prevents accidental exposure. It is not enough to be careful; the type
           makes leakage structurally impossible in the common cases.
@@ -149,7 +154,6 @@
 
         <p>Credentials covered by this type include:</p>
         <ul>
-          <li>TMDB API key</li>
           <li>Indexer API keys (Torznab, Newznab)</li>
           <li>Download client passwords (qBittorrent, Deluge)</li>
           <li>Notification webhook URLs and auth tokens (Discord, email credentials)</li>
@@ -436,13 +440,6 @@
               No update checks
             </h4>
             <p>Luminarr never phones home to check for new versions. Update availability is communicated through GitHub releases only.</p>
-          </div>
-          <div class="info-card">
-            <h4>
-              <svg class="card-icon green" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-              No shared API keys
-            </h4>
-            <p>You supply your own TMDB API key. There is no pooled or bundled key that ties your requests to anyone else's traffic.</p>
           </div>
         </div>
       </div>

@@ -1221,7 +1221,7 @@
         <div class="section-label">Get started</div>
         <h2 class="section-title">Up and running in 60 seconds</h2>
         <p class="section-desc" style="margin:0 auto">
-          Docker Compose is the easiest path. The API key auto-generates on first run and persists in the volume.
+          Docker Compose is the easiest path. No keys to configure — just start and go.
         </p>
       </div>
       <div class="compose-block fade-in">
@@ -1237,15 +1237,10 @@
     <span class="yaml-key">image</span>: <span class="yaml-value">ghcr.io/luminarr/luminarr:latest</span>
     <span class="yaml-key">ports</span>:
       - <span class="yaml-value">"8282:8282"</span>
-    <span class="yaml-key">environment</span>:
-      <span class="yaml-key">LUMINARR_TMDB_API_KEY</span>: <span class="yaml-value">your-tmdb-key</span>
     <span class="yaml-key">volumes</span>:
-      - <span class="yaml-value">luminarr-data:/config</span>
+      - <span class="yaml-value">/path/to/config:/config</span>
       - <span class="yaml-value">/path/to/movies:/movies</span>
-    <span class="yaml-key">restart</span>: <span class="yaml-value">unless-stopped</span>
-
-<span class="yaml-key">volumes</span>:
-  <span class="yaml-key">luminarr-data</span>:</pre>
+    <span class="yaml-key">restart</span>: <span class="yaml-value">unless-stopped</span></pre>
         </div>
       </div>
       <p style="margin-top:24px;font-size:14px;color:var(--text-muted)">
@@ -1375,7 +1370,7 @@
     }
 
     function copyCompose(btn) {
-      var text = 'services:\n  luminarr:\n    image: ghcr.io/luminarr/luminarr:latest\n    ports:\n      - "8282:8282"\n    environment:\n      LUMINARR_TMDB_API_KEY: your-tmdb-key\n    volumes:\n      - luminarr-data:/config\n      - /path/to/movies:/movies\n    restart: unless-stopped\n\nvolumes:\n  luminarr-data:';
+      var text = 'services:\n  luminarr:\n    image: ghcr.io/luminarr/luminarr:latest\n    ports:\n      - "8282:8282"\n    volumes:\n      - /path/to/config:/config\n      - /path/to/movies:/movies\n    restart: unless-stopped';
       navigator.clipboard.writeText(text).then(function() {
         btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;color:#34d399"><polyline points="20 6 9 17 4 12"/></svg>';
         setTimeout(function() {
