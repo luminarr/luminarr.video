@@ -113,7 +113,32 @@
           <li>Comparison uses <code>crypto/subtle.ConstantTimeCompare</code> to prevent timing attacks regardless of key length or match prefix.</li>
           <li>The <code>GET /health</code> endpoint is intentionally unauthenticated so load balancers and container orchestrators can probe liveness without credentials.</li>
           <li>The API key persists in <code>/config/config.yaml</code> and is stable across restarts.</li>
+          <li>The config API returns a masked key (<code>****…</code>); the full key is only available via a separate <code>/api/v1/system/config/apikey</code> endpoint.</li>
         </ul>
+
+        <h3>WebSocket authentication</h3>
+        <p>
+          WebSocket connections go through the same auth middleware as REST endpoints. Browser
+          connections must include <code>Sec-Fetch-Site: same-origin</code>; external clients
+          must send a valid <code>X-Api-Key</code> header. The auth check runs <strong>before</strong>
+          the HTTP-to-WebSocket upgrade — unauthenticated connections are rejected at the HTTP
+          level and never reach the WebSocket handler.
+        </p>
+
+        <h3>Import path validation</h3>
+        <p>
+          Content paths submitted through the import API are validated using
+          <code>pathutil.ValidateContentPath</code>, which rejects path traversal attempts
+          (<code>..</code> components), symlink escapes, and paths outside allowed directories.
+          This prevents a compromised download client from writing files to arbitrary locations.
+        </p>
+
+        <h3>Email header injection</h3>
+        <p>
+          SMTP notification fields (recipient, subject) are stripped of <code>\r</code> and
+          <code>\n</code> characters before being set as mail headers. This prevents header
+          injection attacks that could add arbitrary recipients or headers to outgoing email.
+        </p>
       </div>
 
       <!-- 2. Secret type -->
@@ -358,7 +383,7 @@
               <td>Notification targets</td>
               <td>Outbound</td>
               <td>Grab, import, health events</td>
-              <td>Strict</td>
+              <td>Strict (SSRF-protected)</td>
             </tr>
             <tr>
               <td>Browser</td>
