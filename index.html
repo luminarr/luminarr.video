@@ -613,6 +613,39 @@
       line-height: 1.4;
     }
 
+    /* ── Ecosystem / compatibility ───────────────────────────────── */
+    .ecosystem-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      margin-top: 48px;
+    }
+    .ecosystem-card {
+      padding: 28px;
+      border-radius: 16px;
+      border: 1px solid var(--border-subtle);
+      background: var(--bg-surface);
+      text-align: center;
+      transition: border-color 0.2s;
+    }
+    .ecosystem-card:hover {
+      border-color: var(--border-default);
+    }
+    .ecosystem-card h4 {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+    .ecosystem-card p {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+    .ecosystem-icon {
+      font-size: 28px;
+      margin-bottom: 12px;
+    }
+
     /* ── Getting started ─────────────────────────────────────────── */
     .getting-started {
       text-align: center;
@@ -778,6 +811,7 @@
       .features-grid { grid-template-columns: 1fr 1fr; }
       .migration-steps { grid-template-columns: 1fr 1fr; }
       .migration-step::after { display: none; }
+      .ecosystem-grid { grid-template-columns: 1fr 1fr; }
       .privacy-grid { grid-template-columns: 1fr; }
       .transparency-points { grid-template-columns: 1fr; }
     }
@@ -791,6 +825,7 @@
       }
       .features-grid { grid-template-columns: 1fr; }
       .migration-steps { grid-template-columns: 1fr; }
+      .ecosystem-grid { grid-template-columns: 1fr; }
       .nav-links a:not(.gh-link) { display: none; }
       .footer-inner {
         flex-direction: column;
@@ -1181,6 +1216,11 @@
             <td>&mdash;</td>
             <td class="highlight-cell">One-click import</td>
           </tr>
+          <tr>
+            <td>Ecosystem compat</td>
+            <td>&mdash;</td>
+            <td class="highlight-cell">Radarr v3 API built in</td>
+          </tr>
         </tbody>
       </table>
     </div>
@@ -1217,6 +1257,41 @@
           <div class="step-number">4</div>
           <h4>Done</h4>
           <p>Profiles, libraries, indexers, clients, movies &mdash; all there</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Ecosystem Compatibility -->
+  <section style="border-top: 1px solid var(--border-subtle)">
+    <div class="container">
+      <div class="section-header fade-in" style="text-align:center">
+        <div class="section-label">Ecosystem</div>
+        <h2 class="section-title">Works with your existing tools</h2>
+        <p class="section-desc" style="margin:0 auto">
+          Luminarr speaks Radarr's API. Point your tools at Luminarr and they just work &mdash; no native integrations needed.
+        </p>
+      </div>
+      <div class="ecosystem-grid">
+        <div class="ecosystem-card fade-in">
+          <div class="ecosystem-icon">&#127916;</div>
+          <h4>Overseerr / Jellyseerr</h4>
+          <p>Request movies, sync libraries, manage quality profiles</p>
+        </div>
+        <div class="ecosystem-card fade-in">
+          <div class="ecosystem-icon">&#128200;</div>
+          <h4>Homepage / Homarr</h4>
+          <p>Movie count, queue status, and activity widgets</p>
+        </div>
+        <div class="ecosystem-card fade-in">
+          <div class="ecosystem-icon">&#127968;</div>
+          <h4>Home Assistant</h4>
+          <p>Sensors for library size, queue depth, and download status</p>
+        </div>
+        <div class="ecosystem-card fade-in">
+          <div class="ecosystem-icon">&#128241;</div>
+          <h4>LunaSea &amp; more</h4>
+          <p>Any app with a Radarr integration section works out of the box</p>
         </div>
       </div>
     </div>
@@ -1359,6 +1434,7 @@
           <a href="docs/architecture.html">Architecture</a>
           <a href="docs/security.html">Security</a>
           <a href="docs/custom-scripts.html">Custom Scripts</a>
+          <a href="https://github.com/luminarr/luminarr/wiki/Radarr-API-Compatibility" target="_blank" rel="noopener">API Compatibility</a>
           <a href="https://github.com/luminarr/luminarr/wiki/Testing" target="_blank" rel="noopener">Testing</a>
           <a href="https://github.com/luminarr/luminarr/blob/main/docs/GETTING_STARTED.md" target="_blank" rel="noopener">Getting Started</a>
           <a href="https://github.com/luminarr/luminarr/issues" target="_blank" rel="noopener">Issues</a>
