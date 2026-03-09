@@ -4,18 +4,18 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Luminarr - Self-Hosted Movie Collection Manager</title>
-  <meta name="description" content="A self-hosted movie collection manager. Monitors your library, searches indexers, and automatically grabs the best available release — with quality profiles that make sense.">
+  <meta name="description" content="A modern, lightweight movie collection manager. Monitors your library, searches indexers, and automatically grabs the best available release. 30 MB RAM, sub-second startup, zero telemetry.">
 
   <!-- Open Graph -->
-  <meta property="og:title" content="Luminarr - Movie Automation That Just Works">
-  <meta property="og:description" content="A self-hosted movie collection manager with quality profiles that actually make sense. 30 MB RAM, sub-second startup, zero telemetry.">
+  <meta property="og:title" content="Luminarr - Modern Movie Automation">
+  <meta property="og:description" content="A modern, lightweight movie collection manager built on lessons from the *arr ecosystem. 30 MB RAM, sub-second startup, zero telemetry.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://luminarr.video">
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Luminarr - Movie Automation That Just Works">
-  <meta name="twitter:description" content="A self-hosted movie collection manager with quality profiles that actually make sense.">
+  <meta name="twitter:title" content="Luminarr - Modern Movie Automation">
+  <meta name="twitter:description" content="A modern, lightweight movie collection manager built on lessons from the *arr ecosystem.">
 
   <!-- Favicon -->
   <link rel="icon" href="/favicon.ico" sizes="32x32">
@@ -349,16 +349,11 @@
       margin-bottom: 56px;
     }
 
-    /* ── Quality comparison ───────────────────────────────────────── */
+    /* ── Quality profiles ─────────────────────────────────────────── */
     .quality-section {
       background: var(--bg-surface);
       border-top: 1px solid var(--border-subtle);
       border-bottom: 1px solid var(--border-subtle);
-    }
-    .quality-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 24px;
     }
     .quality-card {
       border-radius: 16px;
@@ -383,51 +378,12 @@
       letter-spacing: 0.5px;
       padding: 4px 10px;
       border-radius: 100px;
-    }
-    .quality-tag.old {
-      background: rgba(248,113,113,0.12);
-      color: var(--red);
-    }
-    .quality-tag.new {
       background: rgba(52,211,153,0.12);
       color: var(--green);
     }
     .quality-card-body {
       padding: 24px;
     }
-
-    /* Radarr side */
-    .cf-list {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-    .cf-list li {
-      font-size: 14px;
-      color: var(--text-secondary);
-      padding: 10px 14px;
-      border-radius: 8px;
-      background: var(--bg-base);
-      border: 1px solid var(--border-subtle);
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    .cf-list .cf-icon {
-      width: 20px;
-      height: 20px;
-      border-radius: 4px;
-      background: rgba(248,113,113,0.1);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      color: var(--red);
-      font-size: 12px;
-    }
-
-    /* Luminarr side */
     .profile-demo {
       display: flex;
       flex-direction: column;
@@ -552,16 +508,9 @@
     .comparison-table td:nth-child(2) {
       color: var(--text-secondary);
     }
+    .comparison-table td:nth-child(2),
     .comparison-table td:nth-child(3) {
-      color: var(--green);
-      font-weight: 500;
-    }
-    .comparison-table .highlight-cell {
-      color: var(--green);
-      font-weight: 600;
-    }
-    .comparison-table .dim-cell {
-      color: var(--text-muted);
+      color: var(--text-secondary);
     }
 
     /* ── Migration section ────────────────────────────────────────── */
@@ -807,7 +756,6 @@
 
     /* ── Responsive ───────────────────────────────────────────────── */
     @media (max-width: 900px) {
-      .quality-grid { grid-template-columns: 1fr; }
       .features-grid { grid-template-columns: 1fr 1fr; }
       .migration-steps { grid-template-columns: 1fr 1fr; }
       .migration-step::after { display: none; }
@@ -907,8 +855,8 @@
         <span class="gradient">that just works.</span>
       </h1>
       <p class="subtitle">
-        A self-hosted movie collection manager. Monitors your library, searches indexers,
-        and grabs the best release &mdash; with quality profiles that actually make sense.
+        A modern, self-hosted movie collection manager. Built on lessons learned from the *arr ecosystem &mdash;
+        lightweight, fast, and designed from scratch in Go and React.
       </p>
       <div class="hero-actions">
         <div class="cmd-block">
@@ -958,49 +906,19 @@
   <!-- Quality profiles -->
   <section class="quality-section" id="quality">
     <div class="container">
-      <div class="section-header fade-in">
-        <div class="section-label">The difference</div>
-        <h2 class="section-title">Quality profiles that<br>actually make sense</h2>
-        <p class="section-desc">
-          Radarr makes you learn Custom Formats &mdash; regex patterns, scoring weights, and thresholds &mdash;
-          just to say "I want x265." Luminarr makes codec and HDR first-class dimensions. Pick what you want from a dropdown.
+      <div class="section-header fade-in" style="text-align:center">
+        <div class="section-label">Quality profiles</div>
+        <h2 class="section-title">Four dimensions.<br>One dropdown each.</h2>
+        <p class="section-desc" style="margin:0 auto">
+          Every quality profile in Luminarr has four explicit dimensions: resolution, source, codec, and HDR.
+          No scoring systems to learn &mdash; just pick what you want and Luminarr finds it.
         </p>
       </div>
-      <div class="quality-grid">
+      <div style="max-width:480px;margin:48px auto 0">
         <div class="quality-card fade-in">
           <div class="quality-card-header">
-            <h3>The old way</h3>
-            <span class="quality-tag old">Complex</span>
-          </div>
-          <div class="quality-card-body">
-            <ul class="cf-list">
-              <li>
-                <span class="cf-icon">1</span>
-                Create a Custom Format with regex: <code>x265|HEVC</code>
-              </li>
-              <li>
-                <span class="cf-icon">2</span>
-                Assign a score weight: <code>+10</code>
-              </li>
-              <li>
-                <span class="cf-icon">3</span>
-                Set a minimum score threshold in your profile
-              </li>
-              <li>
-                <span class="cf-icon">4</span>
-                Repeat for HDR, DV, Atmos, and every other tag
-              </li>
-              <li>
-                <span class="cf-icon">5</span>
-                Hope the scores interact correctly across formats
-              </li>
-            </ul>
-          </div>
-        </div>
-        <div class="quality-card fade-in">
-          <div class="quality-card-header">
-            <h3>The Luminarr way</h3>
-            <span class="quality-tag new">Simple</span>
+            <h3>Example profile</h3>
+            <span class="quality-tag new">4 dimensions</span>
           </div>
           <div class="quality-card-body">
             <div class="profile-demo">
@@ -1146,10 +1064,11 @@
   <section class="comparison-section" id="comparison">
     <div class="container">
       <div class="section-header fade-in" style="text-align:center">
-        <div class="section-label">Side by side</div>
-        <h2 class="section-title">Luminarr vs Radarr</h2>
+        <div class="section-label">How we compare</div>
+        <h2 class="section-title">Standing on the shoulders<br>of giants</h2>
         <p class="section-desc" style="margin:0 auto">
-          Not a replacement war. Radarr is proven software. Luminarr fixes the parts that frustrated us.
+          Radarr pioneered automated movie management. Luminarr builds on that foundation with a fresh
+          tech stack, different trade-offs, and a few ideas of our own.
         </p>
       </div>
       <table class="comparison-table fade-in" style="margin-top:48px">
@@ -1163,13 +1082,13 @@
         <tbody>
           <tr>
             <td>Backend</td>
-            <td class="dim-cell">.NET / Mono</td>
-            <td class="highlight-cell">Go</td>
+            <td>.NET / Mono</td>
+            <td>Go</td>
           </tr>
           <tr>
             <td>Frontend</td>
-            <td class="dim-cell">Angular</td>
-            <td class="highlight-cell">React</td>
+            <td>Angular</td>
+            <td>React</td>
           </tr>
           <tr>
             <td>Database</td>
@@ -1178,48 +1097,48 @@
           </tr>
           <tr>
             <td>Memory (idle)</td>
-            <td class="dim-cell">300 &ndash; 500 MB</td>
-            <td class="highlight-cell">30 &ndash; 60 MB</td>
+            <td>300 &ndash; 500 MB</td>
+            <td>30 &ndash; 60 MB</td>
           </tr>
           <tr>
             <td>Startup time</td>
-            <td class="dim-cell">10 &ndash; 30 s</td>
-            <td class="highlight-cell">&lt; 1 s</td>
+            <td>10 &ndash; 30 s</td>
+            <td>&lt; 1 s</td>
           </tr>
           <tr>
             <td>Quality system</td>
-            <td class="dim-cell">Custom Formats + scoring</td>
-            <td class="highlight-cell">Explicit codec &amp; HDR</td>
+            <td>Custom Formats + scoring</td>
+            <td>Explicit codec &amp; HDR</td>
           </tr>
           <tr>
             <td>Telemetry</td>
-            <td class="dim-cell">Optional analytics</td>
-            <td class="highlight-cell">None, ever</td>
+            <td>Optional analytics</td>
+            <td>None</td>
           </tr>
           <tr>
             <td>Download clients</td>
             <td>6 clients</td>
-            <td class="highlight-cell">5 (qBit, Deluge, Transmission, SAB, NZBGet)</td>
+            <td>5 (qBit, Deluge, Transmission, SAB, NZBGet)</td>
           </tr>
           <tr>
             <td>Notifications</td>
-            <td class="dim-cell">7 channels</td>
-            <td class="highlight-cell">9 channels + custom scripts</td>
+            <td>7 channels</td>
+            <td>9 channels + custom scripts</td>
           </tr>
           <tr>
             <td>Media server sync</td>
-            <td class="dim-cell">&mdash;</td>
-            <td class="highlight-cell">Plex, Emby, Jellyfin (bidirectional)</td>
+            <td>&mdash;</td>
+            <td>Plex, Emby, Jellyfin</td>
           </tr>
           <tr>
             <td>Migration</td>
             <td>&mdash;</td>
-            <td class="highlight-cell">One-click import</td>
+            <td>One-click import from Radarr</td>
           </tr>
           <tr>
-            <td>Ecosystem compat</td>
+            <td>Ecosystem</td>
             <td>&mdash;</td>
-            <td class="highlight-cell">Radarr v3 API built in</td>
+            <td>Radarr v3 API built in</td>
           </tr>
         </tbody>
       </table>
