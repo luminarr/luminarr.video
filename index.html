@@ -908,35 +908,39 @@
     <div class="container">
       <div class="section-header fade-in" style="text-align:center">
         <div class="section-label">Quality profiles</div>
-        <h2 class="section-title">Four dimensions.<br>One dropdown each.</h2>
+        <h2 class="section-title">Quality presets.<br>Just check the box.</h2>
         <p class="section-desc" style="margin:0 auto">
-          Every quality profile in Luminarr has four explicit dimensions: resolution, source, codec, and HDR.
-          No scoring systems to learn &mdash; just pick what you want and Luminarr finds it.
+          Each preset combines resolution, source, codec, and HDR into one line.
+          Check the ones you want, pick a cutoff, and you're done &mdash; no scoring rules to write.
         </p>
       </div>
       <div style="max-width:480px;margin:48px auto 0">
         <div class="quality-card fade-in">
           <div class="quality-card-header">
-            <h3>Example profile</h3>
-            <span class="quality-tag new">4 dimensions</span>
+            <h3>HD-1080p</h3>
+            <span class="quality-tag new">Profile</span>
           </div>
           <div class="quality-card-body">
             <div class="profile-demo">
               <div class="profile-row">
-                <span class="profile-label">Resolution</span>
-                <div class="profile-value">1080p <span class="check">&#10003;</span></div>
+                <span class="check" style="margin-right:8px">&#10003;</span>
+                <span class="profile-value" style="flex:1">1080p &middot; WEBDL &middot; x264 &middot; None</span>
               </div>
               <div class="profile-row">
-                <span class="profile-label">Source</span>
-                <div class="profile-value">Bluray <span class="check">&#10003;</span></div>
+                <span class="check" style="margin-right:8px">&#10003;</span>
+                <span class="profile-value" style="flex:1">1080p &middot; WEBRip &middot; x265 &middot; None</span>
               </div>
               <div class="profile-row">
-                <span class="profile-label">Codec</span>
-                <div class="profile-value">x265 <span class="check">&#10003;</span></div>
+                <span class="check" style="margin-right:8px">&#10003;</span>
+                <span class="profile-value" style="flex:1">1080p &middot; Bluray &middot; x265 &middot; None</span>
               </div>
               <div class="profile-row">
-                <span class="profile-label">HDR</span>
-                <div class="profile-value">None <span class="check">&#10003;</span></div>
+                <span class="check" style="margin-right:8px">&#10003;</span>
+                <span class="profile-value" style="flex:1">1080p &middot; Remux &middot; x265 &middot; None</span>
+              </div>
+              <div class="profile-row" style="margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,0.06)">
+                <span class="profile-label">Cutoff</span>
+                <span class="profile-value">1080p &middot; Bluray &middot; x265 &middot; None</span>
               </div>
             </div>
           </div>
