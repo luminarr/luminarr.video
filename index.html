@@ -602,16 +602,48 @@
     .getting-started .section-desc {
       margin: 0 auto 48px;
     }
-    .compose-block {
-      background: var(--bg-surface);
-      border: 1px solid var(--border-default);
-      border-radius: 16px;
-      text-align: left;
+    .install-tabs {
       max-width: 680px;
       margin: 0 auto;
+      text-align: left;
+    }
+    .install-tab-bar {
+      display: flex;
+      gap: 0;
+      border-bottom: 1px solid var(--border-default);
+      margin-bottom: 0;
+    }
+    .install-tab {
+      padding: 10px 20px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-muted);
+      background: none;
+      border: none;
+      border-bottom: 2px solid transparent;
+      cursor: pointer;
+      transition: color 0.2s, border-color 0.2s;
+      font-family: inherit;
+    }
+    .install-tab:hover {
+      color: var(--text-secondary);
+    }
+    .install-tab.active {
+      color: var(--accent);
+      border-bottom-color: var(--accent);
+    }
+    .install-panel {
+      display: none;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-default);
+      border-top: none;
+      border-radius: 0 0 16px 16px;
       overflow: hidden;
     }
-    .compose-header {
+    .install-panel.active {
+      display: block;
+    }
+    .install-panel-header {
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -619,24 +651,29 @@
       border-bottom: 1px solid var(--border-subtle);
       background: var(--bg-elevated);
     }
-    .compose-filename {
+    .install-panel-filename {
       font-size: 13px;
       font-weight: 500;
       color: var(--text-secondary);
       font-family: 'JetBrains Mono', monospace;
     }
-    .compose-body {
+    .install-panel-body {
       padding: 20px;
       overflow-x: auto;
     }
-    .compose-body pre {
+    .install-panel-body pre {
       font-size: 13px;
       line-height: 1.7;
       color: var(--text-secondary);
     }
-    .compose-body .yaml-key { color: var(--blue); }
-    .compose-body .yaml-value { color: var(--green); }
-    .compose-body .yaml-comment { color: var(--text-muted); }
+    .install-panel-body .yaml-key { color: var(--blue); }
+    .install-panel-body .yaml-value { color: var(--green); }
+    .install-panel-body .yaml-comment { color: var(--text-muted); }
+    .install-panel-body .sh-comment { color: var(--text-muted); font-style: italic; }
+    .install-panel-body .sh-prompt { color: var(--green); }
+    .install-panel-body .sh-cmd { color: var(--text-primary); }
+    .install-panel-body .sh-flag { color: var(--blue); }
+    .install-panel-body .sh-value { color: var(--green); }
 
     /* ── Privacy section ──────────────────────────────────────────── */
     .privacy-grid {
@@ -1250,18 +1287,27 @@
         <div class="section-label">Get started</div>
         <h2 class="section-title">Up and running in 60 seconds</h2>
         <p class="section-desc" style="margin:0 auto">
-          Docker Compose is the easiest path. No keys to configure — just start and go.
+          Pick your method. No keys to configure — just start and go.
         </p>
       </div>
-      <div class="compose-block fade-in">
-        <div class="compose-header">
-          <span class="compose-filename">docker-compose.yml</span>
-          <button class="copy-btn" onclick="copyCompose(this)" title="Copy to clipboard">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-          </button>
+      <div class="install-tabs fade-in">
+        <div class="install-tab-bar">
+          <button class="install-tab active" onclick="switchTab(this, 'compose')">Docker Compose</button>
+          <button class="install-tab" onclick="switchTab(this, 'docker')">Docker</button>
+          <button class="install-tab" onclick="switchTab(this, 'kubernetes')">Kubernetes</button>
+          <button class="install-tab" onclick="switchTab(this, 'cli')">CLI</button>
         </div>
-        <div class="compose-body">
-          <pre><span class="yaml-key">services</span>:
+
+        <!-- Docker Compose -->
+        <div class="install-panel active" data-tab="compose">
+          <div class="install-panel-header">
+            <span class="install-panel-filename">docker-compose.yml</span>
+            <button class="copy-btn" onclick="copyInstall(this, 'compose')" title="Copy to clipboard">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            </button>
+          </div>
+          <div class="install-panel-body">
+            <pre><span class="yaml-key">services</span>:
   <span class="yaml-key">luminarr</span>:
     <span class="yaml-key">image</span>: <span class="yaml-value">ghcr.io/luminarr/luminarr:latest</span>
     <span class="yaml-key">ports</span>:
@@ -1270,10 +1316,92 @@
       - <span class="yaml-value">/path/to/config:/config</span>
       - <span class="yaml-value">/path/to/movies:/movies</span>
     <span class="yaml-key">restart</span>: <span class="yaml-value">unless-stopped</span></pre>
+          </div>
+        </div>
+
+        <!-- Docker -->
+        <div class="install-panel" data-tab="docker">
+          <div class="install-panel-header">
+            <span class="install-panel-filename">Terminal</span>
+            <button class="copy-btn" onclick="copyInstall(this, 'docker')" title="Copy to clipboard">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            </button>
+          </div>
+          <div class="install-panel-body">
+            <pre><span class="sh-prompt">$</span> <span class="sh-cmd">docker run</span> <span class="sh-flag">-d</span> \
+    <span class="sh-flag">--name</span> <span class="sh-value">luminarr</span> \
+    <span class="sh-flag">-p</span> <span class="sh-value">8282:8282</span> \
+    <span class="sh-flag">-v</span> <span class="sh-value">/path/to/config:/config</span> \
+    <span class="sh-flag">-v</span> <span class="sh-value">/path/to/movies:/movies</span> \
+    <span class="sh-flag">--restart</span> <span class="sh-value">unless-stopped</span> \
+    <span class="sh-value">ghcr.io/luminarr/luminarr:latest</span></pre>
+          </div>
+        </div>
+
+        <!-- Kubernetes -->
+        <div class="install-panel" data-tab="kubernetes">
+          <div class="install-panel-header">
+            <span class="install-panel-filename">luminarr.yaml</span>
+            <button class="copy-btn" onclick="copyInstall(this, 'kubernetes')" title="Copy to clipboard">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            </button>
+          </div>
+          <div class="install-panel-body">
+            <pre><span class="yaml-key">apiVersion</span>: <span class="yaml-value">apps/v1</span>
+<span class="yaml-key">kind</span>: <span class="yaml-value">Deployment</span>
+<span class="yaml-key">metadata</span>:
+  <span class="yaml-key">name</span>: <span class="yaml-value">luminarr</span>
+<span class="yaml-key">spec</span>:
+  <span class="yaml-key">replicas</span>: <span class="yaml-value">1</span>
+  <span class="yaml-key">selector</span>:
+    <span class="yaml-key">matchLabels</span>:
+      <span class="yaml-key">app</span>: <span class="yaml-value">luminarr</span>
+  <span class="yaml-key">template</span>:
+    <span class="yaml-key">metadata</span>:
+      <span class="yaml-key">labels</span>:
+        <span class="yaml-key">app</span>: <span class="yaml-value">luminarr</span>
+    <span class="yaml-key">spec</span>:
+      <span class="yaml-key">containers</span>:
+        - <span class="yaml-key">name</span>: <span class="yaml-value">luminarr</span>
+          <span class="yaml-key">image</span>: <span class="yaml-value">ghcr.io/luminarr/luminarr:latest</span>
+          <span class="yaml-key">ports</span>:
+            - <span class="yaml-key">containerPort</span>: <span class="yaml-value">8282</span>
+          <span class="yaml-key">volumeMounts</span>:
+            - <span class="yaml-key">name</span>: <span class="yaml-value">config</span>
+              <span class="yaml-key">mountPath</span>: <span class="yaml-value">/config</span>
+            - <span class="yaml-key">name</span>: <span class="yaml-value">movies</span>
+              <span class="yaml-key">mountPath</span>: <span class="yaml-value">/movies</span>
+      <span class="yaml-key">volumes</span>:
+        - <span class="yaml-key">name</span>: <span class="yaml-value">config</span>
+          <span class="yaml-key">persistentVolumeClaim</span>:
+            <span class="yaml-key">claimName</span>: <span class="yaml-value">luminarr-config</span>
+        - <span class="yaml-key">name</span>: <span class="yaml-value">movies</span>
+          <span class="yaml-key">persistentVolumeClaim</span>:
+            <span class="yaml-key">claimName</span>: <span class="yaml-value">luminarr-movies</span></pre>
+          </div>
+        </div>
+
+        <!-- CLI -->
+        <div class="install-panel" data-tab="cli">
+          <div class="install-panel-header">
+            <span class="install-panel-filename">Terminal</span>
+            <button class="copy-btn" onclick="copyInstall(this, 'cli')" title="Copy to clipboard">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            </button>
+          </div>
+          <div class="install-panel-body">
+            <pre><span class="sh-comment"># Download the latest release</span>
+<span class="sh-prompt">$</span> <span class="sh-cmd">curl</span> <span class="sh-flag">-Lo</span> <span class="sh-value">luminarr</span> \
+    <span class="sh-value">https://github.com/luminarr/luminarr/releases/latest/download/luminarr-linux-amd64</span>
+<span class="sh-prompt">$</span> <span class="sh-cmd">chmod</span> <span class="sh-flag">+x</span> <span class="sh-value">luminarr</span>
+
+<span class="sh-comment"># Run it</span>
+<span class="sh-prompt">$</span> <span class="sh-cmd">./luminarr</span></pre>
+          </div>
         </div>
       </div>
       <p style="margin-top:24px;font-size:14px;color:var(--text-muted)">
-        Then <code style="color:var(--text-secondary)">docker compose up -d</code> and open <code style="color:var(--text-secondary)">http://localhost:8282</code>. That's it.
+        Open <code style="color:var(--text-secondary)">http://localhost:8282</code> and you're good to go.
       </p>
     </div>
   </section>
@@ -1400,9 +1528,22 @@
       });
     }
 
-    function copyCompose(btn) {
-      var text = 'services:\n  luminarr:\n    image: ghcr.io/luminarr/luminarr:latest\n    ports:\n      - "8282:8282"\n    volumes:\n      - /path/to/config:/config\n      - /path/to/movies:/movies\n    restart: unless-stopped';
-      navigator.clipboard.writeText(text).then(function() {
+    function switchTab(btn, tabName) {
+      document.querySelectorAll('.install-tab').forEach(function(t) { t.classList.remove('active'); });
+      document.querySelectorAll('.install-panel').forEach(function(p) { p.classList.remove('active'); });
+      btn.classList.add('active');
+      document.querySelector('.install-panel[data-tab="' + tabName + '"]').classList.add('active');
+    }
+
+    var installSnippets = {
+      compose: 'services:\n  luminarr:\n    image: ghcr.io/luminarr/luminarr:latest\n    ports:\n      - "8282:8282"\n    volumes:\n      - /path/to/config:/config\n      - /path/to/movies:/movies\n    restart: unless-stopped',
+      docker: 'docker run -d \\\n    --name luminarr \\\n    -p 8282:8282 \\\n    -v /path/to/config:/config \\\n    -v /path/to/movies:/movies \\\n    --restart unless-stopped \\\n    ghcr.io/luminarr/luminarr:latest',
+      kubernetes: 'apiVersion: apps/v1\nkind: Deployment\nmetadata:\n  name: luminarr\nspec:\n  replicas: 1\n  selector:\n    matchLabels:\n      app: luminarr\n  template:\n    metadata:\n      labels:\n        app: luminarr\n    spec:\n      containers:\n        - name: luminarr\n          image: ghcr.io/luminarr/luminarr:latest\n          ports:\n            - containerPort: 8282\n          volumeMounts:\n            - name: config\n              mountPath: /config\n            - name: movies\n              mountPath: /movies\n      volumes:\n        - name: config\n          persistentVolumeClaim:\n            claimName: luminarr-config\n        - name: movies\n          persistentVolumeClaim:\n            claimName: luminarr-movies',
+      cli: '# Download the latest release\ncurl -Lo luminarr \\\n    https://github.com/luminarr/luminarr/releases/latest/download/luminarr-linux-amd64\nchmod +x luminarr\n\n# Run it\n./luminarr'
+    };
+
+    function copyInstall(btn, tabName) {
+      navigator.clipboard.writeText(installSnippets[tabName]).then(function() {
         btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;color:#34d399"><polyline points="20 6 9 17 4 12"/></svg>';
         setTimeout(function() {
           btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>';
