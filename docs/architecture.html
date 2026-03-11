@@ -192,7 +192,7 @@
               <svg class="card-icon green" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
               DownloadClient
             </h4>
-            <p><code>Add(ctx, release)</code>, <code>Status(ctx, id)</code>, queue management. 5 clients supported.</p>
+            <p><code>Add(ctx, release)</code>, <code>Status(ctx, id)</code>, queue management. 5 clients supported. Torrent clients also implement <code>SeedLimiter</code> for per-indexer seed ratio/time enforcement.</p>
           </div>
           <div class="info-card">
             <h4>
@@ -321,6 +321,13 @@
               Notification Dispatcher
             </h4>
             <p>Subscribes to all events. Fans out to every enabled notification channel &mdash; Discord, Slack, webhook, custom scripts, etc.</p>
+          </div>
+          <div class="info-card">
+            <h4>
+              <svg class="card-icon blue" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              Seed Enforcer
+            </h4>
+            <p>Subscribes to <code>import_complete</code>. Loads the indexer's seed criteria and tells the download client to enforce per-torrent ratio and time limits.</p>
           </div>
         </div>
       </div>
