@@ -891,6 +891,7 @@
       section { padding: 64px 0; }
       .hero { padding-top: 120px; padding-bottom: 80px; }
       .stats-grid { grid-template-columns: 1fr; }
+      #screenshots [style*="grid-template-columns: 1fr 1fr"] { grid-template-columns: 1fr !important; }
       .stat:not(:last-child) {
         border-right: none;
         border-bottom: 1px solid var(--border-subtle);
@@ -1026,6 +1027,56 @@
         <div class="stat fade-in">
           <div class="stat-value blue">Zero</div>
           <div class="stat-label">Telemetry, ever</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Screenshots -->
+  <section id="screenshots">
+    <div class="container">
+      <div class="section-header fade-in" style="text-align:center">
+        <div class="section-label">See it in action</div>
+        <h2 class="section-title">Built for daily use.<br>Looks the part.</h2>
+      </div>
+
+      <!-- Main dashboard -->
+      <div class="fade-in" style="margin-top:48px">
+        <div style="border:1px solid var(--border-subtle);border-radius:12px;overflow:hidden;box-shadow:0 8px 32px rgba(0,0,0,0.4)">
+          <img src="screenshots/dashboard.png" alt="Luminarr dashboard showing movie library grid with posters, status badges, and filters" loading="lazy">
+        </div>
+        <p style="text-align:center;margin-top:16px;font-size:14px;color:var(--text-muted)">Movie library with poster grid, status badges, and quality filters</p>
+      </div>
+
+      <!-- Two-up: AI + Stats -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:48px" class="fade-in">
+        <div>
+          <div style="border:1px solid var(--border-subtle);border-radius:12px;overflow:hidden;box-shadow:0 8px 32px rgba(0,0,0,0.4)">
+            <img src="screenshots/ai-command-palette.png" alt="AI command palette showing Ask AI option for 'grab dune in 4k'" loading="lazy">
+          </div>
+          <p style="text-align:center;margin-top:12px;font-size:13px;color:var(--text-muted)">AI command palette &mdash; type what you want in plain English</p>
+        </div>
+        <div>
+          <div style="border:1px solid var(--border-subtle);border-radius:12px;overflow:hidden;box-shadow:0 8px 32px rgba(0,0,0,0.4)">
+            <img src="screenshots/stats.png" alt="Statistics page with collection overview, decade distribution, and quality breakdown charts" loading="lazy">
+          </div>
+          <p style="text-align:center;margin-top:12px;font-size:13px;color:var(--text-muted)">Library statistics &mdash; quality, decades, storage, and indexer performance</p>
+        </div>
+      </div>
+
+      <!-- Two-up: Manual search + Quality profiles -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:24px" class="fade-in">
+        <div>
+          <div style="border:1px solid var(--border-subtle);border-radius:12px;overflow:hidden;box-shadow:0 8px 32px rgba(0,0,0,0.4)">
+            <img src="screenshots/manual-search.png" alt="Manual release search for Alien showing releases with quality badges, edition tags, and grab buttons" loading="lazy">
+          </div>
+          <p style="text-align:center;margin-top:12px;font-size:13px;color:var(--text-muted)">Manual search &mdash; browse releases with quality, edition, and seed info</p>
+        </div>
+        <div>
+          <div style="border:1px solid var(--border-subtle);border-radius:12px;overflow:hidden;box-shadow:0 8px 32px rgba(0,0,0,0.4)">
+            <img src="screenshots/quality-profiles.png" alt="Quality profiles list with cutoff, quality count, and upgrade settings" loading="lazy">
+          </div>
+          <p style="text-align:center;margin-top:12px;font-size:13px;color:var(--text-muted)">Quality profiles &mdash; explicit resolution, source, codec, and HDR dimensions</p>
         </div>
       </div>
     </div>
