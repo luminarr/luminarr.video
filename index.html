@@ -1043,13 +1043,29 @@
       <!-- Main dashboard -->
       <div class="fade-in" style="margin-top:48px">
         <div class="screenshot-frame" onclick="openLightbox(this.querySelector('img'))">
-          <img src="screenshots/dashboard.png" alt="Luminarr dashboard showing movie library grid with posters, status badges, and filters" loading="lazy">
+          <img src="screenshots/dashboard.png" alt="Luminarr dashboard with movie poster grid, Activity and Discover in sidebar" loading="lazy">
         </div>
         <p style="text-align:center;margin-top:16px;font-size:14px;color:var(--text-muted)">Movie library with poster grid, status badges, and quality filters</p>
       </div>
 
-      <!-- Two-up: AI + Stats -->
+      <!-- Two-up: Discover + Movie Detail -->
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:48px" class="fade-in">
+        <div>
+          <div class="screenshot-frame" onclick="openLightbox(this.querySelector('img'))">
+            <img src="screenshots/discover.png" alt="Discover page showing trending movies from TMDB with rating badges and Add buttons" loading="lazy">
+          </div>
+          <p style="text-align:center;margin-top:12px;font-size:13px;color:var(--text-muted)">Discover &mdash; browse TMDB trending, popular, and by genre. One-click add.</p>
+        </div>
+        <div>
+          <div class="screenshot-frame" onclick="openLightbox(this.querySelector('img'))">
+            <img src="screenshots/movie-detail.png" alt="Movie detail page for Blade Runner 2049 showing cast, crew, file status, and similar movies" loading="lazy">
+          </div>
+          <p style="text-align:center;margin-top:12px;font-size:13px;color:var(--text-muted)">Movie detail &mdash; cast, crew, file status, watch history, and recommendations</p>
+        </div>
+      </div>
+
+      <!-- Two-up: AI + Manual search -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:24px" class="fade-in">
         <div>
           <div class="screenshot-frame" onclick="openLightbox(this.querySelector('img'))">
             <img src="screenshots/ai-command-palette.png" alt="AI command palette showing Ask AI option for 'grab dune in 4k'" loading="lazy">
@@ -1058,25 +1074,25 @@
         </div>
         <div>
           <div class="screenshot-frame" onclick="openLightbox(this.querySelector('img'))">
-            <img src="screenshots/stats.png" alt="Statistics page with collection overview, decade distribution, and quality breakdown charts" loading="lazy">
-          </div>
-          <p style="text-align:center;margin-top:12px;font-size:13px;color:var(--text-muted)">Library statistics &mdash; quality, decades, storage, and indexer performance</p>
-        </div>
-      </div>
-
-      <!-- Two-up: Manual search + Quality profiles -->
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:24px" class="fade-in">
-        <div>
-          <div class="screenshot-frame" onclick="openLightbox(this.querySelector('img'))">
             <img src="screenshots/manual-search.png" alt="Manual release search for Alien showing releases with quality badges, edition tags, and grab buttons" loading="lazy">
           </div>
           <p style="text-align:center;margin-top:12px;font-size:13px;color:var(--text-muted)">Manual search &mdash; browse releases with quality, edition, and seed info</p>
         </div>
+      </div>
+
+      <!-- Two-up: Stats + Activity -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:24px" class="fade-in">
         <div>
           <div class="screenshot-frame" onclick="openLightbox(this.querySelector('img'))">
-            <img src="screenshots/quality-profiles.png" alt="Quality profiles list with cutoff, quality count, and upgrade settings" loading="lazy">
+            <img src="screenshots/stats.png" alt="Statistics page with collection overview, decade distribution, and quality breakdown charts" loading="lazy">
           </div>
-          <p style="text-align:center;margin-top:12px;font-size:13px;color:var(--text-muted)">Quality profiles &mdash; explicit resolution, source, codec, and HDR dimensions</p>
+          <p style="text-align:center;margin-top:12px;font-size:13px;color:var(--text-muted)">Library statistics &mdash; quality, decades, storage, and indexer performance</p>
+        </div>
+        <div>
+          <div class="screenshot-frame" onclick="openLightbox(this.querySelector('img'))">
+            <img src="screenshots/activity.png" alt="Activity page showing event timeline with category filter pills" loading="lazy">
+          </div>
+          <p style="text-align:center;margin-top:12px;font-size:13px;color:var(--text-muted)">Activity &mdash; unified timeline of grabs, imports, tasks, and library changes</p>
         </div>
       </div>
     </div>
