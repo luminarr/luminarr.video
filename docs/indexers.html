@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Indexers - Luminarr Docs</title>
+  <meta name="description" content="Torznab and Newznab sources that Luminarr searches for movie releases.">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-1L1C40L1T4"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-1L1C40L1T4');
+  </script>
+  <script>
+    (function() {
+      var t = localStorage.getItem('theme');
+      if (!t) t = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', t);
+    })();
+  </script>
+  <link rel="icon" href="/favicon.ico" sizes="32x32">
+  <link rel="icon" type="image/png" href="/luminarr-192.png" sizes="192x192">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+  <nav>
+    <div class="nav-inner">
+      <a href="/" class="nav-logo">luminarr</a>
+      <div class="nav-links">
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-trigger">
+            Docs
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="nav-dropdown-menu">
+            <a href="index.html">Documentation<div class="dd-desc">All docs in one place</div></a>
+            <a href="architecture.html">Architecture<div class="dd-desc">How Luminarr works</div></a>
+            <a href="security.html">Security<div class="dd-desc">Auth, secrets, SSRF protection</div></a>
+            <a href="custom-scripts.html">Custom Scripts<div class="dd-desc">Extend with any language</div></a>
+          </div>
+        </div>
+        <a href="https://github.com/luminarr/luminarr" class="gh-link" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+          GitHub
+        </a>
+        <button class="theme-toggle" onclick="toggleTheme()" title="Toggle theme" aria-label="Toggle theme">
+          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="doc-page">
+    <div class="container">
+
+      <h1 class="fade-in"><span class="gradient">Indexers</span></h1>
+      <p class="page-desc fade-in">
+        Torznab and Newznab sources that Luminarr searches for movie releases. Add as many as you
+        need — Luminarr queries them in parallel and ranks the results by quality score.
+      </p>
+
+      <!-- Supported Protocols -->
+      <div class="content-section fade-in">
+        <div class="section-label">Protocols</div>
+        <h2>Supported Protocols</h2>
+
+        <div class="card-grid">
+          <div class="info-card">
+            <h4>
+              <svg class="card-icon green" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Torznab
+              <span class="badge green">Torrents</span>
+            </h4>
+            <p>The standard API for torrent indexers. Supported by Jackett, Prowlarr, and most private tracker frontends. Returns .torrent file links with extended attributes like seeders and leechers.</p>
+          </div>
+          <div class="info-card">
+            <h4>
+              <svg class="card-icon blue" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+              Newznab
+              <span class="badge blue">Usenet</span>
+            </h4>
+            <p>The standard API for Usenet indexers. Supported by NZBgeek, DrunkenSlug, and most NZB index sites. Returns .nzb file links. Requires a Usenet provider in addition to a Newznab indexer.</p>
+          </div>
+        </div>
+
+        <div class="callout info">
+          <p><strong>Prowlarr as a proxy.</strong> If you already run Prowlarr, you can add all your
+          trackers and indexers there and then add a single Torznab or Newznab endpoint per indexer
+          from Prowlarr into Luminarr. This avoids duplicating API keys across applications.</p>
+        </div>
+      </div>
+
+      <!-- Configuration Fields -->
+      <div class="content-section fade-in">
+        <div class="section-label">Configuration</div>
+        <h2>Configuration Fields</h2>
+
+        <table class="doc-table">
+          <thead>
+            <tr>
+              <th>Field</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Name</td>
+              <td>Display name for this indexer. Used in logs, activity history, and the manual search results table.</td>
+            </tr>
+            <tr>
+              <td>URL</td>
+              <td>Base URL of the indexer API. For Torznab this is typically the tracker's API endpoint (e.g. <code>https://tracker.example.com/api</code>). For Prowlarr, use the per-indexer Torznab URL shown in Prowlarr's settings.</td>
+            </tr>
+            <tr>
+              <td>API Key</td>
+              <td>Authentication key for the indexer. Sent as a query parameter on every request. Stored encrypted at rest.</td>
+            </tr>
+            <tr>
+              <td>Enabled</td>
+              <td>Toggle the indexer on or off without deleting it. Disabled indexers are skipped during RSS sync and manual searches.</td>
+            </tr>
+            <tr>
+              <td>Priority</td>
+              <td>Numeric priority (lower = higher priority). When two releases are otherwise equal, the release from the higher-priority indexer is preferred. Default is 25.</td>
+            </tr>
+            <tr>
+              <td>Rate Limit</td>
+              <td>Maximum requests per minute sent to this indexer. Set this to respect your tracker's API limits and avoid bans. 0 means unlimited.</td>
+            </tr>
+            <tr>
+              <td>Seed Ratio</td>
+              <td><em>Torznab only.</em> Minimum ratio to seed before a torrent is eligible for removal. Luminarr enforces this via the download client after the file is imported.</td>
+            </tr>
+            <tr>
+              <td>Seed Time</td>
+              <td><em>Torznab only.</em> Minimum seeding duration in minutes before removal eligibility. Applied alongside (not instead of) Seed Ratio — both conditions must be met.</td>
+            </tr>
+            <tr>
+              <td>Tags</td>
+              <td>Restrict this indexer to movies with matching tags. Leave empty to search for all movies. See <a href="tags.html" style="color:var(--accent)">Tags</a> for details.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- How Searching Works -->
+      <div class="content-section fade-in">
+        <div class="section-label">Search Flow</div>
+        <h2>How Searching Works</h2>
+        <p>
+          Both RSS sync (automatic, every 15 minutes) and manual searches follow the same query pipeline.
+          Luminarr queries all applicable indexers in parallel and processes results together.
+        </p>
+
+        <ol class="step-list">
+          <li>
+            <span class="step-num">1</span>
+            <div class="step-content">
+              <p><strong>Identify applicable indexers.</strong></p>
+              <p>Filter to enabled indexers only. Apply tag matching — if the movie has tags, only use indexers that share at least one tag (plus all untagged indexers).</p>
+            </div>
+          </li>
+          <li>
+            <span class="step-num">2</span>
+            <div class="step-content">
+              <p><strong>Search by TMDB ID first.</strong></p>
+              <p>Luminarr sends a <code>t=movie&tmdbid=XXXXX</code> query. This is the most accurate search method — the indexer returns only releases for that specific movie. All Torznab/Newznab-compliant indexers support this.</p>
+            </div>
+          </li>
+          <li>
+            <span class="step-num">3</span>
+            <div class="step-content">
+              <p><strong>Fall back to title + year if needed.</strong></p>
+              <p>If the TMDB ID query returns no results, Luminarr retries with a title+year text search: <code>t=movie&q=Movie+Title&year=2008</code>. Results from text searches are slightly less reliable — more filtering may be required.</p>
+            </div>
+          </li>
+          <li>
+            <span class="step-num">4</span>
+            <div class="step-content">
+              <p><strong>Query all indexers in parallel.</strong></p>
+              <p>Requests to all applicable indexers fire concurrently. Results from all indexers are aggregated into a single pool. The rate limit per indexer is respected independently.</p>
+            </div>
+          </li>
+          <li>
+            <span class="step-num">5</span>
+            <div class="step-content">
+              <p><strong>Parse quality from release title.</strong></p>
+              <p>Each result's title is parsed to extract resolution, source, codec, HDR flags, audio codec, release group, and other attributes. Parsing uses pattern matching — no external database required.</p>
+            </div>
+          </li>
+          <li>
+            <span class="step-num">6</span>
+            <div class="step-content">
+              <p><strong>Filter by quality profile and size definitions.</strong></p>
+              <p>Releases whose parsed quality is not in the movie's profile Qualities list are discarded. Releases outside the Min/Max size per minute for their quality tier are discarded.</p>
+            </div>
+          </li>
+          <li>
+            <span class="step-num">7</span>
+            <div class="step-content">
+              <p><strong>Calculate custom format score.</strong></p>
+              <p>Remaining releases are scored against all matching custom formats. Releases below the profile's Min CF Score threshold are discarded.</p>
+            </div>
+          </li>
+          <li>
+            <span class="step-num">8</span>
+            <div class="step-content">
+              <p><strong>Sort and select.</strong></p>
+              <p>Releases are sorted by quality score (descending), then custom format score (descending), then indexer priority (ascending). The top result is sent to the download client. During manual search, the full ranked list is displayed for your review.</p>
+            </div>
+          </li>
+        </ol>
+
+        <div class="callout success">
+          <p><strong>RSS sync vs. interactive search.</strong> RSS sync queries the indexer's new-releases
+          feed, not a per-movie query. Luminarr matches feed items against all monitored movies in the
+          database — a single RSS poll covers your entire library. Interactive search (triggered manually
+          or via Wanted) always does a direct per-movie query for the freshest results.</p>
+        </div>
+      </div>
+
+      <!-- Testing an Indexer -->
+      <div class="content-section fade-in">
+        <div class="section-label">Troubleshooting</div>
+        <h2>Testing and Troubleshooting</h2>
+
+        <p>
+          After adding an indexer, use the <strong>Test</strong> button in the indexer settings to verify
+          connectivity and authentication. A successful test means Luminarr can reach the URL and the API
+          key is accepted. It does not guarantee that searches will return results.
+        </p>
+
+        <h3>Common issues</h3>
+        <table class="doc-table">
+          <thead>
+            <tr>
+              <th>Symptom</th>
+              <th>Likely cause</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Test fails with connection error</td>
+              <td>Wrong URL, or Luminarr cannot reach the host. Check the URL and any proxy settings in App Settings.</td>
+            </tr>
+            <tr>
+              <td>Test fails with 401 / 403</td>
+              <td>API key is incorrect or has been revoked. Regenerate it on the indexer site.</td>
+            </tr>
+            <tr>
+              <td>Searches return 0 results</td>
+              <td>The indexer may not carry movie content in the categories Luminarr requests. Check the indexer's supported categories in Prowlarr or the tracker's documentation.</td>
+            </tr>
+            <tr>
+              <td>Releases found but never grabbed</td>
+              <td>Quality or size definitions are filtering out all results. Run a manual search to see the raw result list and inspect the rejection reasons.</td>
+            </tr>
+            <tr>
+              <td>Indexer returns stale results</td>
+              <td>Rate limiting may be preventing full RSS polls. Increase the rate limit or reduce the number of monitored movies triggering searches simultaneously.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-left">MIT License &middot; luminarr</div>
+        <div class="footer-links">
+          <a href="https://github.com/luminarr/luminarr" target="_blank" rel="noopener">GitHub</a>
+          <a href="/docs/">Docs</a>
+          <a href="https://github.com/luminarr/luminarr/issues" target="_blank" rel="noopener">Issues</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    function toggleTheme() {
+      var current = document.documentElement.getAttribute('data-theme');
+      var next = current === 'light' ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', next);
+      localStorage.setItem('theme', next);
+    }
+    var observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) entry.target.classList.add('visible');
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+    document.querySelectorAll('.fade-in').forEach(function(el) { observer.observe(el); });
+  </script>
+</body>
+</html>

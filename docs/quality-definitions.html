@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quality Definitions - Luminarr Docs</title>
+  <meta name="description" content="Size thresholds for each quality level — what file sizes Luminarr considers acceptable.">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-1L1C40L1T4"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-1L1C40L1T4');
+  </script>
+  <script>
+    (function() {
+      var t = localStorage.getItem('theme');
+      if (!t) t = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', t);
+    })();
+  </script>
+  <link rel="icon" href="/favicon.ico" sizes="32x32">
+  <link rel="icon" type="image/png" href="/luminarr-192.png" sizes="192x192">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+  <nav>
+    <div class="nav-inner">
+      <a href="/" class="nav-logo">luminarr</a>
+      <div class="nav-links">
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-trigger">
+            Docs
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="nav-dropdown-menu">
+            <a href="index.html">Documentation<div class="dd-desc">All docs in one place</div></a>
+            <a href="architecture.html">Architecture<div class="dd-desc">How Luminarr works</div></a>
+            <a href="security.html">Security<div class="dd-desc">Auth, secrets, SSRF protection</div></a>
+            <a href="custom-scripts.html">Custom Scripts<div class="dd-desc">Extend with any language</div></a>
+          </div>
+        </div>
+        <a href="https://github.com/luminarr/luminarr" class="gh-link" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+          GitHub
+        </a>
+        <button class="theme-toggle" onclick="toggleTheme()" title="Toggle theme" aria-label="Toggle theme">
+          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="doc-page">
+    <div class="container">
+
+      <h1 class="fade-in"><span class="gradient">Quality Definitions</span></h1>
+      <p class="page-desc fade-in">
+        Size thresholds for each quality level — the minimum, preferred, and maximum file sizes
+        per minute of runtime that Luminarr considers acceptable for a given quality tier.
+      </p>
+
+      <!-- What are Quality Definitions -->
+      <div class="content-section fade-in">
+        <div class="section-label">Overview</div>
+        <h2>What are Quality Definitions?</h2>
+        <p>
+          Quality Definitions let you filter out releases that are implausibly small (likely a fake, a
+          broken encode, or a scene release padded with junk) or implausibly large (remux stored as a
+          ZIP archive, bloated encodes) for a given quality tier.
+        </p>
+        <p>
+          The check is normalized per minute of runtime so that a 90-minute film and a 180-minute film
+          are evaluated on the same scale. Luminarr uses the movie's TMDB runtime to calculate expected
+          total size from the per-minute thresholds.
+        </p>
+
+        <div class="callout info">
+          <p><strong>Definitions apply globally.</strong> Quality Definitions are not per-profile — they are
+          a global table shared across all profiles and all movies. If you tighten the minimum for
+          1080p Bluray, it applies everywhere that quality tier is used.</p>
+        </div>
+
+        <div class="card-grid">
+          <div class="info-card">
+            <h4>
+              <svg class="card-icon red" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>
+              Min size
+            </h4>
+            <p>Releases smaller than this (MB per minute) are rejected. Catches fakes, low-quality re-encodes, and corrupt files masquerading as good quality.</p>
+          </div>
+          <div class="info-card">
+            <h4>
+              <svg class="card-icon green" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              Preferred size
+            </h4>
+            <p>The ideal file size. When comparing multiple valid releases, Luminarr prefers releases nearest to this target. Set to 0 to disable preferred-size preference.</p>
+          </div>
+          <div class="info-card">
+            <h4>
+              <svg class="card-icon amber" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
+              Max size
+            </h4>
+            <p>Releases larger than this (MB per minute) are rejected. Catches bloated encodes, remux files mis-tagged as compressed, and accidental junk content.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Configuration -->
+      <div class="content-section fade-in">
+        <div class="section-label">Configuration</div>
+        <h2>Editing Definitions</h2>
+        <p>
+          Navigate to <strong>Settings &rarr; Quality Definitions</strong>. Each quality tier has its own row
+          with editable Min, Preferred, and Max fields (all in MB/min). Changes take effect immediately
+          for the next RSS sync or manual search.
+        </p>
+
+        <div class="callout warn">
+          <p><strong>Max size of 0 means unlimited.</strong> Setting Max to 0 removes the upper bound
+          check for that quality tier. This is appropriate for Remux tiers where file sizes vary widely
+          and there is no meaningful ceiling.</p>
+        </div>
+      </div>
+
+      <!-- Default Definitions Table -->
+      <div class="content-section fade-in">
+        <div class="section-label">Reference</div>
+        <h2>Default Definitions</h2>
+        <p>
+          These are the out-of-the-box values. Sizes are in <strong>MB per minute of runtime</strong>.
+          Adjust them based on your personal quality preferences and storage constraints.
+        </p>
+
+        <table class="doc-table">
+          <thead>
+            <tr>
+              <th>Quality</th>
+              <th>Min (MB/min)</th>
+              <th>Preferred (MB/min)</th>
+              <th>Max (MB/min)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>SD DVD</td>
+              <td>2</td>
+              <td>5</td>
+              <td>10</td>
+            </tr>
+            <tr>
+              <td>HDTV 720p</td>
+              <td>3</td>
+              <td>7</td>
+              <td>15</td>
+            </tr>
+            <tr>
+              <td>HDTV 1080p</td>
+              <td>5</td>
+              <td>10</td>
+              <td>22</td>
+            </tr>
+            <tr>
+              <td>WebRip 720p</td>
+              <td>4</td>
+              <td>8</td>
+              <td>16</td>
+            </tr>
+            <tr>
+              <td>WebRip 1080p</td>
+              <td>6</td>
+              <td>12</td>
+              <td>25</td>
+            </tr>
+            <tr>
+              <td>WebDL 720p</td>
+              <td>5</td>
+              <td>10</td>
+              <td>20</td>
+            </tr>
+            <tr>
+              <td>WebDL 1080p</td>
+              <td>7</td>
+              <td>15</td>
+              <td>30</td>
+            </tr>
+            <tr>
+              <td>WebDL 2160p</td>
+              <td>15</td>
+              <td>35</td>
+              <td>70</td>
+            </tr>
+            <tr>
+              <td>Bluray 720p</td>
+              <td>6</td>
+              <td>12</td>
+              <td>22</td>
+            </tr>
+            <tr>
+              <td>Bluray 1080p</td>
+              <td>8</td>
+              <td>18</td>
+              <td>40</td>
+            </tr>
+            <tr>
+              <td>Bluray 2160p</td>
+              <td>20</td>
+              <td>50</td>
+              <td>100</td>
+            </tr>
+            <tr>
+              <td>1080p Remux</td>
+              <td>25</td>
+              <td>60</td>
+              <td>0</td>
+            </tr>
+            <tr>
+              <td>2160p Remux</td>
+              <td>50</td>
+              <td>120</td>
+              <td>0</td>
+            </tr>
+            <tr>
+              <td>CAM / Unknown</td>
+              <td>0</td>
+              <td>0</td>
+              <td>0</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <p>
+          Max of <strong>0</strong> means no upper bound. CAM and Unknown tiers have all values at 0,
+          meaning no size filtering is applied — they are accepted at any size if the profile allows them.
+        </p>
+      </div>
+
+      <!-- How Size Calculation Works -->
+      <div class="content-section fade-in">
+        <div class="section-label">Details</div>
+        <h2>How Size Calculation Works</h2>
+        <p>
+          When Luminarr evaluates a release from an indexer, the size reported in the feed is divided
+          by the movie's TMDB runtime in minutes to get an MB/min figure. That figure is then compared
+          against the Min and Max thresholds for the release's quality tier.
+        </p>
+
+        <div class="flow">
+          <span class="flow-step">Release size (MB)</span>
+          <span class="flow-arrow">&divide;</span>
+          <span class="flow-step">TMDB runtime (min)</span>
+          <span class="flow-arrow">=</span>
+          <span class="flow-step">MB/min</span>
+          <span class="flow-arrow">&rarr;</span>
+          <span class="flow-step">Compare to Min/Max</span>
+        </div>
+
+        <p>
+          For example: a 1080p Bluray release reported as 9,000 MB for a 120-minute film works out to
+          75 MB/min. With default definitions (max 40 MB/min for Bluray 1080p) this release would be
+          rejected as oversized.
+        </p>
+
+        <div class="callout warn">
+          <p><strong>Unknown runtime.</strong> If TMDB has no runtime for a movie, Luminarr cannot perform
+          the size check and will skip it. The release will be accepted based purely on quality and custom
+          format criteria. Set a reasonable max in the definition to guard against this edge case for
+          large remux tiers.</p>
+        </div>
+
+        <h3>Preferred size and release selection</h3>
+        <p>
+          When multiple valid releases exist for the same movie at the same quality tier, Luminarr uses
+          the preferred size as a tiebreaker — the release whose MB/min is closest to the preferred value
+          is ranked first. This only matters during interactive manual searches; RSS sync grabs the first
+          valid release it encounters.
+        </p>
+      </div>
+
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-left">MIT License &middot; luminarr</div>
+        <div class="footer-links">
+          <a href="https://github.com/luminarr/luminarr" target="_blank" rel="noopener">GitHub</a>
+          <a href="/docs/">Docs</a>
+          <a href="https://github.com/luminarr/luminarr/issues" target="_blank" rel="noopener">Issues</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    function toggleTheme() {
+      var current = document.documentElement.getAttribute('data-theme');
+      var next = current === 'light' ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', next);
+      localStorage.setItem('theme', next);
+    }
+    var observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) entry.target.classList.add('visible');
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+    document.querySelectorAll('.fade-in').forEach(function(el) { observer.observe(el); });
+  </script>
+</body>
+</html>

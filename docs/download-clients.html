@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Download Clients - Luminarr Docs</title>
+  <meta name="description" content="Torrent and Usenet clients that Luminarr uses to download releases.">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-1L1C40L1T4"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-1L1C40L1T4');
+  </script>
+  <script>
+    (function() {
+      var t = localStorage.getItem('theme');
+      if (!t) t = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', t);
+    })();
+  </script>
+  <link rel="icon" href="/favicon.ico" sizes="32x32">
+  <link rel="icon" type="image/png" href="/luminarr-192.png" sizes="192x192">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+  <nav>
+    <div class="nav-inner">
+      <a href="../index.html" class="nav-logo">luminarr</a>
+      <div class="nav-links">
+        <a href="../index.html#features">Features</a>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-trigger">
+            Docs
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="nav-dropdown-menu">
+            <a href="architecture.html">Architecture<div class="dd-desc">How Luminarr works</div></a>
+            <a href="download-clients.html">Download Clients<div class="dd-desc">Torrent and Usenet clients</div></a>
+            <a href="media-servers.html">Media Servers<div class="dd-desc">Plex, Jellyfin, Emby</div></a>
+            <a href="notifications.html">Notifications<div class="dd-desc">Alerts and webhooks</div></a>
+            <a href="import-lists.html">Import Lists<div class="dd-desc">Auto-add from TMDb, Trakt</div></a>
+            <a href="import-exclusions.html">Import Exclusions<div class="dd-desc">Prevent unwanted re-adds</div></a>
+            <a href="blocklist.html">Blocklist<div class="dd-desc">Skip bad releases</div></a>
+            <a href="security.html">Security<div class="dd-desc">Auth, secrets, SSRF protection</div></a>
+            <a href="custom-scripts.html">Custom Scripts<div class="dd-desc">Extend with any language</div></a>
+          </div>
+        </div>
+        <a href="https://github.com/luminarr/luminarr" class="gh-link" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+          GitHub
+        </a>
+        <button class="theme-toggle" onclick="toggleTheme()" title="Toggle theme" aria-label="Toggle theme">
+          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="doc-page">
+    <div class="container">
+
+      <h1 class="fade-in">Download <span class="gradient">Clients</span></h1>
+      <p class="page-desc fade-in">
+        Torrent and Usenet clients that Luminarr uses to download releases. You can configure multiple clients
+        and assign each one a priority — Luminarr uses the highest-priority enabled client that matches the
+        release type.
+      </p>
+
+      <!-- ── Supported Clients ─────────────────────────────────────── -->
+      <div class="content-section fade-in">
+        <div class="section-label">Supported Clients</div>
+        <h2>Torrent Clients</h2>
+        <p>Three torrent clients are supported. All three support per-client categories and save paths to keep downloads organized.</p>
+
+        <div class="card-grid cols-3">
+          <div class="info-card">
+            <h4>
+              <svg class="card-icon green" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              qBittorrent
+            </h4>
+            <p>Full-featured BitTorrent client with a JSON-RPC API. Recommended for most setups.</p>
+          </div>
+          <div class="info-card">
+            <h4>
+              <svg class="card-icon green" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Transmission
+            </h4>
+            <p>Lightweight torrent client with a simple RPC interface. Good for low-resource environments.</p>
+          </div>
+          <div class="info-card">
+            <h4>
+              <svg class="card-icon green" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Deluge
+            </h4>
+            <p>Plugin-based torrent client accessed via its JSON-RPC daemon interface.</p>
+          </div>
+        </div>
+
+        <h2>Usenet Clients</h2>
+        <p>Two Usenet clients are supported for NZB-based downloads.</p>
+
+        <div class="card-grid">
+          <div class="info-card">
+            <h4>
+              <svg class="card-icon blue" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              SABnzbd
+            </h4>
+            <p>The most widely-used Usenet downloader. Luminarr uses its JSON API to submit NZBs and monitor queue status.</p>
+          </div>
+          <div class="info-card">
+            <h4>
+              <svg class="card-icon blue" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              NZBGet
+            </h4>
+            <p>High-performance Usenet downloader with an XML-RPC API. Efficient alternative to SABnzbd.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── General Settings ──────────────────────────────────────── -->
+      <div class="content-section fade-in">
+        <div class="section-label">Configuration</div>
+        <h2>General Settings</h2>
+        <p>These fields apply to every download client type.</p>
+
+        <table class="doc-table">
+          <thead>
+            <tr>
+              <th>Field</th>
+              <th>Description</th>
+              <th>Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Name</td>
+              <td>Display name for this client</td>
+              <td>Used in logs and the queue view</td>
+            </tr>
+            <tr>
+              <td>Enabled</td>
+              <td>Whether Luminarr will use this client</td>
+              <td>Disabled clients are ignored during grabs</td>
+            </tr>
+            <tr>
+              <td>Priority</td>
+              <td>Selection order when multiple clients match</td>
+              <td>Lower number = higher priority</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- ── qBittorrent ───────────────────────────────────────────── -->
+      <div class="content-section fade-in">
+        <div class="section-label">Torrent</div>
+        <h2>qBittorrent</h2>
+
+        <table class="doc-table">
+          <thead>
+            <tr>
+              <th>Field</th>
+              <th>Description</th>
+              <th>Example</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>URL</td>
+              <td>Base URL of the qBittorrent web UI</td>
+              <td><code>http://localhost:8080</code></td>
+            </tr>
+            <tr>
+              <td>Username</td>
+              <td>Web UI login username</td>
+              <td><code>admin</code></td>
+            </tr>
+            <tr>
+              <td>Password</td>
+              <td>Web UI login password</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>Category</td>
+              <td>Tag applied to added torrents</td>
+              <td><code>luminarr</code></td>
+            </tr>
+            <tr>
+              <td>Save Path</td>
+              <td>Directory where downloads are saved</td>
+              <td><code>/downloads/movies</code></td>
+            </tr>
+            <tr>
+              <td>Use SSL</td>
+              <td>Connect via HTTPS</td>
+              <td>Enable if your instance uses TLS</td>
+            </tr>
+            <tr>
+              <td>Skip TLS Verify</td>
+              <td>Disable certificate validation</td>
+              <td>Only for self-signed certs</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="callout info">
+          <p><strong>Seed ratio and time enforcement:</strong> Luminarr can automatically apply per-indexer seed ratio and seed time limits after a torrent is imported. Configure these limits on the indexer, not the download client.</p>
+        </div>
+      </div>
+
+      <!-- ── Transmission ──────────────────────────────────────────── -->
+      <div class="content-section fade-in">
+        <div class="section-label">Torrent</div>
+        <h2>Transmission</h2>
+
+        <table class="doc-table">
+          <thead>
+            <tr>
+              <th>Field</th>
+              <th>Description</th>
+              <th>Example</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>URL</td>
+              <td>Base URL of the Transmission RPC endpoint</td>
+              <td><code>http://localhost:9091</code></td>
+            </tr>
+            <tr>
+              <td>Username</td>
+              <td>RPC authentication username</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>Password</td>
+              <td>RPC authentication password</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>Category</td>
+              <td>Label applied to added torrents</td>
+              <td><code>luminarr</code></td>
+            </tr>
+            <tr>
+              <td>Save Path</td>
+              <td>Download directory override</td>
+              <td><code>/downloads/movies</code></td>
+            </tr>
+            <tr>
+              <td>Skip TLS Verify</td>
+              <td>Disable certificate validation</td>
+              <td>Only for self-signed certs</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- ── Deluge ────────────────────────────────────────────────── -->
+      <div class="content-section fade-in">
+        <div class="section-label">Torrent</div>
+        <h2>Deluge</h2>
+
+        <table class="doc-table">
+          <thead>
+            <tr>
+              <th>Field</th>
+              <th>Description</th>
+              <th>Example</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>URL</td>
+              <td>Base URL of the Deluge web UI or daemon</td>
+              <td><code>http://localhost:8112</code></td>
+            </tr>
+            <tr>
+              <td>Password</td>
+              <td>Deluge web UI password</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>Category</td>
+              <td>Label applied to added torrents</td>
+              <td><code>luminarr</code></td>
+            </tr>
+            <tr>
+              <td>Save Path</td>
+              <td>Download directory override</td>
+              <td><code>/downloads/movies</code></td>
+            </tr>
+            <tr>
+              <td>Skip TLS Verify</td>
+              <td>Disable certificate validation</td>
+              <td>Only for self-signed certs</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- ── SABnzbd ───────────────────────────────────────────────── -->
+      <div class="content-section fade-in">
+        <div class="section-label">Usenet</div>
+        <h2>SABnzbd</h2>
+
+        <table class="doc-table">
+          <thead>
+            <tr>
+              <th>Field</th>
+              <th>Description</th>
+              <th>Example</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>URL</td>
+              <td>Base URL of the SABnzbd web interface</td>
+              <td><code>http://localhost:8080</code></td>
+            </tr>
+            <tr>
+              <td>API Key</td>
+              <td>SABnzbd API key (found in Config &rarr; General)</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>Category</td>
+              <td>SABnzbd category applied to submitted NZBs</td>
+              <td><code>movies</code></td>
+            </tr>
+            <tr>
+              <td>Save Path</td>
+              <td>Override the default completed download folder</td>
+              <td><code>/downloads/complete</code></td>
+            </tr>
+            <tr>
+              <td>Skip TLS Verify</td>
+              <td>Disable certificate validation</td>
+              <td>Only for self-signed certs</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- ── NZBGet ─────────────────────────────────────────────────── -->
+      <div class="content-section fade-in">
+        <div class="section-label">Usenet</div>
+        <h2>NZBGet</h2>
+
+        <table class="doc-table">
+          <thead>
+            <tr>
+              <th>Field</th>
+              <th>Description</th>
+              <th>Example</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>URL</td>
+              <td>Base URL of the NZBGet web interface</td>
+              <td><code>http://localhost:6789</code></td>
+            </tr>
+            <tr>
+              <td>Username</td>
+              <td>NZBGet control username</td>
+              <td><code>nzbget</code></td>
+            </tr>
+            <tr>
+              <td>Password</td>
+              <td>NZBGet control password</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>Category</td>
+              <td>Category applied to submitted NZBs</td>
+              <td><code>movies</code></td>
+            </tr>
+            <tr>
+              <td>Save Path</td>
+              <td>Override the default destination directory</td>
+              <td><code>/downloads/complete</code></td>
+            </tr>
+            <tr>
+              <td>Skip TLS Verify</td>
+              <td>Disable certificate validation</td>
+              <td>Only for self-signed certs</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- ── How Download Handling Works ──────────────────────────── -->
+      <div class="content-section fade-in">
+        <div class="section-label">How It Works</div>
+        <h2>Download Handling</h2>
+        <p>
+          Luminarr manages the full lifecycle from grabbing a release to importing the finished file into your library.
+        </p>
+
+        <ol class="step-list">
+          <li>
+            <div class="step-num">1</div>
+            <div class="step-content">
+              <p><strong>Release selected</strong></p>
+              <p>RSS sync or a manual search identifies a release that matches a monitored movie's quality profile. The release is scored and compared against the current file (if any).</p>
+            </div>
+          </li>
+          <li>
+            <div class="step-num">2</div>
+            <div class="step-content">
+              <p><strong>Grab</strong></p>
+              <p>The release is sent to the highest-priority enabled download client that matches the release type (torrent or NZB). Luminarr records the grab with the client-assigned ID for tracking.</p>
+            </div>
+          </li>
+          <li>
+            <div class="step-num">3</div>
+            <div class="step-content">
+              <p><strong>Queue polling</strong></p>
+              <p>Every 30 seconds Luminarr polls all active download clients for status. Progress is shown in the Queue page in real time via WebSocket.</p>
+            </div>
+          </li>
+          <li>
+            <div class="step-num">4</div>
+            <div class="step-content">
+              <p><strong>Completion detected</strong></p>
+              <p>When the client reports a download as complete, Luminarr publishes a <code>download_done</code> event and the importer picks it up.</p>
+            </div>
+          </li>
+          <li>
+            <div class="step-num">5</div>
+            <div class="step-content">
+              <p><strong>Import</strong></p>
+              <p>The importer locates the downloaded file, moves or hardlinks it into the configured library path, updates the database, and triggers a media server refresh.</p>
+            </div>
+          </li>
+          <li>
+            <div class="step-num">6</div>
+            <div class="step-content">
+              <p><strong>Seed enforcement (torrents only)</strong></p>
+              <p>After a successful import, Luminarr applies the indexer's seed ratio and seed time limits to the torrent in the download client.</p>
+            </div>
+          </li>
+        </ol>
+
+        <div class="callout warn">
+          <p><strong>Save path matching:</strong> The Save Path configured in Luminarr must be accessible from the Luminarr process, not just from inside the download client container. Use the same mount paths or adjust accordingly when running in Docker.</p>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-left">MIT License &middot; luminarr</div>
+        <div class="footer-links">
+          <a href="https://github.com/luminarr/luminarr" target="_blank" rel="noopener">GitHub</a>
+          <a href="/docs/">Docs</a>
+          <a href="https://github.com/luminarr/luminarr/issues" target="_blank" rel="noopener">Issues</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    function toggleTheme() {
+      var current = document.documentElement.getAttribute('data-theme');
+      var next = current === 'light' ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', next);
+      localStorage.setItem('theme', next);
+    }
+    var observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) entry.target.classList.add('visible');
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+    document.querySelectorAll('.fade-in').forEach(function(el) { observer.observe(el); });
+  </script>
+</body>
+</html>

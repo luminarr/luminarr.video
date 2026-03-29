@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Import Lists - Luminarr Docs</title>
+  <meta name="description" content="Automatically add movies from TMDb, Trakt, Plex, and other sources.">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-1L1C40L1T4"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-1L1C40L1T4');
+  </script>
+  <script>
+    (function() {
+      var t = localStorage.getItem('theme');
+      if (!t) t = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', t);
+    })();
+  </script>
+  <link rel="icon" href="/favicon.ico" sizes="32x32">
+  <link rel="icon" type="image/png" href="/luminarr-192.png" sizes="192x192">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+  <nav>
+    <div class="nav-inner">
+      <a href="../index.html" class="nav-logo">luminarr</a>
+      <div class="nav-links">
+        <a href="../index.html#features">Features</a>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-trigger">
+            Docs
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="nav-dropdown-menu">
+            <a href="architecture.html">Architecture<div class="dd-desc">How Luminarr works</div></a>
+            <a href="download-clients.html">Download Clients<div class="dd-desc">Torrent and Usenet clients</div></a>
+            <a href="media-servers.html">Media Servers<div class="dd-desc">Plex, Jellyfin, Emby</div></a>
+            <a href="notifications.html">Notifications<div class="dd-desc">Alerts and webhooks</div></a>
+            <a href="import-lists.html">Import Lists<div class="dd-desc">Auto-add from TMDb, Trakt</div></a>
+            <a href="import-exclusions.html">Import Exclusions<div class="dd-desc">Prevent unwanted re-adds</div></a>
+            <a href="blocklist.html">Blocklist<div class="dd-desc">Skip bad releases</div></a>
+            <a href="security.html">Security<div class="dd-desc">Auth, secrets, SSRF protection</div></a>
+            <a href="custom-scripts.html">Custom Scripts<div class="dd-desc">Extend with any language</div></a>
+          </div>
+        </div>
+        <a href="https://github.com/luminarr/luminarr" class="gh-link" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+          GitHub
+        </a>
+        <button class="theme-toggle" onclick="toggleTheme()" title="Toggle theme" aria-label="Toggle theme">
+          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="doc-page">
+    <div class="container">
+
+      <h1 class="fade-in">Import <span class="gradient">Lists</span></h1>
+      <p class="page-desc fade-in">
+        Automatically add movies to Luminarr from TMDb, Trakt, your Plex watchlist, and other curated
+        sources. Import lists run on a schedule and add new movies without manual intervention.
+      </p>
+
+      <!-- ── Available Sources ─────────────────────────────────────── -->
+      <div class="content-section fade-in">
+        <div class="section-label">Available Sources</div>
+        <h2>Sources</h2>
+        <p>Each source type pulls a different feed of movies. You can add multiple lists from different sources and they all sync independently.</p>
+
+        <h3>The Movie Database (TMDb)</h3>
+        <table class="doc-table">
+          <thead>
+            <tr>
+              <th>List Type</th>
+              <th>What it returns</th>
+              <th>Auth required</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Popular</td>
+              <td>Most popular movies on TMDb right now</td>
+              <td><span class="badge blue">API Key</span></td>
+            </tr>
+            <tr>
+              <td>Trending</td>
+              <td>Movies trending over the last week</td>
+              <td><span class="badge blue">API Key</span></td>
+            </tr>
+            <tr>
+              <td>Upcoming</td>
+              <td>Movies with a theatrical release in the near future</td>
+              <td><span class="badge blue">API Key</span></td>
+            </tr>
+            <tr>
+              <td>Now Playing</td>
+              <td>Movies currently in theaters</td>
+              <td><span class="badge blue">API Key</span></td>
+            </tr>
+            <tr>
+              <td>Top Rated</td>
+              <td>Highest-rated movies on TMDb</td>
+              <td><span class="badge blue">API Key</span></td>
+            </tr>
+            <tr>
+              <td>List</td>
+              <td>A specific TMDb user list by ID</td>
+              <td><span class="badge blue">API Key</span></td>
+            </tr>
+            <tr>
+              <td>Person</td>
+              <td>All movie credits for a specific actor or director</td>
+              <td><span class="badge blue">API Key</span></td>
+            </tr>
+            <tr>
+              <td>Collection</td>
+              <td>All movies in a TMDb collection (e.g., a franchise)</td>
+              <td><span class="badge blue">API Key</span></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3>Trakt</h3>
+        <table class="doc-table">
+          <thead>
+            <tr>
+              <th>List Type</th>
+              <th>What it returns</th>
+              <th>Auth required</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Popular</td>
+              <td>Most popular movies on Trakt</td>
+              <td><span class="badge blue">Client ID</span></td>
+            </tr>
+            <tr>
+              <td>Trending</td>
+              <td>Movies being watched right now on Trakt</td>
+              <td><span class="badge blue">Client ID</span></td>
+            </tr>
+            <tr>
+              <td>Anticipated</td>
+              <td>Most anticipated upcoming movies based on watchlist activity</td>
+              <td><span class="badge blue">Client ID</span></td>
+            </tr>
+            <tr>
+              <td>Box Office</td>
+              <td>Top 10 weekend box office results</td>
+              <td><span class="badge blue">Client ID</span></td>
+            </tr>
+            <tr>
+              <td>List</td>
+              <td>Any public or authenticated Trakt list by URL</td>
+              <td><span class="badge accent">OAuth + Client ID</span></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3>Other Sources</h3>
+        <table class="doc-table">
+          <thead>
+            <tr>
+              <th>Source</th>
+              <th>What it returns</th>
+              <th>Auth required</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Plex Watchlist</td>
+              <td>Movies on your Plex watchlist</td>
+              <td><span class="badge accent">Plex Token</span></td>
+            </tr>
+            <tr>
+              <td>MDBList</td>
+              <td>Any MDBList list by URL</td>
+              <td><span class="badge blue">API Key</span></td>
+            </tr>
+            <tr>
+              <td>Steven Lu</td>
+              <td>Community-curated list of popular movies</td>
+              <td><span class="badge green">None</span></td>
+            </tr>
+            <tr>
+              <td>Custom List</td>
+              <td>A JSON or plain-text list of TMDB IDs hosted at any URL</td>
+              <td><span class="badge green">None</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- ── Configuration Fields ──────────────────────────────────── -->
+      <div class="content-section fade-in">
+        <div class="section-label">Configuration</div>
+        <h2>List Settings</h2>
+        <p>Each import list is configured with the following fields. These settings control how movies added by the list are managed once they land in Luminarr.</p>
+
+        <table class="doc-table">
+          <thead>
+            <tr>
+              <th>Field</th>
+              <th>Description</th>
+              <th>Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Name</td>
+              <td>Display name for this list</td>
+              <td>Shown in the Import Lists settings page</td>
+            </tr>
+            <tr>
+              <td>Enabled</td>
+              <td>Whether this list is included in sync runs</td>
+              <td>Disabled lists are skipped without being deleted</td>
+            </tr>
+            <tr>
+              <td>Search on Add</td>
+              <td>Immediately search for a release when a movie is added</td>
+              <td>If disabled, the movie waits for the next RSS sync cycle</td>
+            </tr>
+            <tr>
+              <td>Monitor</td>
+              <td>Monitoring state to set on newly added movies</td>
+              <td>Options: Monitored, Unmonitored</td>
+            </tr>
+            <tr>
+              <td>Min Availability</td>
+              <td>Minimum release status before searching begins</td>
+              <td>Options: Announced, In Cinemas, Released. Prevents grabbing CAM releases of films still in theaters.</td>
+            </tr>
+            <tr>
+              <td>Quality Profile</td>
+              <td>Quality profile assigned to movies added by this list</td>
+              <td>Required. Determines resolution, source, and codec targets</td>
+            </tr>
+            <tr>
+              <td>Library</td>
+              <td>Root folder where imported files are placed</td>
+              <td>Required. Must be a configured library path</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="callout warn">
+          <p><strong>Import exclusions take precedence.</strong> If a movie from an import list matches an entry in your <a href="import-exclusions.html" style="color:var(--accent)">Import Exclusions</a>, it will not be re-added regardless of which list synced it.</p>
+        </div>
+      </div>
+
+      <!-- ── How Sync Works ────────────────────────────────────────── -->
+      <div class="content-section fade-in">
+        <div class="section-label">How It Works</div>
+        <h2>Sync Process</h2>
+        <p>
+          Import list sync runs on a schedule (default every 24 hours) and also when you manually trigger
+          it from the Settings page.
+        </p>
+
+        <ol class="step-list">
+          <li>
+            <div class="step-num">1</div>
+            <div class="step-content">
+              <p><strong>Fetch all enabled lists</strong></p>
+              <p>Luminarr calls each enabled list's source API in parallel, collecting a set of TMDb IDs.</p>
+            </div>
+          </li>
+          <li>
+            <div class="step-num">2</div>
+            <div class="step-content">
+              <p><strong>Deduplicate and filter</strong></p>
+              <p>IDs are merged across all lists and checked against your existing library. Movies already in Luminarr are skipped. Movies matching an import exclusion are skipped.</p>
+            </div>
+          </li>
+          <li>
+            <div class="step-num">3</div>
+            <div class="step-content">
+              <p><strong>Fetch metadata</strong></p>
+              <p>For each new TMDB ID, Luminarr fetches full movie metadata from TMDb — title, overview, release date, poster, genres.</p>
+            </div>
+          </li>
+          <li>
+            <div class="step-num">4</div>
+            <div class="step-content">
+              <p><strong>Add to library</strong></p>
+              <p>Each new movie is added using the list's configured quality profile, root folder, monitor state, and minimum availability. A <code>movie_added</code> event fires for each addition.</p>
+            </div>
+          </li>
+          <li>
+            <div class="step-num">5</div>
+            <div class="step-content">
+              <p><strong>Search for releases</strong></p>
+              <p>If "Search on Add" is enabled for the list, Luminarr immediately kicks off an interactive search for each newly added movie. Otherwise, the movie enters the monitored queue and will be picked up on the next RSS sync.</p>
+            </div>
+          </li>
+        </ol>
+
+        <div class="callout info">
+          <p><strong>Lists do not delete movies.</strong> Removing a movie from a source list (e.g., your Trakt watchlist) does not delete it from Luminarr. Import lists are additive only.</p>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-left">MIT License &middot; luminarr</div>
+        <div class="footer-links">
+          <a href="https://github.com/luminarr/luminarr" target="_blank" rel="noopener">GitHub</a>
+          <a href="/docs/">Docs</a>
+          <a href="https://github.com/luminarr/luminarr/issues" target="_blank" rel="noopener">Issues</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    function toggleTheme() {
+      var current = document.documentElement.getAttribute('data-theme');
+      var next = current === 'light' ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', next);
+      localStorage.setItem('theme', next);
+    }
+    var observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) entry.target.classList.add('visible');
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+    document.querySelectorAll('.fade-in').forEach(function(el) { observer.observe(el); });
+  </script>
+</body>
+</html>

@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quality Profiles - Luminarr Docs</title>
+  <meta name="description" content="Quality Profiles define which releases are acceptable and when to upgrade.">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-1L1C40L1T4"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-1L1C40L1T4');
+  </script>
+  <script>
+    (function() {
+      var t = localStorage.getItem('theme');
+      if (!t) t = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', t);
+    })();
+  </script>
+  <link rel="icon" href="/favicon.ico" sizes="32x32">
+  <link rel="icon" type="image/png" href="/luminarr-192.png" sizes="192x192">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+  <nav>
+    <div class="nav-inner">
+      <a href="/" class="nav-logo">luminarr</a>
+      <div class="nav-links">
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-trigger">
+            Docs
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="nav-dropdown-menu">
+            <a href="index.html">Documentation<div class="dd-desc">All docs in one place</div></a>
+            <a href="architecture.html">Architecture<div class="dd-desc">How Luminarr works</div></a>
+            <a href="security.html">Security<div class="dd-desc">Auth, secrets, SSRF protection</div></a>
+            <a href="custom-scripts.html">Custom Scripts<div class="dd-desc">Extend with any language</div></a>
+          </div>
+        </div>
+        <a href="https://github.com/luminarr/luminarr" class="gh-link" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+          GitHub
+        </a>
+        <button class="theme-toggle" onclick="toggleTheme()" title="Toggle theme" aria-label="Toggle theme">
+          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="doc-page">
+    <div class="container">
+
+      <h1 class="fade-in"><span class="gradient">Quality Profiles</span></h1>
+      <p class="page-desc fade-in">
+        Quality Profiles define which releases are acceptable for a movie and when Luminarr should
+        automatically upgrade to a better version. Every movie has exactly one quality profile.
+      </p>
+
+      <!-- What is a Quality Profile -->
+      <div class="content-section fade-in">
+        <div class="section-label">Overview</div>
+        <h2>What is a Quality Profile?</h2>
+        <p>
+          A quality profile is a set of rules that govern which releases Luminarr will accept and keep.
+          When a new release is found for a monitored movie, its quality is compared against the profile
+          to decide whether to grab it, ignore it, or treat it as an upgrade over what's already
+          downloaded.
+        </p>
+        <p>
+          Profiles are reusable — you can assign the same profile to many movies, and editing the profile
+          immediately affects all movies using it. A typical setup has two or three profiles:
+          a "Any" profile that accepts anything, a "HD" profile targeting 1080p Bluray, and a
+          "4K" profile targeting 2160p Remux.
+        </p>
+
+        <div class="card-grid">
+          <div class="info-card">
+            <h4>
+              <svg class="card-icon accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+              Acceptable qualities
+            </h4>
+            <p>An ordered list of quality combinations that Luminarr will consider valid. Releases matching none of these are rejected outright.</p>
+          </div>
+          <div class="info-card">
+            <h4>
+              <svg class="card-icon green" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 15l-6-6-6 6"/></svg>
+              Cutoff
+            </h4>
+            <p>The minimum quality Luminarr will settle for. Any movie at or above the cutoff is considered "met" — below it, Luminarr keeps searching for a better release.</p>
+          </div>
+          <div class="info-card">
+            <h4>
+              <svg class="card-icon blue" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+              Upgrade until
+            </h4>
+            <p>Luminarr stops trying to upgrade once this quality is reached. Set this to cap upgrades at, say, 1080p Bluray even if 4K is listed as acceptable.</p>
+          </div>
+          <div class="info-card">
+            <h4>
+              <svg class="card-icon amber" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              Custom format score
+            </h4>
+            <p>Minimum score from custom format rules that a release must accumulate to be considered. Filters out releases that would score below your threshold.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Configuration Fields -->
+      <div class="content-section fade-in">
+        <div class="section-label">Configuration</div>
+        <h2>Configuration Fields</h2>
+
+        <table class="doc-table">
+          <thead>
+            <tr>
+              <th>Field</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Name</td>
+              <td>Display name for this profile. Shown on every movie card and in library settings.</td>
+            </tr>
+            <tr>
+              <td>Qualities</td>
+              <td>Ordered list of acceptable quality combinations (resolution + source + codec). Releases matching any entry in this list are considered valid.</td>
+            </tr>
+            <tr>
+              <td>Cutoff</td>
+              <td>The specific quality that "satisfies" the profile. Movies below this quality are marked as missing or needing an upgrade in the Wanted view.</td>
+            </tr>
+            <tr>
+              <td>Upgrade Allowed</td>
+              <td>When enabled, Luminarr will grab a higher-quality release if one becomes available. When disabled, the first acceptable grab is kept permanently.</td>
+            </tr>
+            <tr>
+              <td>Upgrade Until</td>
+              <td>Only shown when Upgrade Allowed is on. The ceiling quality — Luminarr will not upgrade beyond this level. Must be equal to or higher than the cutoff.</td>
+            </tr>
+            <tr>
+              <td>Min Custom Format Score</td>
+              <td>Releases whose combined custom format score is below this threshold are rejected even if their quality is acceptable.</td>
+            </tr>
+            <tr>
+              <td>Upgrade Until CF Score</td>
+              <td>Stop upgrading via custom format score once this score is reached. Prevents endlessly re-downloading for marginal score improvements.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- How Upgrades Work -->
+      <div class="content-section fade-in">
+        <div class="section-label">Upgrade Logic</div>
+        <h2>How Upgrades Work</h2>
+        <p>
+          When RSS sync finds a new release for a movie that already has a file, Luminarr runs this
+          decision sequence:
+        </p>
+
+        <ol class="step-list">
+          <li>
+            <span class="step-num">1</span>
+            <div class="step-content">
+              <p><strong>Is the release quality in the profile's Qualities list?</strong></p>
+              <p>If no, the release is immediately rejected.</p>
+            </div>
+          </li>
+          <li>
+            <span class="step-num">2</span>
+            <div class="step-content">
+              <p><strong>Is Upgrade Allowed enabled on the profile?</strong></p>
+              <p>If no, no further upgrades will ever be attempted for this movie once it has a file.</p>
+            </div>
+          </li>
+          <li>
+            <span class="step-num">3</span>
+            <div class="step-content">
+              <p><strong>Is the existing file's quality at or above Upgrade Until?</strong></p>
+              <p>If yes, stop — the movie has already reached the upgrade ceiling.</p>
+            </div>
+          </li>
+          <li>
+            <span class="step-num">4</span>
+            <div class="step-content">
+              <p><strong>Does the new release score higher than the existing file?</strong></p>
+              <p>Score = resolution &times; 100 + source &times; 10 + codec. If the new release scores higher, it qualifies as an upgrade.</p>
+            </div>
+          </li>
+          <li>
+            <span class="step-num">5</span>
+            <div class="step-content">
+              <p><strong>Does the release meet the Min Custom Format Score?</strong></p>
+              <p>If the accumulated custom format score is below the threshold, the release is rejected regardless of quality score.</p>
+            </div>
+          </li>
+          <li>
+            <span class="step-num">6</span>
+            <div class="step-content">
+              <p><strong>Grab the release.</strong></p>
+              <p>The release is sent to the download client. After import, the old file is deleted if using move mode.</p>
+            </div>
+          </li>
+        </ol>
+
+        <div class="callout info">
+          <p><strong>Score ties.</strong> If the new release scores identically to the existing file, it is not treated as an upgrade and will be skipped. This prevents re-downloading the same quality from a different source repeatedly.</p>
+        </div>
+      </div>
+
+      <!-- Quality Ranking Table -->
+      <div class="content-section fade-in">
+        <div class="section-label">Reference</div>
+        <h2>Quality Ranking</h2>
+        <p>
+          Luminarr assigns numeric ranks to resolution, source, and codec. Higher rank = better quality.
+          The final score used for upgrade comparisons is <code>resolution &times; 100 + source &times; 10 + codec</code>.
+        </p>
+
+        <h3>Resolution</h3>
+        <table class="doc-table">
+          <thead>
+            <tr><th>Resolution</th><th>Rank</th><th>Score contribution</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>SD</td><td>0</td><td>0</td></tr>
+            <tr><td>720p</td><td>1</td><td>100</td></tr>
+            <tr><td>1080p</td><td>2</td><td>200</td></tr>
+            <tr><td>2160p</td><td>3</td><td>300</td></tr>
+          </tbody>
+        </table>
+
+        <h3>Source</h3>
+        <table class="doc-table">
+          <thead>
+            <tr><th>Source</th><th>Rank</th><th>Score contribution</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>CAM</td><td>0</td><td>0</td></tr>
+            <tr><td>DVD</td><td>1</td><td>10</td></tr>
+            <tr><td>HDTV</td><td>2</td><td>20</td></tr>
+            <tr><td>WebRip</td><td>3</td><td>30</td></tr>
+            <tr><td>WebDL</td><td>4</td><td>40</td></tr>
+            <tr><td>Bluray</td><td>5</td><td>50</td></tr>
+            <tr><td>Remux</td><td>6</td><td>60</td></tr>
+          </tbody>
+        </table>
+
+        <h3>Codec</h3>
+        <table class="doc-table">
+          <thead>
+            <tr><th>Codec</th><th>Rank</th><th>Score contribution</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Unknown</td><td>0</td><td>0</td></tr>
+            <tr><td>XviD</td><td>1</td><td>1</td></tr>
+            <tr><td>x264</td><td>2</td><td>2</td></tr>
+            <tr><td>x265</td><td>3</td><td>3</td></tr>
+            <tr><td>AV1</td><td>4</td><td>4</td></tr>
+          </tbody>
+        </table>
+
+        <div class="callout info">
+          <p><strong>HDR is a separate flag.</strong> Luminarr tracks HDR (HDR10, Dolby Vision, HLG, HDR10+) independently of the score formula. You can filter releases by HDR support in the quality list — it does not affect upgrade score comparisons.</p>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-left">MIT License &middot; luminarr</div>
+        <div class="footer-links">
+          <a href="https://github.com/luminarr/luminarr" target="_blank" rel="noopener">GitHub</a>
+          <a href="/docs/">Docs</a>
+          <a href="https://github.com/luminarr/luminarr/issues" target="_blank" rel="noopener">Issues</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    function toggleTheme() {
+      var current = document.documentElement.getAttribute('data-theme');
+      var next = current === 'light' ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', next);
+      localStorage.setItem('theme', next);
+    }
+    var observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) entry.target.classList.add('visible');
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+    document.querySelectorAll('.fade-in').forEach(function(el) { observer.observe(el); });
+  </script>
+</body>
+</html>

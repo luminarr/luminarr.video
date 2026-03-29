@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Media Scanning - Luminarr Docs</title>
+  <meta name="description" content="Verify actual video quality using ffprobe analysis.">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-1L1C40L1T4"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-1L1C40L1T4');
+  </script>
+  <script>
+    (function() {
+      var t = localStorage.getItem('theme');
+      if (!t) t = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', t);
+    })();
+  </script>
+  <link rel="icon" href="/favicon.ico" sizes="32x32">
+  <link rel="icon" type="image/png" href="/luminarr-192.png" sizes="192x192">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+  <nav>
+    <div class="nav-inner">
+      <a href="/" class="nav-logo">luminarr</a>
+      <div class="nav-links">
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-trigger">
+            Docs
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="nav-dropdown-menu">
+            <a href="architecture.html">Architecture<div class="dd-desc">How Luminarr works</div></a>
+            <a href="security.html">Security<div class="dd-desc">Auth, secrets, SSRF protection</div></a>
+            <a href="custom-scripts.html">Custom Scripts<div class="dd-desc">Extend with any language</div></a>
+            <a href="media-management.html">Media Management<div class="dd-desc">Naming and file organization</div></a>
+            <a href="media-scanning.html">Media Scanning<div class="dd-desc">ffprobe quality analysis</div></a>
+            <a href="app-settings.html">App Settings<div class="dd-desc">Appearance and API keys</div></a>
+            <a href="system.html">System<div class="dd-desc">Health, tasks, and logs</div></a>
+            <a href="discover.html">Discover<div class="dd-desc">Browse and add movies</div></a>
+            <a href="wanted.html">Wanted<div class="dd-desc">Missing and upgrade tracking</div></a>
+            <a href="activity.html">Activity<div class="dd-desc">Event timeline</div></a>
+            <a href="calendar.html">Calendar<div class="dd-desc">Release date calendar</div></a>
+          </div>
+        </div>
+        <a href="https://github.com/luminarr/luminarr" class="gh-link" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+          GitHub
+        </a>
+        <button class="theme-toggle" onclick="toggleTheme()" title="Toggle theme" aria-label="Toggle theme">
+          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="doc-page">
+    <div class="container">
+
+      <h1 class="fade-in">Media <span class="gradient">Scanning</span></h1>
+      <p class="page-desc fade-in">
+        Luminarr uses <code>ffprobe</code> to inspect the actual video stream in each file, going beyond
+        filename-based quality detection to verify codec, resolution, and HDR metadata directly from the container.
+      </p>
+
+      <!-- ── What it does ───────────────────────────────────────────── -->
+      <div class="content-section fade-in">
+        <div class="section-label">Overview</div>
+        <h2>What the scanner does</h2>
+        <p>
+          Release names can lie. A file named <code>Movie.2160p.BluRay.x265</code> might actually be
+          a 1080p upscale encoded with x264. The media scanner eliminates this ambiguity by reading
+          the actual video stream metadata from the file.
+        </p>
+        <div class="card-grid">
+          <div class="info-card">
+            <h4>
+              <svg class="card-icon accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+              Video codec
+            </h4>
+            <p>Reads the codec ID directly from the container: <code>hevc</code>, <code>avc</code>, <code>av1</code>, <code>vp9</code>, etc.</p>
+          </div>
+          <div class="info-card">
+            <h4>
+              <svg class="card-icon blue" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+              Resolution
+            </h4>
+            <p>Reads the actual encoded width and height. Detects upscales that claim 4K but have native 1080p content.</p>
+          </div>
+          <div class="info-card">
+            <h4>
+              <svg class="card-icon amber" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+              HDR format
+            </h4>
+            <p>Reads <code>color_transfer</code> and side data to distinguish HDR10, Dolby Vision, HLG, and HDR10+.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── What gets scanned ──────────────────────────────────────── -->
+      <div class="content-section fade-in">
+        <div class="section-label">Data Collected</div>
+        <h2>What gets scanned</h2>
+        <p>
+          For each movie file, ffprobe extracts the following fields and stores them in the database.
+          These values power the <code>{MediaInfo ...}</code> naming tokens and inform upgrade decisions.
+        </p>
+
+        <table class="doc-table">
+          <thead>
+            <tr>
+              <th>Field</th>
+              <th>Example values</th>
+              <th>Used for</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Video codec</td>
+              <td><code>hevc</code>, <code>avc</code>, <code>av1</code></td>
+              <td>Naming token, upgrade scoring</td>
+            </tr>
+            <tr>
+              <td>Resolution</td>
+              <td>3840&times;2160, 1920&times;1080</td>
+              <td>Quality confirmation, naming</td>
+            </tr>
+            <tr>
+              <td>HDR format</td>
+              <td>HDR10, Dolby Vision, HLG, HDR10+</td>
+              <td>HDR flag on quality profile</td>
+            </tr>
+            <tr>
+              <td>Bit depth</td>
+              <td>8-bit, 10-bit</td>
+              <td>Informational display</td>
+            </tr>
+            <tr>
+              <td>Color space</td>
+              <td>bt709, bt2020nc</td>
+              <td>HDR detection support</td>
+            </tr>
+            <tr>
+              <td>Audio codec</td>
+              <td>dts, eac3, aac, truehd</td>
+              <td>Informational display on movie detail</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- ── Setup ─────────────────────────────────────────────────── -->
+      <div class="content-section fade-in">
+        <div class="section-label">Requirements</div>
+        <h2>Setup</h2>
+        <p>
+          Media scanning requires <code>ffprobe</code> (part of the FFmpeg suite) to be available
+          on the system <code>PATH</code>. Luminarr detects it automatically at startup.
+        </p>
+
+        <div class="callout info">
+          <p><strong>Docker users:</strong> FFmpeg is included in the official Luminarr Docker image. No additional setup is needed.</p>
+        </div>
+
+        <h3>Installing FFmpeg</h3>
+        <div class="code-block">
+          <div class="code-block-header">
+            <span class="code-block-filename">Linux (Debian / Ubuntu)</span>
+          </div>
+          <div class="code-block-body">
+<pre><span class="syn-kw">sudo</span> apt update && <span class="syn-kw">sudo</span> apt install -y ffmpeg</pre>
+          </div>
+        </div>
+
+        <div class="code-block">
+          <div class="code-block-header">
+            <span class="code-block-filename">macOS (Homebrew)</span>
+          </div>
+          <div class="code-block-body">
+<pre>brew install ffmpeg</pre>
+          </div>
+        </div>
+
+        <div class="code-block">
+          <div class="code-block-header">
+            <span class="code-block-filename">Docker (already included)</span>
+          </div>
+          <div class="code-block-body">
+<pre><span class="syn-comment"># No action needed — ffprobe is bundled in the luminarr/luminarr image</span>
+docker pull ghcr.io/luminarr/luminarr:latest</pre>
+          </div>
+        </div>
+
+        <p>
+          After installing, restart Luminarr. The <strong>System</strong> page will show
+          <span class="badge green">ffprobe available</span> in the status panel once it is detected.
+        </p>
+      </div>
+
+      <!-- ── Using the scanner ──────────────────────────────────────── -->
+      <div class="content-section fade-in">
+        <div class="section-label">Usage</div>
+        <h2>Using the scanner</h2>
+        <p>
+          The scanner runs automatically on each file at import time when ffprobe is available.
+          For files already in your library, you can trigger a scan manually.
+        </p>
+
+        <ul>
+          <li>The movie detail page shows a <strong>scan status indicator</strong> next to each file entry: <span class="badge green">Scanned</span> or <span class="badge accent">Not scanned</span>.</li>
+          <li>Click <strong>Scan</strong> on an individual file to run ffprobe on that file immediately.</li>
+          <li>Use the <strong>Scan All</strong> button in Settings &rarr; Media Scanning to queue a full library scan — files are processed in the background without blocking the UI.</li>
+        </ul>
+
+        <div class="callout warn">
+          <p><strong>Scanning large libraries</strong> can take several minutes. Each file requires a brief ffprobe invocation. Progress is visible on the System &rarr; Tasks panel while the scan is running.</p>
+        </div>
+
+        <h3>After scanning</h3>
+        <p>
+          Once a file is scanned, its detected quality data overrides the filename-parsed values
+          for display and upgrade decisions. If the scanned resolution differs from what the release
+          name claimed, Luminarr updates the file's stored quality accordingly.
+        </p>
+      </div>
+
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-left">MIT License &middot; luminarr</div>
+        <div class="footer-links">
+          <a href="https://github.com/luminarr/luminarr" target="_blank" rel="noopener">GitHub</a>
+          <a href="/docs/">Docs</a>
+          <a href="https://github.com/luminarr/luminarr/issues" target="_blank" rel="noopener">Issues</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    function toggleTheme() {
+      var current = document.documentElement.getAttribute('data-theme');
+      var next = current === 'light' ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', next);
+      localStorage.setItem('theme', next);
+    }
+    var observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) entry.target.classList.add('visible');
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+    document.querySelectorAll('.fade-in').forEach(function(el) { observer.observe(el); });
+  </script>
+</body>
+</html>

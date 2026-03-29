@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blocklist - Luminarr Docs</title>
+  <meta name="description" content="Releases that will be skipped during automatic and manual searches.">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-1L1C40L1T4"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-1L1C40L1T4');
+  </script>
+  <script>
+    (function() {
+      var t = localStorage.getItem('theme');
+      if (!t) t = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', t);
+    })();
+  </script>
+  <link rel="icon" href="/favicon.ico" sizes="32x32">
+  <link rel="icon" type="image/png" href="/luminarr-192.png" sizes="192x192">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+  <nav>
+    <div class="nav-inner">
+      <a href="../index.html" class="nav-logo">luminarr</a>
+      <div class="nav-links">
+        <a href="../index.html#features">Features</a>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-trigger">
+            Docs
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="nav-dropdown-menu">
+            <a href="architecture.html">Architecture<div class="dd-desc">How Luminarr works</div></a>
+            <a href="download-clients.html">Download Clients<div class="dd-desc">Torrent and Usenet clients</div></a>
+            <a href="media-servers.html">Media Servers<div class="dd-desc">Plex, Jellyfin, Emby</div></a>
+            <a href="notifications.html">Notifications<div class="dd-desc">Alerts and webhooks</div></a>
+            <a href="import-lists.html">Import Lists<div class="dd-desc">Auto-add from TMDb, Trakt</div></a>
+            <a href="import-exclusions.html">Import Exclusions<div class="dd-desc">Prevent unwanted re-adds</div></a>
+            <a href="blocklist.html">Blocklist<div class="dd-desc">Skip bad releases</div></a>
+            <a href="security.html">Security<div class="dd-desc">Auth, secrets, SSRF protection</div></a>
+            <a href="custom-scripts.html">Custom Scripts<div class="dd-desc">Extend with any language</div></a>
+          </div>
+        </div>
+        <a href="https://github.com/luminarr/luminarr" class="gh-link" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+          GitHub
+        </a>
+        <button class="theme-toggle" onclick="toggleTheme()" title="Toggle theme" aria-label="Toggle theme">
+          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="doc-page">
+    <div class="container">
+
+      <h1 class="fade-in"><span class="gradient">Blocklist</span></h1>
+      <p class="page-desc fade-in">
+        Releases that Luminarr will never grab again, whether during automatic RSS sync or a manual search.
+        The blocklist works at the release level — individual GUIDs, not whole movies.
+      </p>
+
+      <!-- ── What is the Blocklist ─────────────────────────────────── -->
+      <div class="content-section fade-in">
+        <div class="section-label">Overview</div>
+        <h2>What is the Blocklist?</h2>
+        <p>
+          Every release indexed from Torznab and Newznab feeds has a unique identifier — a GUID for NZBs
+          and an infohash for torrents. The blocklist stores these identifiers. When Luminarr evaluates
+          a release for grabbing, it checks the blocklist first. Any release whose GUID or infohash appears
+          in the list is silently skipped.
+        </p>
+        <p>
+          This is distinct from the <a href="import-exclusions.html" style="color:var(--accent)">Import Exclusions</a>
+          list, which operates at the movie level. The blocklist operates at the individual release level —
+          you can block a specific bad encode while still allowing Luminarr to grab a different release of
+          the same movie.
+        </p>
+
+        <div class="card-grid">
+          <div class="info-card">
+            <h4>
+              <svg class="card-icon red" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>
+              Release-level blocking
+            </h4>
+            <p>Blocks a specific release by GUID or infohash. Other releases for the same movie are unaffected.</p>
+          </div>
+          <div class="info-card">
+            <h4>
+              <svg class="card-icon green" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              Applies everywhere
+            </h4>
+            <p>Checked during RSS sync, interactive search, and the queue's manual retry flow. No blocked release will ever be grabbed automatically.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── When Releases are Added ──────────────────────────────── -->
+      <div class="content-section fade-in">
+        <div class="section-label">When Releases Are Blocked</div>
+        <h2>Automatic and Manual Blocking</h2>
+
+        <h3>Failed imports</h3>
+        <p>
+          When a downloaded file fails to import — for example because it is password-protected, corrupted,
+          or in an unexpected format — Luminarr adds the release to the blocklist automatically. This prevents
+          the same bad file from being grabbed again on the next search cycle.
+        </p>
+
+        <div class="callout warn">
+          <p><strong>Automatic blocking only covers import failures.</strong> Download failures (client errors, incomplete downloads) are tracked in the queue but do not automatically add to the blocklist. You can block them manually.</p>
+        </div>
+
+        <h3>Manual blocking from the queue</h3>
+        <p>
+          From the Queue page, you can blocklist any active or completed queue item. Use this when you
+          can tell a release is bad before the import runs — for example, if the download was suspiciously
+          fast or the release name looks wrong.
+        </p>
+
+        <ol class="step-list">
+          <li>
+            <div class="step-num">1</div>
+            <div class="step-content">
+              <p><strong>Open the Queue page</strong></p>
+              <p>Find the release you want to block in the active queue or history.</p>
+            </div>
+          </li>
+          <li>
+            <div class="step-num">2</div>
+            <div class="step-content">
+              <p><strong>Click the options menu</strong></p>
+              <p>Select "Blocklist release" from the item's action menu. Optionally choose to also remove the download from the client.</p>
+            </div>
+          </li>
+          <li>
+            <div class="step-num">3</div>
+            <div class="step-content">
+              <p><strong>Release is blocked and a new search begins</strong></p>
+              <p>Luminarr adds the release to the blocklist, removes it from the queue, and immediately triggers a new search for the movie to find a better release.</p>
+            </div>
+          </li>
+        </ol>
+      </div>
+
+      <!-- ── How it Works ──────────────────────────────────────────── -->
+      <div class="content-section fade-in">
+        <div class="section-label">How It Works</div>
+        <h2>GUID Checking</h2>
+        <p>
+          The blocklist check happens before any grab is sent to a download client, in both automatic
+          and interactive flows.
+        </p>
+
+        <div class="flow">
+          <span class="flow-step">Release found</span>
+          <span class="flow-arrow">&rarr;</span>
+          <span class="flow-step">Quality scored</span>
+          <span class="flow-arrow">&rarr;</span>
+          <span class="flow-step">Check blocklist</span>
+          <span class="flow-arrow">&rarr;</span>
+          <span class="flow-step">GUID clear &rarr; Grab</span>
+        </div>
+
+        <p>If the GUID is found in the blocklist, the release is discarded and the next-best release is evaluated. No grab request is sent to the download client.</p>
+
+        <h3>What is stored per entry</h3>
+        <table class="doc-table">
+          <thead>
+            <tr>
+              <th>Field</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>GUID</td>
+              <td>The unique release identifier from the indexer (NZB GUID or torrent infohash)</td>
+            </tr>
+            <tr>
+              <td>Release Title</td>
+              <td>The original release name as returned by the indexer</td>
+            </tr>
+            <tr>
+              <td>Indexer</td>
+              <td>The indexer the release came from</td>
+            </tr>
+            <tr>
+              <td>Movie</td>
+              <td>The movie this release was matched to</td>
+            </tr>
+            <tr>
+              <td>Protocol</td>
+              <td>Torrent or Usenet</td>
+            </tr>
+            <tr>
+              <td>Blocked At</td>
+              <td>Timestamp when the entry was created</td>
+            </tr>
+            <tr>
+              <td>Reason</td>
+              <td>Why it was blocked: <code>import_failed</code> or <code>manual</code></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- ── Managing the Blocklist ────────────────────────────────── -->
+      <div class="content-section fade-in">
+        <div class="section-label">Management</div>
+        <h2>Managing the Blocklist</h2>
+        <p>
+          The blocklist is available under Activity &rarr; Blocklist. Entries are sorted by date, newest first.
+          You can filter by movie, indexer, or protocol.
+        </p>
+
+        <h3>Viewing entries</h3>
+        <p>
+          Each entry shows the release title, the movie it was associated with, the indexer it came from,
+          and the reason it was blocked. This makes it easy to audit whether a block was expected or accidental.
+        </p>
+
+        <h3>Deleting individual entries</h3>
+        <p>
+          To unblock a specific release, click the delete button on its row. Once removed, the GUID is no
+          longer checked and the release can be grabbed again if it appears in future searches.
+        </p>
+
+        <div class="callout danger">
+          <p><strong>Unblocking a release does not automatically grab it.</strong> You must trigger a new search from the movie detail page for Luminarr to find and grab the previously-blocked release.</p>
+        </div>
+
+        <h3>Clearing the entire blocklist</h3>
+        <p>
+          A "Clear All" action removes every entry in the blocklist at once. Use this if you have made
+          indexer or quality profile changes and want to allow all previously failed releases to be
+          re-evaluated from scratch.
+        </p>
+
+        <div class="callout warn">
+          <p><strong>Clearing the blocklist is irreversible.</strong> All blocked releases will be eligible for re-grabbing on the next search. If those releases failed due to a persistent issue (e.g., a known bad release group), they will fail again.</p>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-left">MIT License &middot; luminarr</div>
+        <div class="footer-links">
+          <a href="https://github.com/luminarr/luminarr" target="_blank" rel="noopener">GitHub</a>
+          <a href="/docs/">Docs</a>
+          <a href="https://github.com/luminarr/luminarr/issues" target="_blank" rel="noopener">Issues</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    function toggleTheme() {
+      var current = document.documentElement.getAttribute('data-theme');
+      var next = current === 'light' ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', next);
+      localStorage.setItem('theme', next);
+    }
+    var observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) entry.target.classList.add('visible');
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+    document.querySelectorAll('.fade-in').forEach(function(el) { observer.observe(el); });
+  </script>
+</body>
+</html>

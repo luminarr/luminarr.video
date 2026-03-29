@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Import Exclusions - Luminarr Docs</title>
+  <meta name="description" content="Prevent specific movies from being re-added by import list syncs.">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-1L1C40L1T4"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-1L1C40L1T4');
+  </script>
+  <script>
+    (function() {
+      var t = localStorage.getItem('theme');
+      if (!t) t = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', t);
+    })();
+  </script>
+  <link rel="icon" href="/favicon.ico" sizes="32x32">
+  <link rel="icon" type="image/png" href="/luminarr-192.png" sizes="192x192">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+  <nav>
+    <div class="nav-inner">
+      <a href="../index.html" class="nav-logo">luminarr</a>
+      <div class="nav-links">
+        <a href="../index.html#features">Features</a>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-trigger">
+            Docs
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="nav-dropdown-menu">
+            <a href="architecture.html">Architecture<div class="dd-desc">How Luminarr works</div></a>
+            <a href="download-clients.html">Download Clients<div class="dd-desc">Torrent and Usenet clients</div></a>
+            <a href="media-servers.html">Media Servers<div class="dd-desc">Plex, Jellyfin, Emby</div></a>
+            <a href="notifications.html">Notifications<div class="dd-desc">Alerts and webhooks</div></a>
+            <a href="import-lists.html">Import Lists<div class="dd-desc">Auto-add from TMDb, Trakt</div></a>
+            <a href="import-exclusions.html">Import Exclusions<div class="dd-desc">Prevent unwanted re-adds</div></a>
+            <a href="blocklist.html">Blocklist<div class="dd-desc">Skip bad releases</div></a>
+            <a href="security.html">Security<div class="dd-desc">Auth, secrets, SSRF protection</div></a>
+            <a href="custom-scripts.html">Custom Scripts<div class="dd-desc">Extend with any language</div></a>
+          </div>
+        </div>
+        <a href="https://github.com/luminarr/luminarr" class="gh-link" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+          GitHub
+        </a>
+        <button class="theme-toggle" onclick="toggleTheme()" title="Toggle theme" aria-label="Toggle theme">
+          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="doc-page">
+    <div class="container">
+
+      <h1 class="fade-in">Import <span class="gradient">Exclusions</span></h1>
+      <p class="page-desc fade-in">
+        Prevent specific movies from being re-added to your library by import list syncs. Exclusions are
+        checked before every sync and act as a permanent block list for unwanted movies.
+      </p>
+
+      <!-- ── What are Import Exclusions ───────────────────────────── -->
+      <div class="content-section fade-in">
+        <div class="section-label">Overview</div>
+        <h2>What are Import Exclusions?</h2>
+        <p>
+          Import lists are additive — they automatically add movies to Luminarr as new titles appear
+          in the source feed. Without exclusions, deleting a movie from your library would result in
+          it being re-added the next time that import list syncs.
+        </p>
+        <p>
+          Import exclusions give you permanent, per-movie control: once a TMDB ID is in the exclusion
+          list, no import list will add that movie again, no matter how many lists reference it.
+        </p>
+
+        <div class="card-grid">
+          <div class="info-card">
+            <h4>
+              <svg class="card-icon green" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              What they prevent
+            </h4>
+            <p>Import list syncs re-adding a movie you deliberately removed. Unwanted titles from broad lists like "Popular" or "Trending" cluttering your library.</p>
+          </div>
+          <div class="info-card">
+            <h4>
+              <svg class="card-icon red" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+              What they don't prevent
+            </h4>
+            <p>Manually adding an excluded movie via search or the Add Movie page. Exclusions only block import list automation.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Auto-added on Delete ──────────────────────────────────── -->
+      <div class="content-section fade-in">
+        <div class="section-label">Automatic Exclusions</div>
+        <h2>Auto-added on Delete</h2>
+
+        <div class="callout info">
+          <p><strong>When you delete a movie from Luminarr</strong>, you are given the option to also add it to the import exclusion list. Enabling this option ensures the movie won't come back the next time your import lists sync. This is the most common way exclusions are created.</p>
+        </div>
+
+        <p>
+          The exclusion record stores the movie's TMDB ID and title at the time of deletion. The title is
+          displayed in the exclusions list for readability — matching is always done by TMDB ID, not by title.
+        </p>
+
+        <ol class="step-list">
+          <li>
+            <div class="step-num">1</div>
+            <div class="step-content">
+              <p><strong>Delete a movie</strong></p>
+              <p>From the movie detail page or the library view, choose Delete. A confirmation dialog appears.</p>
+            </div>
+          </li>
+          <li>
+            <div class="step-num">2</div>
+            <div class="step-content">
+              <p><strong>Choose "Add to import exclusions"</strong></p>
+              <p>Check the option in the delete dialog before confirming. The movie is removed from Luminarr and an exclusion record is created simultaneously.</p>
+            </div>
+          </li>
+          <li>
+            <div class="step-num">3</div>
+            <div class="step-content">
+              <p><strong>Exclusion takes effect immediately</strong></p>
+              <p>The next import list sync will find the TMDB ID in the exclusion list and skip the movie silently.</p>
+            </div>
+          </li>
+        </ol>
+      </div>
+
+      <!-- ── Managing Exclusions ───────────────────────────────────── -->
+      <div class="content-section fade-in">
+        <div class="section-label">Managing Exclusions</div>
+        <h2>Viewing and Managing the Exclusion List</h2>
+        <p>
+          The import exclusions list is available under Settings &rarr; Import Lists &rarr; Exclusions.
+          It shows the movie title, TMDB ID, and when the exclusion was created.
+        </p>
+
+        <h3>Adding exclusions manually</h3>
+        <p>
+          You can manually add an exclusion by entering a TMDB ID directly from the exclusions page.
+          This is useful when you want to pre-emptively exclude a movie that keeps appearing in a "Popular"
+          or "Trending" list before it ever gets added.
+        </p>
+
+        <h3>Removing an exclusion</h3>
+        <p>
+          To allow a previously excluded movie to be added again by import lists, simply delete its entry
+          from the exclusions list. The next sync cycle will treat it as a new movie.
+        </p>
+
+        <div class="callout warn">
+          <p><strong>Removing an exclusion does not add the movie.</strong> Deleting an exclusion record only allows future import list syncs to add the movie. It does not immediately add it — that happens on the next sync.</p>
+        </div>
+
+        <h3>What each record stores</h3>
+        <table class="doc-table">
+          <thead>
+            <tr>
+              <th>Field</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>TMDB ID</td>
+              <td>The numeric TMDb movie ID. This is the key used for matching during sync.</td>
+            </tr>
+            <tr>
+              <td>Title</td>
+              <td>Movie title at the time the exclusion was created. For display only — not used for matching.</td>
+            </tr>
+            <tr>
+              <td>Created At</td>
+              <td>Timestamp when the exclusion was added.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-left">MIT License &middot; luminarr</div>
+        <div class="footer-links">
+          <a href="https://github.com/luminarr/luminarr" target="_blank" rel="noopener">GitHub</a>
+          <a href="/docs/">Docs</a>
+          <a href="https://github.com/luminarr/luminarr/issues" target="_blank" rel="noopener">Issues</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    function toggleTheme() {
+      var current = document.documentElement.getAttribute('data-theme');
+      var next = current === 'light' ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', next);
+      localStorage.setItem('theme', next);
+    }
+    var observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) entry.target.classList.add('visible');
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+    document.querySelectorAll('.fade-in').forEach(function(el) { observer.observe(el); });
+  </script>
+</body>
+</html>

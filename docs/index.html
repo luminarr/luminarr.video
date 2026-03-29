@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Documentation - Luminarr Docs</title>
+  <meta name="description" content="Everything you need to know to get the most out of Luminarr.">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-1L1C40L1T4"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-1L1C40L1T4');
+  </script>
+  <script>
+    (function() {
+      var t = localStorage.getItem('theme');
+      if (!t) t = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', t);
+    })();
+  </script>
+  <link rel="icon" href="/favicon.ico" sizes="32x32">
+  <link rel="icon" type="image/png" href="/luminarr-192.png" sizes="192x192">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles.css">
+  <style>
+    .docs-index-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+      margin-bottom: 48px;
+    }
+    .docs-category {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: 14px;
+      padding: 24px;
+      transition: border-color 0.2s;
+    }
+    .docs-category:hover {
+      border-color: var(--border-default);
+    }
+    .docs-category-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    .docs-category-icon {
+      width: 22px;
+      height: 22px;
+      flex-shrink: 0;
+    }
+    .docs-category h3 {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin: 0;
+    }
+    .docs-links {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .docs-links li {
+      margin: 0;
+    }
+    .docs-links a {
+      display: flex;
+      flex-direction: column;
+      padding: 10px 12px;
+      border-radius: 8px;
+      transition: background 0.15s;
+      text-decoration: none;
+    }
+    .docs-links a:hover {
+      background: var(--bg-elevated);
+    }
+    .docs-links a .link-title {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-primary);
+      margin-bottom: 2px;
+    }
+    .docs-links a .link-desc {
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+    @media (max-width: 760px) {
+      .docs-index-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="nav-inner">
+      <a href="/" class="nav-logo">luminarr</a>
+      <div class="nav-links">
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-trigger">
+            Docs
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="nav-dropdown-menu">
+            <a href="index.html">Documentation<div class="dd-desc">All docs in one place</div></a>
+            <a href="architecture.html">Architecture<div class="dd-desc">How Luminarr works</div></a>
+            <a href="security.html">Security<div class="dd-desc">Auth, secrets, SSRF protection</div></a>
+            <a href="custom-scripts.html">Custom Scripts<div class="dd-desc">Extend with any language</div></a>
+          </div>
+        </div>
+        <a href="https://github.com/luminarr/luminarr" class="gh-link" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+          GitHub
+        </a>
+        <button class="theme-toggle" onclick="toggleTheme()" title="Toggle theme" aria-label="Toggle theme">
+          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="doc-page">
+    <div class="container">
+
+      <h1 class="fade-in"><span class="gradient">Documentation</span></h1>
+      <p class="page-desc fade-in">
+        Everything you need to know to get the most out of Luminarr. Configure libraries, quality
+        profiles, indexers, and automation — or dive deep into the architecture.
+      </p>
+
+      <!-- Getting Started -->
+      <div class="content-section fade-in">
+        <div class="section-label">Getting Started</div>
+        <h2>Set up your library</h2>
+        <div class="docs-index-grid">
+          <div class="docs-category">
+            <div class="docs-category-header">
+              <svg class="docs-category-icon" style="color:var(--accent)" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3h18v18H3z"/><path d="M3 9h18M9 21V9"/></svg>
+              <h3>Getting Started</h3>
+            </div>
+            <ul class="docs-links">
+              <li><a href="libraries.html"><span class="link-title">Libraries</span><span class="link-desc">Root directories where Luminarr tracks your movie files</span></a></li>
+              <li><a href="media-management.html"><span class="link-title">Media Management</span><span class="link-desc">File naming, folder format, and import behaviour</span></a></li>
+              <li><a href="quality-profiles.html"><span class="link-title">Quality Profiles</span><span class="link-desc">Which releases are acceptable and when to upgrade</span></a></li>
+              <li><a href="quality-definitions.html"><span class="link-title">Quality Definitions</span><span class="link-desc">File size thresholds per quality level</span></a></li>
+            </ul>
+          </div>
+
+          <div class="docs-category">
+            <div class="docs-category-header">
+              <svg class="docs-category-icon" style="color:var(--green)" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <h3>Finding &amp; Downloading</h3>
+            </div>
+            <ul class="docs-links">
+              <li><a href="indexers.html"><span class="link-title">Indexers</span><span class="link-desc">Torznab and Newznab sources for movie releases</span></a></li>
+              <li><a href="download-clients.html"><span class="link-title">Download Clients</span><span class="link-desc">Connect qBittorrent, Deluge, SABnzbd, and more</span></a></li>
+              <li><a href="custom-formats.html"><span class="link-title">Custom Formats</span><span class="link-desc">Scoring rules that fine-tune release selection</span></a></li>
+              <li><a href="blocklist.html"><span class="link-title">Blocklist</span><span class="link-desc">Permanently skip known bad releases</span></a></li>
+            </ul>
+          </div>
+
+          <div class="docs-category">
+            <div class="docs-category-header">
+              <svg class="docs-category-icon" style="color:var(--blue)" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              <h3>Automation</h3>
+            </div>
+            <ul class="docs-links">
+              <li><a href="import-lists.html"><span class="link-title">Import Lists</span><span class="link-desc">Auto-add movies from Trakt, Plex, and other sources</span></a></li>
+              <li><a href="import-exclusions.html"><span class="link-title">Import Exclusions</span><span class="link-desc">Prevent specific movies from being auto-added</span></a></li>
+              <li><a href="notifications.html"><span class="link-title">Notifications</span><span class="link-desc">Discord, Slack, webhooks, and custom scripts</span></a></li>
+              <li><a href="media-servers.html"><span class="link-title">Media Servers</span><span class="link-desc">Plex, Emby, and Jellyfin integration</span></a></li>
+            </ul>
+          </div>
+
+          <div class="docs-category">
+            <div class="docs-category-header">
+              <svg class="docs-category-icon" style="color:var(--amber)" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+              <h3>Using Luminarr</h3>
+            </div>
+            <ul class="docs-links">
+              <li><a href="discover.html"><span class="link-title">Discover</span><span class="link-desc">Browse trending and recommended movies to add</span></a></li>
+              <li><a href="wanted.html"><span class="link-title">Wanted</span><span class="link-desc">Movies that are missing or need an upgrade</span></a></li>
+              <li><a href="calendar.html"><span class="link-title">Calendar</span><span class="link-desc">Upcoming releases for movies in your library</span></a></li>
+              <li><a href="activity.html"><span class="link-title">Activity</span><span class="link-desc">Download queue and history</span></a></li>
+            </ul>
+          </div>
+
+          <div class="docs-category">
+            <div class="docs-category-header">
+              <svg class="docs-category-icon" style="color:var(--text-secondary)" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/></svg>
+              <h3>System</h3>
+            </div>
+            <ul class="docs-links">
+              <li><a href="app-settings.html"><span class="link-title">App Settings</span><span class="link-desc">Port, base URL, authentication, and proxies</span></a></li>
+              <li><a href="media-scanning.html"><span class="link-title">Media Scanning</span><span class="link-desc">How Luminarr detects files on disk</span></a></li>
+              <li><a href="tags.html"><span class="link-title">Tags</span><span class="link-desc">Organize and link related configuration</span></a></li>
+              <li><a href="system.html"><span class="link-title">System</span><span class="link-desc">Health checks, logs, and background tasks</span></a></li>
+            </ul>
+          </div>
+
+          <div class="docs-category">
+            <div class="docs-category-header">
+              <svg class="docs-category-icon" style="color:var(--red)" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+              <h3>Advanced</h3>
+            </div>
+            <ul class="docs-links">
+              <li><a href="architecture.html"><span class="link-title">Architecture</span><span class="link-desc">Go binary, plugin system, event bus, and database</span></a></li>
+              <li><a href="security.html"><span class="link-title">Security</span><span class="link-desc">Authentication, secrets storage, and SSRF protection</span></a></li>
+              <li><a href="custom-scripts.html"><span class="link-title">Custom Scripts</span><span class="link-desc">Run any executable as a notification handler</span></a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-left">MIT License &middot; luminarr</div>
+        <div class="footer-links">
+          <a href="https://github.com/luminarr/luminarr" target="_blank" rel="noopener">GitHub</a>
+          <a href="/docs/">Docs</a>
+          <a href="https://github.com/luminarr/luminarr/issues" target="_blank" rel="noopener">Issues</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    function toggleTheme() {
+      var current = document.documentElement.getAttribute('data-theme');
+      var next = current === 'light' ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', next);
+      localStorage.setItem('theme', next);
+    }
+    var observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) entry.target.classList.add('visible');
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+    document.querySelectorAll('.fade-in').forEach(function(el) { observer.observe(el); });
+  </script>
+</body>
+</html>

@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Libraries - Luminarr Docs</title>
+  <meta name="description" content="Libraries are root directories where Luminarr tracks your movie files.">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-1L1C40L1T4"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-1L1C40L1T4');
+  </script>
+  <script>
+    (function() {
+      var t = localStorage.getItem('theme');
+      if (!t) t = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', t);
+    })();
+  </script>
+  <link rel="icon" href="/favicon.ico" sizes="32x32">
+  <link rel="icon" type="image/png" href="/luminarr-192.png" sizes="192x192">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+  <nav>
+    <div class="nav-inner">
+      <a href="/" class="nav-logo">luminarr</a>
+      <div class="nav-links">
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-trigger">
+            Docs
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="nav-dropdown-menu">
+            <a href="index.html">Documentation<div class="dd-desc">All docs in one place</div></a>
+            <a href="architecture.html">Architecture<div class="dd-desc">How Luminarr works</div></a>
+            <a href="security.html">Security<div class="dd-desc">Auth, secrets, SSRF protection</div></a>
+            <a href="custom-scripts.html">Custom Scripts<div class="dd-desc">Extend with any language</div></a>
+          </div>
+        </div>
+        <a href="https://github.com/luminarr/luminarr" class="gh-link" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+          GitHub
+        </a>
+        <button class="theme-toggle" onclick="toggleTheme()" title="Toggle theme" aria-label="Toggle theme">
+          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="doc-page">
+    <div class="container">
+
+      <h1 class="fade-in"><span class="gradient">Libraries</span></h1>
+      <p class="page-desc fade-in">
+        Libraries are root directories where Luminarr tracks your movie files. Each library maps a
+        folder on disk to a default quality profile, and is the target for all imports.
+      </p>
+
+      <!-- What is a Library -->
+      <div class="content-section fade-in">
+        <div class="section-label">Overview</div>
+        <h2>What is a Library?</h2>
+        <p>
+          A library is a directory on disk — such as <code>/data/movies</code> — that Luminarr monitors and manages.
+          When a download completes, Luminarr imports the file into one of your libraries by either moving
+          or hardlinking it into the correct folder. The library also determines the naming convention
+          applied to imported files.
+        </p>
+        <p>
+          You can have multiple libraries — for example, one for 4K content and one for 1080p — each with
+          its own quality profile and naming rules. Movies are associated with exactly one library at a time.
+        </p>
+
+        <div class="card-grid">
+          <div class="info-card">
+            <h4>
+              <svg class="card-icon accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+              Root directory
+            </h4>
+            <p>The top-level folder that contains all movies managed by this library. Luminarr will create per-movie subfolders inside it.</p>
+          </div>
+          <div class="info-card">
+            <h4>
+              <svg class="card-icon green" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+              Default quality profile
+            </h4>
+            <p>New movies added to this library inherit this profile. You can override the profile on individual movies at any time.</p>
+          </div>
+          <div class="info-card">
+            <h4>
+              <svg class="card-icon blue" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="21 15 21 21 15 21"/><path d="M21 21L5 5"/><polyline points="3 9 3 3 9 3"/></svg>
+              Import mode
+            </h4>
+            <p>Choose between <strong>move</strong> (transfer the file) or <strong>hardlink</strong> (keep the original for seeding). Hardlink requires the source and destination to be on the same filesystem.</p>
+          </div>
+          <div class="info-card">
+            <h4>
+              <svg class="card-icon amber" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+              Min free space
+            </h4>
+            <p>Luminarr will refuse to import if the library drive has less than this amount of free space remaining. Prevents disk-full failures.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Configuration Fields -->
+      <div class="content-section fade-in">
+        <div class="section-label">Configuration</div>
+        <h2>Configuration Fields</h2>
+
+        <table class="doc-table">
+          <thead>
+            <tr>
+              <th>Field</th>
+              <th>Description</th>
+              <th>Default</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Root Path</td>
+              <td>Absolute path to the root directory on disk. Must already exist and be writable by the Luminarr process.</td>
+              <td>&mdash;</td>
+            </tr>
+            <tr>
+              <td>Default Quality Profile</td>
+              <td>Quality profile assigned to newly added movies. Does not retroactively change existing movies.</td>
+              <td>First available profile</td>
+            </tr>
+            <tr>
+              <td>Min Free Space</td>
+              <td>Minimum disk space (in GB) that must remain after an import. Set to 0 to disable the check.</td>
+              <td>0 GB</td>
+            </tr>
+            <tr>
+              <td>Naming Format</td>
+              <td>Token template for the imported filename, e.g. <code>{Movie Title} ({Year}) [{Quality}]</code>.</td>
+              <td>Standard</td>
+            </tr>
+            <tr>
+              <td>Folder Format</td>
+              <td>Token template for the per-movie subfolder created inside the root path, e.g. <code>{Movie Title} ({Year})</code>.</td>
+              <td>Standard</td>
+            </tr>
+            <tr>
+              <td>Tags</td>
+              <td>Optional labels that link this library to specific indexers, download clients, or import lists. See <a href="tags.html" style="color:var(--accent)">Tags</a>.</td>
+              <td>None</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3>Naming tokens</h3>
+        <p>Use these tokens in both <strong>Naming Format</strong> and <strong>Folder Format</strong> fields:</p>
+        <table class="doc-table">
+          <thead>
+            <tr>
+              <th>Token</th>
+              <th>Example output</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td><code>{Movie Title}</code></td><td>The Dark Knight</td></tr>
+            <tr><td><code>{Movie CleanTitle}</code></td><td>The Dark Knight</td></tr>
+            <tr><td><code>{Year}</code></td><td>2008</td></tr>
+            <tr><td><code>{ImdbId}</code></td><td>tt0468569</td></tr>
+            <tr><td><code>{TmdbId}</code></td><td>155</td></tr>
+            <tr><td><code>{Quality}</code></td><td>Bluray-1080p</td></tr>
+            <tr><td><code>{Resolution}</code></td><td>1080p</td></tr>
+            <tr><td><code>{Source}</code></td><td>Bluray</td></tr>
+            <tr><td><code>{Codec}</code></td><td>x265</td></tr>
+            <tr><td><code>{Edition}</code></td><td>Director's Cut</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Docker note -->
+      <div class="content-section fade-in">
+        <div class="section-label">Docker</div>
+        <h2>Running in Docker</h2>
+
+        <div class="callout warn">
+          <p><strong>Use container-side paths.</strong> The Root Path you enter in Luminarr must be the path
+          <em>inside the container</em>, not your host path. If you mount <code>/host/movies</code> to
+          <code>/data/movies</code> in your compose file, set the library Root Path to <code>/data/movies</code>.</p>
+        </div>
+
+        <p>A typical Docker Compose volume mapping looks like this:</p>
+
+        <div class="code-block">
+          <div class="code-block-header">
+            <span class="code-block-filename">docker-compose.yml</span>
+          </div>
+          <div class="code-block-body">
+<pre><span class="syn-key">volumes</span>:
+  - <span class="syn-str">/your/movies:/data/movies</span>      <span class="syn-comment"># host path : container path</span>
+  - <span class="syn-str">/your/config:/config</span>            <span class="syn-comment"># Luminarr database and settings</span>
+  - <span class="syn-str">/your/downloads:/downloads</span>      <span class="syn-comment"># download client output</span></pre>
+          </div>
+        </div>
+
+        <p>
+          With this mapping, enter <code>/data/movies</code> as the library Root Path in Luminarr.
+          If your download client also runs in Docker, its completed downloads path must resolve to the same
+          underlying filesystem location so hardlinks work correctly.
+        </p>
+
+        <div class="callout info">
+          <p><strong>Hardlinks require a shared filesystem.</strong> For hardlinks to work between your
+          download client and Luminarr, both containers must mount the same root volume — not separate
+          mounts pointing to the same host directory.</p>
+        </div>
+      </div>
+
+      <!-- Key Operations -->
+      <div class="content-section fade-in">
+        <div class="section-label">Operations</div>
+        <h2>Key Operations</h2>
+
+        <h3>Scan library</h3>
+        <p>
+          A library scan walks the root directory and reconciles what Luminarr finds on disk with its
+          database. New files are matched against monitored movies; missing files update the movie status
+          to unmonitored. Scans run automatically every 6 hours but can be triggered manually from
+          <strong>System &rarr; Tasks</strong>.
+        </p>
+
+        <h3>Change root path</h3>
+        <p>
+          If you move your movie folder to a new location, update the Root Path in the library settings.
+          Luminarr will re-resolve all movie file paths relative to the new root on the next scan.
+          The files themselves are not moved — you must move them manually first.
+        </p>
+
+        <h3>Delete a library</h3>
+        <p>
+          Deleting a library removes it from Luminarr's configuration. Movies previously associated with
+          the library remain in the database (their files are not deleted from disk) but become
+          unassigned and will need to be reassigned to another library.
+        </p>
+
+        <div class="callout success">
+          <p><strong>Multiple libraries are additive.</strong> All libraries are searched together when
+          checking for missing movies or running RSS sync. There is no per-library isolation — quality
+          upgrades can pull from any enabled indexer regardless of which library the movie belongs to.</p>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-left">MIT License &middot; luminarr</div>
+        <div class="footer-links">
+          <a href="https://github.com/luminarr/luminarr" target="_blank" rel="noopener">GitHub</a>
+          <a href="/docs/">Docs</a>
+          <a href="https://github.com/luminarr/luminarr/issues" target="_blank" rel="noopener">Issues</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    function toggleTheme() {
+      var current = document.documentElement.getAttribute('data-theme');
+      var next = current === 'light' ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', next);
+      localStorage.setItem('theme', next);
+    }
+    var observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) entry.target.classList.add('visible');
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+    document.querySelectorAll('.fade-in').forEach(function(el) { observer.observe(el); });
+  </script>
+</body>
+</html>

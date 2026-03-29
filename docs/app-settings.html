@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>App Settings - Luminarr Docs</title>
+  <meta name="description" content="Appearance, API keys, and application-level configuration.">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-1L1C40L1T4"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-1L1C40L1T4');
+  </script>
+  <script>
+    (function() {
+      var t = localStorage.getItem('theme');
+      if (!t) t = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', t);
+    })();
+  </script>
+  <link rel="icon" href="/favicon.ico" sizes="32x32">
+  <link rel="icon" type="image/png" href="/luminarr-192.png" sizes="192x192">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+  <nav>
+    <div class="nav-inner">
+      <a href="/" class="nav-logo">luminarr</a>
+      <div class="nav-links">
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-trigger">
+            Docs
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="nav-dropdown-menu">
+            <a href="architecture.html">Architecture<div class="dd-desc">How Luminarr works</div></a>
+            <a href="security.html">Security<div class="dd-desc">Auth, secrets, SSRF protection</div></a>
+            <a href="custom-scripts.html">Custom Scripts<div class="dd-desc">Extend with any language</div></a>
+            <a href="media-management.html">Media Management<div class="dd-desc">Naming and file organization</div></a>
+            <a href="media-scanning.html">Media Scanning<div class="dd-desc">ffprobe quality analysis</div></a>
+            <a href="app-settings.html">App Settings<div class="dd-desc">Appearance and API keys</div></a>
+            <a href="system.html">System<div class="dd-desc">Health, tasks, and logs</div></a>
+            <a href="discover.html">Discover<div class="dd-desc">Browse and add movies</div></a>
+            <a href="wanted.html">Wanted<div class="dd-desc">Missing and upgrade tracking</div></a>
+            <a href="activity.html">Activity<div class="dd-desc">Event timeline</div></a>
+            <a href="calendar.html">Calendar<div class="dd-desc">Release date calendar</div></a>
+          </div>
+        </div>
+        <a href="https://github.com/luminarr/luminarr" class="gh-link" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+          GitHub
+        </a>
+        <button class="theme-toggle" onclick="toggleTheme()" title="Toggle theme" aria-label="Toggle theme">
+          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="doc-page">
+    <div class="container">
+
+      <h1 class="fade-in">App <span class="gradient">Settings</span></h1>
+      <p class="page-desc fade-in">
+        Application-level configuration: appearance, API credentials, UI preferences,
+        and backup tools. These settings apply instance-wide rather than per-library or per-movie.
+      </p>
+
+      <!-- ── Appearance ─────────────────────────────────────────────── -->
+      <div class="content-section fade-in">
+        <div class="section-label">Appearance</div>
+        <h2>Appearance</h2>
+        <p>
+          Control the visual presentation of the Luminarr UI. Settings are stored in
+          the browser's <code>localStorage</code> and apply only to the current browser session.
+        </p>
+
+        <h3>Color Mode</h3>
+        <p>
+          Choose between <strong>Dark</strong>, <strong>Light</strong>, or <strong>System</strong> mode.
+          System mode follows your operating system's preference and switches automatically.
+        </p>
+
+        <h3>Theme Presets</h3>
+        <p>
+          Luminarr ships with several accent color presets that change the primary highlight color
+          used across the UI — buttons, links, badges, and gradient headings.
+        </p>
+        <div class="card-grid cols-3">
+          <div class="info-card">
+            <h4>
+              <span style="display:inline-block;width:14px;height:14px;border-radius:50%;background:#7c6af7;flex-shrink:0;margin-right:4px;"></span>
+              Violet
+            </h4>
+            <p>The default preset. A calm purple-blue accent.</p>
+          </div>
+          <div class="info-card">
+            <h4>
+              <span style="display:inline-block;width:14px;height:14px;border-radius:50%;background:#3b9eff;flex-shrink:0;margin-right:4px;"></span>
+              Blue
+            </h4>
+            <p>A classic bright blue accent for a clean, minimal look.</p>
+          </div>
+          <div class="info-card">
+            <h4>
+              <span style="display:inline-block;width:14px;height:14px;border-radius:50%;background:#34d399;flex-shrink:0;margin-right:4px;"></span>
+              Emerald
+            </h4>
+            <p>A green accent for those who prefer a warmer tone.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── UI Preferences ─────────────────────────────────────────── -->
+      <div class="content-section fade-in">
+        <div class="section-label">Preferences</div>
+        <h2>UI Preferences</h2>
+
+        <h3>Tooltips</h3>
+        <p>
+          When enabled, hovering over buttons, quality badges, and status indicators shows
+          a descriptive tooltip. Disable this if you prefer a cleaner interface once you
+          are familiar with the UI.
+        </p>
+        <div class="callout info">
+          <p><strong>Keyboard shortcut:</strong> Press <code>?</code> anywhere in the app to open the keyboard shortcut reference, regardless of the tooltips setting.</p>
+        </div>
+      </div>
+
+      <!-- ── Configuration ──────────────────────────────────────────── -->
+      <div class="content-section fade-in">
+        <div class="section-label">Integrations</div>
+        <h2>Configuration</h2>
+
+        <h3>TMDB API Key</h3>
+        <p>
+          Luminarr uses The Movie Database (TMDb) for all movie metadata, posters, and the Discover
+          page. A free TMDb API key is required.
+        </p>
+        <ol class="step-list">
+          <li>
+            <span class="step-num">1</span>
+            <div class="step-content">
+              <p>Create a free account at <a href="https://www.themoviedb.org" style="color:var(--accent)">themoviedb.org</a>.</p>
+            </div>
+          </li>
+          <li>
+            <span class="step-num">2</span>
+            <div class="step-content">
+              <p>Go to <strong>Settings &rarr; API</strong> and create a new API key (type: Developer).</p>
+            </div>
+          </li>
+          <li>
+            <span class="step-num">3</span>
+            <div class="step-content">
+              <p>Copy the <strong>API Read Access Token</strong> (the long bearer token, not the short v3 key) and paste it into Luminarr.</p>
+            </div>
+          </li>
+        </ol>
+        <div class="callout success">
+          <p><strong>Free tier is sufficient.</strong> Luminarr only uses the TMDb read API. The free tier has generous rate limits and is not expected to be exceeded in normal use.</p>
+        </div>
+
+        <h3>Claude API Key</h3>
+        <p>
+          An optional Anthropic API key enables the <strong>AI command palette</strong> — a natural
+          language interface for searching, adding, and managing movies. Without this key, the
+          command palette functions as a standard search bar.
+        </p>
+        <div class="callout warn">
+          <p><strong>API usage costs money.</strong> The Claude API is billed per token. Each command palette query makes one API call. Monitor your usage at <a href="https://console.anthropic.com" style="color:var(--accent)">console.anthropic.com</a>.</p>
+        </div>
+      </div>
+
+      <!-- ── API Key ────────────────────────────────────────────────── -->
+      <div class="content-section fade-in">
+        <div class="section-label">External Access</div>
+        <h2>API Key</h2>
+        <p>
+          Luminarr exposes a REST API for external integrations. The API key shown here
+          is the bearer token required to authenticate all non-browser API requests.
+        </p>
+        <div class="code-block">
+          <div class="code-block-header">
+            <span class="code-block-filename">Example API request</span>
+          </div>
+          <div class="code-block-body">
+<pre>curl https://luminarr.yourdomain.com/api/movies \
+  -H <span class="syn-str">"Authorization: Bearer YOUR_API_KEY"</span></pre>
+          </div>
+        </div>
+        <ul>
+          <li>The key is auto-generated on first startup and stored in the database.</li>
+          <li>Click <strong>Regenerate</strong> to invalidate the old key and issue a new one. All existing integrations using the old key will stop working immediately.</li>
+          <li>The API is documented at <code>/api/docs</code> (OpenAPI / Swagger UI) when Luminarr is running.</li>
+        </ul>
+        <div class="callout info">
+          <p><strong>Browser sessions use cookie auth</strong>, not the API key. The API key is only needed for programmatic or external access.</p>
+        </div>
+      </div>
+
+      <!-- ── Backup & Restore ───────────────────────────────────────── -->
+      <div class="content-section fade-in">
+        <div class="section-label">Data Safety</div>
+        <h2>Backup &amp; Restore</h2>
+        <p>
+          Luminarr's entire state — movies, quality profiles, indexers, download clients, settings —
+          lives in a single SQLite database file. Back up that file to protect your configuration.
+        </p>
+
+        <h3>Creating a backup</h3>
+        <p>
+          Click <strong>Download Backup</strong> in Settings &rarr; Backup &amp; Restore to download
+          a snapshot of the database. The file is a standard SQLite database and can be opened with
+          any SQLite browser.
+        </p>
+
+        <h3>Restoring</h3>
+        <ol class="step-list">
+          <li>
+            <span class="step-num">1</span>
+            <div class="step-content">
+              <p>Stop the Luminarr process.</p>
+            </div>
+          </li>
+          <li>
+            <span class="step-num">2</span>
+            <div class="step-content">
+              <p>Replace the database file at <code>/config/luminarr.db</code> (Docker) or <code>~/.config/luminarr/luminarr.db</code> (local) with your backup.</p>
+            </div>
+          </li>
+          <li>
+            <span class="step-num">3</span>
+            <div class="step-content">
+              <p>Start Luminarr. Migrations run automatically; no manual steps required.</p>
+            </div>
+          </li>
+        </ol>
+
+        <div class="callout warn">
+          <p><strong>Movie files are not included</strong> in the backup. The backup contains only the database (metadata, settings, history). Your video files on disk are separate.</p>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-left">MIT License &middot; luminarr</div>
+        <div class="footer-links">
+          <a href="https://github.com/luminarr/luminarr" target="_blank" rel="noopener">GitHub</a>
+          <a href="/docs/">Docs</a>
+          <a href="https://github.com/luminarr/luminarr/issues" target="_blank" rel="noopener">Issues</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    function toggleTheme() {
+      var current = document.documentElement.getAttribute('data-theme');
+      var next = current === 'light' ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', next);
+      localStorage.setItem('theme', next);
+    }
+    var observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) entry.target.classList.add('visible');
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+    document.querySelectorAll('.fade-in').forEach(function(el) { observer.observe(el); });
+  </script>
+</body>
+</html>

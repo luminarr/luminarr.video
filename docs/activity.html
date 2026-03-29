@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Activity - Luminarr Docs</title>
+  <meta name="description" content="Timeline of recent events across your Luminarr instance.">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-1L1C40L1T4"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-1L1C40L1T4');
+  </script>
+  <script>
+    (function() {
+      var t = localStorage.getItem('theme');
+      if (!t) t = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', t);
+    })();
+  </script>
+  <link rel="icon" href="/favicon.ico" sizes="32x32">
+  <link rel="icon" type="image/png" href="/luminarr-192.png" sizes="192x192">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+  <nav>
+    <div class="nav-inner">
+      <a href="/" class="nav-logo">luminarr</a>
+      <div class="nav-links">
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-trigger">
+            Docs
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="nav-dropdown-menu">
+            <a href="architecture.html">Architecture<div class="dd-desc">How Luminarr works</div></a>
+            <a href="security.html">Security<div class="dd-desc">Auth, secrets, SSRF protection</div></a>
+            <a href="custom-scripts.html">Custom Scripts<div class="dd-desc">Extend with any language</div></a>
+            <a href="media-management.html">Media Management<div class="dd-desc">Naming and file organization</div></a>
+            <a href="media-scanning.html">Media Scanning<div class="dd-desc">ffprobe quality analysis</div></a>
+            <a href="app-settings.html">App Settings<div class="dd-desc">Appearance and API keys</div></a>
+            <a href="system.html">System<div class="dd-desc">Health, tasks, and logs</div></a>
+            <a href="discover.html">Discover<div class="dd-desc">Browse and add movies</div></a>
+            <a href="wanted.html">Wanted<div class="dd-desc">Missing and upgrade tracking</div></a>
+            <a href="activity.html">Activity<div class="dd-desc">Event timeline</div></a>
+            <a href="calendar.html">Calendar<div class="dd-desc">Release date calendar</div></a>
+          </div>
+        </div>
+        <a href="https://github.com/luminarr/luminarr" class="gh-link" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+          GitHub
+        </a>
+        <button class="theme-toggle" onclick="toggleTheme()" title="Toggle theme" aria-label="Toggle theme">
+          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="doc-page">
+    <div class="container">
+
+      <h1 class="fade-in"><span class="gradient">Activity</span></h1>
+      <p class="page-desc fade-in">
+        A real-time event timeline showing everything Luminarr has done: grabs, imports,
+        scheduled task results, health check outcomes, and library changes — all in reverse
+        chronological order.
+      </p>
+
+      <!-- ── Category Filters ───────────────────────────────────────── -->
+      <div class="content-section fade-in">
+        <div class="section-label">Navigation</div>
+        <h2>Category Filters</h2>
+        <p>
+          The filter bar at the top of the Activity page narrows the timeline to a specific event category.
+          Select one or combine multiple to focus on what you care about.
+        </p>
+
+        <div class="card-grid">
+          <div class="info-card">
+            <h4>
+              <svg class="card-icon accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              All
+            </h4>
+            <p>The default view. Shows every event type in a single unified timeline.</p>
+          </div>
+          <div class="info-card">
+            <h4>
+              <svg class="card-icon blue" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Grabs
+            </h4>
+            <p>Release grabs sent to download clients: which movie, which quality, which indexer, which client.</p>
+          </div>
+          <div class="info-card">
+            <h4>
+              <svg class="card-icon green" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>
+              Imports
+            </h4>
+            <p>Completed and failed import attempts. Shows source path, destination path, and quality assigned.</p>
+          </div>
+          <div class="info-card">
+            <h4>
+              <svg class="card-icon amber" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              Tasks
+            </h4>
+            <p>Scheduled job completions: RSS sync results, library scan outcomes, metadata refresh status.</p>
+          </div>
+          <div class="info-card">
+            <h4>
+              <svg class="card-icon red" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+              Health
+            </h4>
+            <p>Health check issue notifications and recovery events when a previously failing check passes again.</p>
+          </div>
+          <div class="info-card">
+            <h4>
+              <svg class="card-icon accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+              Movies
+            </h4>
+            <p>Library-level changes: movies added, deleted, monitored, or unmonitored.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Event Types ─────────────────────────────────────────────── -->
+      <div class="content-section fade-in">
+        <div class="section-label">Reference</div>
+        <h2>Event Types</h2>
+        <p>
+          Each event in the timeline has a type that determines its icon, color, and the data fields displayed.
+        </p>
+
+        <table class="doc-table">
+          <thead>
+            <tr>
+              <th>Event type</th>
+              <th>Category</th>
+              <th>When it appears</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>grab_started</code></td>
+              <td><span class="badge blue">Grabs</span></td>
+              <td>A release was sent to a download client. Shows release name, quality, indexer, and client.</td>
+            </tr>
+            <tr>
+              <td><code>grab_failed</code></td>
+              <td><span class="badge blue">Grabs</span></td>
+              <td>A grab attempt was rejected by the download client or timed out. Includes the error message.</td>
+            </tr>
+            <tr>
+              <td><code>import_done</code></td>
+              <td><span class="badge green">Imports</span></td>
+              <td>A downloaded file was successfully moved or hardlinked into the library.</td>
+            </tr>
+            <tr>
+              <td><code>import_failed</code></td>
+              <td><span class="badge green">Imports</span></td>
+              <td>Import could not complete — file not found, permission error, or no matching movie.</td>
+            </tr>
+            <tr>
+              <td><code>task_complete</code></td>
+              <td><span class="badge accent">Tasks</span></td>
+              <td>A scheduled background job finished. Shows task name, duration, and result summary.</td>
+            </tr>
+            <tr>
+              <td><code>task_failed</code></td>
+              <td><span class="badge accent">Tasks</span></td>
+              <td>A background task encountered an error. Includes the task name and error details.</td>
+            </tr>
+            <tr>
+              <td><code>health_issue</code></td>
+              <td><span class="badge red">Health</span></td>
+              <td>A health check detected a problem. Includes the check name and failure reason.</td>
+            </tr>
+            <tr>
+              <td><code>health_ok</code></td>
+              <td><span class="badge red">Health</span></td>
+              <td>A previously failing health check has recovered.</td>
+            </tr>
+            <tr>
+              <td><code>movie_added</code></td>
+              <td><span class="badge accent">Movies</span></td>
+              <td>A movie was added to the library, either manually or via RSS sync.</td>
+            </tr>
+            <tr>
+              <td><code>movie_deleted</code></td>
+              <td><span class="badge accent">Movies</span></td>
+              <td>A movie was removed from the library.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- ── Timeline display ───────────────────────────────────────── -->
+      <div class="content-section fade-in">
+        <div class="section-label">UI Details</div>
+        <h2>Timeline display</h2>
+        <p>
+          Events are listed newest-first in a continuous timeline. Each entry is designed to be
+          scannable at a glance while providing detail on demand.
+        </p>
+
+        <ul>
+          <li><strong>Timestamps</strong> are shown in relative time (e.g. "3 minutes ago") with the absolute UTC time on hover. This makes recent events easy to read without timezone mental math.</li>
+          <li><strong>Icons</strong> are color-coded by event category — blue for grabs, green for imports, amber for tasks, red for health issues — so you can scan the timeline visually.</li>
+          <li><strong>Clickable movie links</strong> — any event associated with a movie shows the movie title as a link. Clicking navigates directly to that movie's detail page in the library.</li>
+          <li><strong>Event pagination</strong> — the timeline loads in pages of 50 events. Scroll to the bottom of the list to load older events.</li>
+        </ul>
+
+        <div class="callout info">
+          <p><strong>Events are retained indefinitely</strong> in the database. There is no automatic purge. If you need to clear the history, use the <strong>Clear Activity</strong> button in Settings &rarr; Maintenance.</p>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-left">MIT License &middot; luminarr</div>
+        <div class="footer-links">
+          <a href="https://github.com/luminarr/luminarr" target="_blank" rel="noopener">GitHub</a>
+          <a href="/docs/">Docs</a>
+          <a href="https://github.com/luminarr/luminarr/issues" target="_blank" rel="noopener">Issues</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    function toggleTheme() {
+      var current = document.documentElement.getAttribute('data-theme');
+      var next = current === 'light' ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', next);
+      localStorage.setItem('theme', next);
+    }
+    var observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) entry.target.classList.add('visible');
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+    document.querySelectorAll('.fade-in').forEach(function(el) { observer.observe(el); });
+  </script>
+</body>
+</html>

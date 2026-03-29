@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Media Management - Luminarr Docs</title>
+  <meta name="description" content="Control how movies are named and organized on disk.">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-1L1C40L1T4"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-1L1C40L1T4');
+  </script>
+  <script>
+    (function() {
+      var t = localStorage.getItem('theme');
+      if (!t) t = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', t);
+    })();
+  </script>
+  <link rel="icon" href="/favicon.ico" sizes="32x32">
+  <link rel="icon" type="image/png" href="/luminarr-192.png" sizes="192x192">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+  <nav>
+    <div class="nav-inner">
+      <a href="/" class="nav-logo">luminarr</a>
+      <div class="nav-links">
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-trigger">
+            Docs
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="nav-dropdown-menu">
+            <a href="architecture.html">Architecture<div class="dd-desc">How Luminarr works</div></a>
+            <a href="security.html">Security<div class="dd-desc">Auth, secrets, SSRF protection</div></a>
+            <a href="custom-scripts.html">Custom Scripts<div class="dd-desc">Extend with any language</div></a>
+            <a href="media-management.html">Media Management<div class="dd-desc">Naming and file organization</div></a>
+            <a href="media-scanning.html">Media Scanning<div class="dd-desc">ffprobe quality analysis</div></a>
+            <a href="app-settings.html">App Settings<div class="dd-desc">Appearance and API keys</div></a>
+            <a href="system.html">System<div class="dd-desc">Health, tasks, and logs</div></a>
+            <a href="discover.html">Discover<div class="dd-desc">Browse and add movies</div></a>
+            <a href="wanted.html">Wanted<div class="dd-desc">Missing and upgrade tracking</div></a>
+            <a href="activity.html">Activity<div class="dd-desc">Event timeline</div></a>
+            <a href="calendar.html">Calendar<div class="dd-desc">Release date calendar</div></a>
+          </div>
+        </div>
+        <a href="https://github.com/luminarr/luminarr" class="gh-link" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+          GitHub
+        </a>
+        <button class="theme-toggle" onclick="toggleTheme()" title="Toggle theme" aria-label="Toggle theme">
+          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="doc-page">
+    <div class="container">
+
+      <h1 class="fade-in">Media <span class="gradient">Management</span></h1>
+      <p class="page-desc fade-in">
+        Control how movies are named and organized on disk. Luminarr can rename files and folders
+        on import using configurable token-based format strings.
+      </p>
+
+      <!-- ── Rename Movies ──────────────────────────────────────────── -->
+      <div class="content-section fade-in">
+        <div class="section-label">File Organization</div>
+        <h2>Rename Movies</h2>
+        <p>
+          When enabled, Luminarr renames movie files to match your configured format at import time.
+          When disabled, files are imported with their original names unchanged.
+        </p>
+        <div class="card-grid">
+          <div class="info-card">
+            <h4>
+              <svg class="card-icon green" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              Rename enabled
+            </h4>
+            <p>Files and folders are renamed on import using your format string. Existing files in the library can be renamed in bulk from the movie detail page.</p>
+          </div>
+          <div class="info-card">
+            <h4>
+              <svg class="card-icon red" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+              Rename disabled
+            </h4>
+            <p>Files keep their original names. Luminarr still tracks them in the database; only the on-disk filename is unaffected.</p>
+          </div>
+        </div>
+        <div class="callout warn">
+          <p><strong>Renaming existing files</strong> requires that all library paths are writable by the Luminarr process. Files on read-only mounts cannot be renamed.</p>
+        </div>
+      </div>
+
+      <!-- ── Standard Movie Format ─────────────────────────────────── -->
+      <div class="content-section fade-in">
+        <div class="section-label">Format Tokens</div>
+        <h2>Standard Movie Format</h2>
+        <p>
+          The movie file format is a template string that controls how the filename (without extension) is constructed.
+          Insert tokens anywhere in the string — Luminarr replaces them at import time.
+        </p>
+
+        <table class="doc-table">
+          <thead>
+            <tr>
+              <th>Token</th>
+              <th>Example output</th>
+              <th>Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>{Movie Title}</code></td>
+              <td>The Dark Knight</td>
+              <td>Full title from TMDB, including articles</td>
+            </tr>
+            <tr>
+              <td><code>{Movie CleanTitle}</code></td>
+              <td>The Dark Knight</td>
+              <td>Title with special characters removed or replaced</td>
+            </tr>
+            <tr>
+              <td><code>{Release Year}</code></td>
+              <td>2008</td>
+              <td>Four-digit theatrical release year from TMDB</td>
+            </tr>
+            <tr>
+              <td><code>{Quality Full}</code></td>
+              <td>Bluray-1080p x265</td>
+              <td>Source, resolution, and codec combined</td>
+            </tr>
+            <tr>
+              <td><code>{MediaInfo VideoCodec}</code></td>
+              <td>x265</td>
+              <td>Codec as reported by ffprobe; empty if scan not run</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3>Example format string</h3>
+        <div class="code-block">
+          <div class="code-block-header">
+            <span class="code-block-filename">Standard Movie Format</span>
+          </div>
+          <div class="code-block-body">
+<pre>{Movie CleanTitle} ({Release Year}) {Quality Full}</pre>
+          </div>
+        </div>
+        <p>Produces: <code>The Dark Knight (2008) Bluray-1080p x265</code></p>
+
+        <div class="callout info">
+          <p><strong>File extension is always preserved.</strong> Luminarr appends the original extension (e.g. <code>.mkv</code>, <code>.mp4</code>) automatically — do not include it in your format string.</p>
+        </div>
+      </div>
+
+      <!-- ── Movie Folder Format ────────────────────────────────────── -->
+      <div class="content-section fade-in">
+        <div class="section-label">Folder Structure</div>
+        <h2>Movie Folder Format</h2>
+        <p>
+          Each movie is stored in its own subfolder inside your root library path. The folder name
+          is controlled by a separate format string using the same token set.
+        </p>
+        <div class="code-block">
+          <div class="code-block-header">
+            <span class="code-block-filename">Movie Folder Format</span>
+          </div>
+          <div class="code-block-body">
+<pre>{Movie CleanTitle} ({Release Year})</pre>
+          </div>
+        </div>
+        <p>
+          Produces a folder like <code>/movies/The Dark Knight (2008)/</code> containing the movie file
+          and any extra files (subtitles, NFO, etc.) you have configured to import.
+        </p>
+        <div class="callout info">
+          <p><strong>Folder renaming</strong> follows the same rename toggle as files. When renaming is disabled, new folders are created using the original download folder name.</p>
+        </div>
+      </div>
+
+      <!-- ── Colon Replacement ──────────────────────────────────────── -->
+      <div class="content-section fade-in">
+        <div class="section-label">Compatibility</div>
+        <h2>Colon Replacement</h2>
+        <p>
+          Colons in movie titles (e.g. <em>Mission: Impossible</em>) are illegal in Windows and macOS
+          filenames. Choose how Luminarr handles them:
+        </p>
+
+        <table class="doc-table">
+          <thead>
+            <tr>
+              <th>Mode</th>
+              <th>Input</th>
+              <th>Result</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Delete</strong></td>
+              <td>Mission: Impossible</td>
+              <td>Mission Impossible</td>
+            </tr>
+            <tr>
+              <td><strong>Dash</strong></td>
+              <td>Mission: Impossible</td>
+              <td>Mission - Impossible</td>
+            </tr>
+            <tr>
+              <td><strong>Space dash</strong></td>
+              <td>Mission: Impossible</td>
+              <td>Mission &mdash; Impossible</td>
+            </tr>
+            <tr>
+              <td><strong>Smart</strong></td>
+              <td>Mission: Impossible</td>
+              <td>Mission&#xFF1A; Impossible (Unicode fullwidth colon)</td>
+            </tr>
+          </tbody>
+        </table>
+        <p>
+          <strong>Smart</strong> mode uses the Unicode fullwidth colon character (<code>&#xFF1A;</code>),
+          which is visually identical to a colon but valid on all filesystems. This is the recommended
+          setting for most users.
+        </p>
+      </div>
+
+      <!-- ── Import Extra Files ─────────────────────────────────────── -->
+      <div class="content-section fade-in">
+        <div class="section-label">Sidecar Files</div>
+        <h2>Import Extra Files</h2>
+        <p>
+          Luminarr can copy additional files alongside the movie file during import.
+          Enable this option and specify which extensions to include.
+        </p>
+        <div class="card-grid">
+          <div class="info-card">
+            <h4>
+              <svg class="card-icon accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+              Subtitle files
+            </h4>
+            <p>Common extensions: <code>srt</code>, <code>ass</code>, <code>ssa</code>, <code>sub</code>, <code>idx</code>. Imported with the same base filename as the movie.</p>
+          </div>
+          <div class="info-card">
+            <h4>
+              <svg class="card-icon blue" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+              Metadata files
+            </h4>
+            <p>Common extensions: <code>nfo</code>, <code>jpg</code>, <code>png</code>. Useful for media servers that read local NFO files.</p>
+          </div>
+        </div>
+        <p>
+          Enter a comma-separated list of extensions in the <strong>Extra File Extensions</strong> field,
+          without leading dots: <code>srt, ass, nfo</code>.
+        </p>
+        <div class="callout warn">
+          <p><strong>Only files with a matching base name</strong> are imported. Extra files in the download folder that share the movie's filename (minus extension) will be included; unrelated files are ignored.</p>
+        </div>
+      </div>
+
+      <!-- ── Unmonitor Deleted Movies ───────────────────────────────── -->
+      <div class="content-section fade-in">
+        <div class="section-label">Library Maintenance</div>
+        <h2>Unmonitor Deleted Movies</h2>
+        <p>
+          When the library scanner detects that a movie file has been deleted from disk, Luminarr can
+          automatically unmonitor that movie so it is not re-grabbed on the next RSS sync.
+        </p>
+        <div class="card-grid">
+          <div class="info-card">
+            <h4>
+              <svg class="card-icon green" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              Enabled (recommended)
+            </h4>
+            <p>Deleted files cause the movie to be unmonitored automatically. Re-monitor manually if you want Luminarr to search again.</p>
+          </div>
+          <div class="info-card">
+            <h4>
+              <svg class="card-icon amber" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              Disabled
+            </h4>
+            <p>Movies remain monitored after files are deleted. Luminarr will search for and re-download them on the next RSS sync or manual search.</p>
+          </div>
+        </div>
+        <div class="callout info">
+          <p><strong>Temporary removal:</strong> If you delete a file temporarily (e.g. to free space), disable this setting beforehand to avoid losing the monitored state.</p>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-left">MIT License &middot; luminarr</div>
+        <div class="footer-links">
+          <a href="https://github.com/luminarr/luminarr" target="_blank" rel="noopener">GitHub</a>
+          <a href="/docs/">Docs</a>
+          <a href="https://github.com/luminarr/luminarr/issues" target="_blank" rel="noopener">Issues</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    function toggleTheme() {
+      var current = document.documentElement.getAttribute('data-theme');
+      var next = current === 'light' ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', next);
+      localStorage.setItem('theme', next);
+    }
+    var observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) entry.target.classList.add('visible');
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+    document.querySelectorAll('.fade-in').forEach(function(el) { observer.observe(el); });
+  </script>
+</body>
+</html>

@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Media Servers - Luminarr Docs</title>
+  <meta name="description" content="Automatically refresh your media server when movies are imported.">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-1L1C40L1T4"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-1L1C40L1T4');
+  </script>
+  <script>
+    (function() {
+      var t = localStorage.getItem('theme');
+      if (!t) t = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', t);
+    })();
+  </script>
+  <link rel="icon" href="/favicon.ico" sizes="32x32">
+  <link rel="icon" type="image/png" href="/luminarr-192.png" sizes="192x192">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+  <nav>
+    <div class="nav-inner">
+      <a href="../index.html" class="nav-logo">luminarr</a>
+      <div class="nav-links">
+        <a href="../index.html#features">Features</a>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-trigger">
+            Docs
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="nav-dropdown-menu">
+            <a href="architecture.html">Architecture<div class="dd-desc">How Luminarr works</div></a>
+            <a href="download-clients.html">Download Clients<div class="dd-desc">Torrent and Usenet clients</div></a>
+            <a href="media-servers.html">Media Servers<div class="dd-desc">Plex, Jellyfin, Emby</div></a>
+            <a href="notifications.html">Notifications<div class="dd-desc">Alerts and webhooks</div></a>
+            <a href="import-lists.html">Import Lists<div class="dd-desc">Auto-add from TMDb, Trakt</div></a>
+            <a href="import-exclusions.html">Import Exclusions<div class="dd-desc">Prevent unwanted re-adds</div></a>
+            <a href="blocklist.html">Blocklist<div class="dd-desc">Skip bad releases</div></a>
+            <a href="security.html">Security<div class="dd-desc">Auth, secrets, SSRF protection</div></a>
+            <a href="custom-scripts.html">Custom Scripts<div class="dd-desc">Extend with any language</div></a>
+          </div>
+        </div>
+        <a href="https://github.com/luminarr/luminarr" class="gh-link" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+          GitHub
+        </a>
+        <button class="theme-toggle" onclick="toggleTheme()" title="Toggle theme" aria-label="Toggle theme">
+          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="doc-page">
+    <div class="container">
+
+      <h1 class="fade-in">Media <span class="gradient">Servers</span></h1>
+      <p class="page-desc fade-in">
+        Automatically refresh your media server library when movies are imported, and compare your
+        Luminarr library against what your server already has using the Library Sync page.
+      </p>
+
+      <!-- ── Supported Servers ─────────────────────────────────────── -->
+      <div class="content-section fade-in">
+        <div class="section-label">Supported Servers</div>
+        <h2>Supported Media Servers</h2>
+        <p>Multiple connections are supported — for example, a Plex server and a Jellyfin server simultaneously. Each configured server receives a refresh notification after every successful import.</p>
+
+        <div class="card-grid cols-3">
+          <div class="info-card">
+            <h4>
+              <svg class="card-icon amber" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+              Plex
+            </h4>
+            <p>Section-specific library refresh via the Plex Media Server API. Supports local and remote Plex instances.</p>
+          </div>
+          <div class="info-card">
+            <h4>
+              <svg class="card-icon blue" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+              Jellyfin
+            </h4>
+            <p>Full library refresh via the Jellyfin REST API using an API key. Free and open source.</p>
+          </div>
+          <div class="info-card">
+            <h4>
+              <svg class="card-icon green" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+              Emby
+            </h4>
+            <p>Full library refresh via the Emby REST API. Configuration is identical to Jellyfin.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Connection Settings ───────────────────────────────────── -->
+      <div class="content-section fade-in">
+        <div class="section-label">Configuration</div>
+        <h2>Connection Settings</h2>
+        <p>These fields are common to all three server types. The authentication field name differs between servers.</p>
+
+        <table class="doc-table">
+          <thead>
+            <tr>
+              <th>Field</th>
+              <th>Description</th>
+              <th>Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Name</td>
+              <td>Display name for this connection</td>
+              <td>Used in logs and the Library Sync page</td>
+            </tr>
+            <tr>
+              <td>URL</td>
+              <td>Base URL of the media server</td>
+              <td>Include protocol and port. Example: <code>http://192.168.1.10:32400</code></td>
+            </tr>
+            <tr>
+              <td>Token / API Key</td>
+              <td>Authentication credential</td>
+              <td>See per-server instructions below</td>
+            </tr>
+            <tr>
+              <td>Skip TLS Verify</td>
+              <td>Disable TLS certificate validation</td>
+              <td>Only enable for self-signed certificates</td>
+            </tr>
+            <tr>
+              <td>Enabled</td>
+              <td>Whether this server receives refresh calls</td>
+              <td>Disabled servers are skipped during imports</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- ── Plex ──────────────────────────────────────────────────── -->
+      <div class="content-section fade-in">
+        <div class="section-label">Plex</div>
+        <h2>Plex Configuration</h2>
+
+        <table class="doc-table">
+          <thead>
+            <tr>
+              <th>Field</th>
+              <th>Description</th>
+              <th>Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>URL</td>
+              <td>Plex Media Server address</td>
+              <td><code>http://localhost:32400</code></td>
+            </tr>
+            <tr>
+              <td>Token</td>
+              <td>Plex authentication token (<code>X-Plex-Token</code>)</td>
+              <td>Find it in your Plex account settings or from browser network traffic while logged in to the Plex web UI</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="callout info">
+          <p><strong>Finding your Plex token:</strong> Sign in to app.plex.tv, open any library item, click the three-dot menu, choose "Get Info", then "View XML". The token appears in the URL as <code>X-Plex-Token=...</code>.</p>
+        </div>
+
+        <h3>How Plex refresh works</h3>
+        <p>
+          After a successful import, Luminarr identifies the Plex library section whose path overlaps with the
+          imported file's destination, then requests a targeted section refresh for that path only. This is faster
+          than a full library scan and avoids unnecessary metadata re-fetches for unrelated content.
+        </p>
+
+        <div class="flow">
+          <span class="flow-step">Import complete</span>
+          <span class="flow-arrow">&rarr;</span>
+          <span class="flow-step">Identify Plex section</span>
+          <span class="flow-arrow">&rarr;</span>
+          <span class="flow-step">POST /library/sections/:id/refresh</span>
+          <span class="flow-arrow">&rarr;</span>
+          <span class="flow-step">Plex scans new path</span>
+        </div>
+      </div>
+
+      <!-- ── Jellyfin ──────────────────────────────────────────────── -->
+      <div class="content-section fade-in">
+        <div class="section-label">Jellyfin</div>
+        <h2>Jellyfin Configuration</h2>
+
+        <table class="doc-table">
+          <thead>
+            <tr>
+              <th>Field</th>
+              <th>Description</th>
+              <th>Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>URL</td>
+              <td>Jellyfin server address</td>
+              <td><code>http://localhost:8096</code></td>
+            </tr>
+            <tr>
+              <td>API Key</td>
+              <td>Jellyfin API key</td>
+              <td>Create at Dashboard &rarr; Advanced &rarr; API Keys</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3>How Jellyfin refresh works</h3>
+        <p>
+          Jellyfin and Emby do not expose a path-scoped refresh endpoint, so Luminarr triggers a full library
+          scan. Jellyfin's built-in change detection ensures only newly added files are processed; existing
+          content metadata is not re-fetched unless it is missing.
+        </p>
+
+        <div class="flow">
+          <span class="flow-step">Import complete</span>
+          <span class="flow-arrow">&rarr;</span>
+          <span class="flow-step">POST /Library/Refresh</span>
+          <span class="flow-arrow">&rarr;</span>
+          <span class="flow-step">Jellyfin scans library</span>
+        </div>
+      </div>
+
+      <!-- ── Emby ──────────────────────────────────────────────────── -->
+      <div class="content-section fade-in">
+        <div class="section-label">Emby</div>
+        <h2>Emby Configuration</h2>
+
+        <table class="doc-table">
+          <thead>
+            <tr>
+              <th>Field</th>
+              <th>Description</th>
+              <th>Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>URL</td>
+              <td>Emby server address</td>
+              <td><code>http://localhost:8096</code></td>
+            </tr>
+            <tr>
+              <td>API Key</td>
+              <td>Emby API key</td>
+              <td>Create at Dashboard &rarr; Advanced &rarr; API Keys</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="callout success">
+          <p><strong>Emby and Jellyfin share the same API shape.</strong> If you have both running, configure them as separate connections — Luminarr will refresh both after every import.</p>
+        </div>
+      </div>
+
+      <!-- ── Library Sync ──────────────────────────────────────────── -->
+      <div class="content-section fade-in">
+        <div class="section-label">Library Sync</div>
+        <h2>Library Comparison</h2>
+        <p>
+          The Library Sync page compares what Luminarr knows about vs. what your media server has indexed.
+          This helps you find movies in your media server that Luminarr isn't managing, or movies Luminarr
+          is managing that your media server hasn't picked up.
+        </p>
+
+        <div class="card-grid">
+          <div class="info-card">
+            <h4>
+              <svg class="card-icon green" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              Server-only movies
+            </h4>
+            <p>In your media server but not in Luminarr. You can bulk-add these to start managing them.</p>
+          </div>
+          <div class="info-card">
+            <h4>
+              <svg class="card-icon accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              Luminarr-only movies
+            </h4>
+            <p>In Luminarr but not in your media server. Usually means the file hasn't been imported yet or the server hasn't scanned the folder.</p>
+          </div>
+        </div>
+
+        <div class="callout info">
+          <p><strong>Matching is TMDB ID only.</strong> Movies in your media server without a TMDB GUID are excluded from the comparison. For Plex, ensure your library is using the TMDB agent or has TMDB metadata matched.</p>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-left">MIT License &middot; luminarr</div>
+        <div class="footer-links">
+          <a href="https://github.com/luminarr/luminarr" target="_blank" rel="noopener">GitHub</a>
+          <a href="/docs/">Docs</a>
+          <a href="https://github.com/luminarr/luminarr/issues" target="_blank" rel="noopener">Issues</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    function toggleTheme() {
+      var current = document.documentElement.getAttribute('data-theme');
+      var next = current === 'light' ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', next);
+      localStorage.setItem('theme', next);
+    }
+    var observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) entry.target.classList.add('visible');
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+    document.querySelectorAll('.fade-in').forEach(function(el) { observer.observe(el); });
+  </script>
+</body>
+</html>

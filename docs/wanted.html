@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wanted - Luminarr Docs</title>
+  <meta name="description" content="Track movies that need files or quality upgrades.">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-1L1C40L1T4"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-1L1C40L1T4');
+  </script>
+  <script>
+    (function() {
+      var t = localStorage.getItem('theme');
+      if (!t) t = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', t);
+    })();
+  </script>
+  <link rel="icon" href="/favicon.ico" sizes="32x32">
+  <link rel="icon" type="image/png" href="/luminarr-192.png" sizes="192x192">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+  <nav>
+    <div class="nav-inner">
+      <a href="/" class="nav-logo">luminarr</a>
+      <div class="nav-links">
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-trigger">
+            Docs
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="nav-dropdown-menu">
+            <a href="architecture.html">Architecture<div class="dd-desc">How Luminarr works</div></a>
+            <a href="security.html">Security<div class="dd-desc">Auth, secrets, SSRF protection</div></a>
+            <a href="custom-scripts.html">Custom Scripts<div class="dd-desc">Extend with any language</div></a>
+            <a href="media-management.html">Media Management<div class="dd-desc">Naming and file organization</div></a>
+            <a href="media-scanning.html">Media Scanning<div class="dd-desc">ffprobe quality analysis</div></a>
+            <a href="app-settings.html">App Settings<div class="dd-desc">Appearance and API keys</div></a>
+            <a href="system.html">System<div class="dd-desc">Health, tasks, and logs</div></a>
+            <a href="discover.html">Discover<div class="dd-desc">Browse and add movies</div></a>
+            <a href="wanted.html">Wanted<div class="dd-desc">Missing and upgrade tracking</div></a>
+            <a href="activity.html">Activity<div class="dd-desc">Event timeline</div></a>
+            <a href="calendar.html">Calendar<div class="dd-desc">Release date calendar</div></a>
+          </div>
+        </div>
+        <a href="https://github.com/luminarr/luminarr" class="gh-link" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+          GitHub
+        </a>
+        <button class="theme-toggle" onclick="toggleTheme()" title="Toggle theme" aria-label="Toggle theme">
+          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="doc-page">
+    <div class="container">
+
+      <h1 class="fade-in"><span class="gradient">Wanted</span></h1>
+      <p class="page-desc fade-in">
+        The Wanted page is your action list: movies that Luminarr is actively trying to obtain or
+        improve. Three focused tabs let you triage missing content, quality gaps, and pending upgrades.
+      </p>
+
+      <!-- ── Missing ─────────────────────────────────────────────────── -->
+      <div class="content-section fade-in">
+        <div class="section-label">Missing Content</div>
+        <h2>Missing tab</h2>
+        <p>
+          The Missing tab shows every monitored movie in your library that has no file on disk.
+          These are movies Luminarr knows about and wants to find, but hasn't yet.
+        </p>
+
+        <table class="doc-table">
+          <thead>
+            <tr>
+              <th>Column</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Movie</td>
+              <td>Title and year. Clicking opens the movie detail page.</td>
+            </tr>
+            <tr>
+              <td>Quality Profile</td>
+              <td>The quality profile assigned to this movie, which governs what releases are acceptable.</td>
+            </tr>
+            <tr>
+              <td>Added</td>
+              <td>When the movie was added to Luminarr.</td>
+            </tr>
+            <tr>
+              <td>Last search</td>
+              <td>When Luminarr last ran an indexer search for this movie. Empty if never searched.</td>
+            </tr>
+            <tr>
+              <td>Actions</td>
+              <td>Manual search trigger, unmonitor button.</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3>Search All Missing</h3>
+        <p>
+          Click <strong>Search All Missing</strong> to queue a manual indexer search for every
+          movie in the list simultaneously. Results arrive as grabs via the normal queue flow.
+        </p>
+
+        <div class="callout warn">
+          <p><strong>Search All can generate many simultaneous indexer queries.</strong> If you have rate-limited indexers, searches may be throttled or partially fail. Check the Activity log for grab results.</p>
+        </div>
+      </div>
+
+      <!-- ── Cutoff Unmet ────────────────────────────────────────────── -->
+      <div class="content-section fade-in">
+        <div class="section-label">Quality Gaps</div>
+        <h2>Cutoff Unmet tab</h2>
+        <p>
+          The Cutoff Unmet tab shows movies that have a file, but the file's quality is below
+          the cutoff defined in the movie's quality profile.
+        </p>
+        <p>
+          The <strong>cutoff</strong> is the minimum acceptable quality. Anything below it is
+          always considered worth upgrading — Luminarr will grab a better release whenever one
+          appears in RSS or manual search, as long as upgrades are enabled on the profile.
+        </p>
+
+        <div class="card-grid">
+          <div class="info-card">
+            <h4>
+              <svg class="card-icon red" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              Current quality below cutoff
+            </h4>
+            <p>The file on disk doesn't meet the minimum quality you set. Luminarr will actively search for a better version on each RSS sync.</p>
+          </div>
+          <div class="info-card">
+            <h4>
+              <svg class="card-icon amber" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+              Upgrade pending
+            </h4>
+            <p>A better release was found but is queued or waiting for a download slot. The movie stays in this list until the upgrade completes.</p>
+          </div>
+        </div>
+
+        <p>
+          Each row shows the current quality alongside the profile cutoff, so you can see at a glance
+          how far the current file falls short. Click <strong>Search</strong> to trigger an immediate
+          manual search for that movie.
+        </p>
+      </div>
+
+      <!-- ── Upgrades ────────────────────────────────────────────────── -->
+      <div class="content-section fade-in">
+        <div class="section-label">Quality Improvements</div>
+        <h2>Upgrades tab</h2>
+        <p>
+          The Upgrades tab shows movies where a better quality is available or expected, grouped
+          by upgrade tier. Unlike Cutoff Unmet, these movies already meet the cutoff — but their
+          profile allows upgrading further and a better release exists.
+        </p>
+
+        <h3>Upgrade tiers</h3>
+        <p>
+          Movies are grouped by the quality jump they represent, making it easy to prioritize
+          which upgrades are most impactful:
+        </p>
+
+        <table class="doc-table">
+          <thead>
+            <tr>
+              <th>Tier</th>
+              <th>Example</th>
+              <th>Priority</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="badge red">SD &rarr; HD</span></td>
+              <td>480p WebRip &rarr; 1080p Bluray</td>
+              <td>High — major visual improvement</td>
+            </tr>
+            <tr>
+              <td><span class="badge accent">720p &rarr; 1080p</span></td>
+              <td>720p WebDL &rarr; 1080p Bluray</td>
+              <td>Medium — noticeable resolution gain</td>
+            </tr>
+            <tr>
+              <td><span class="badge blue">1080p &rarr; 4K</span></td>
+              <td>1080p Bluray &rarr; 2160p Remux</td>
+              <td>Low — significant storage cost</td>
+            </tr>
+            <tr>
+              <td><span class="badge green">Source upgrade</span></td>
+              <td>1080p WebDL &rarr; 1080p Bluray</td>
+              <td>Low — same resolution, better encode</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="callout info">
+          <p><strong>Upgrade until quality</strong> on the quality profile controls when Luminarr stops searching. Once a movie reaches the "upgrade until" quality level, it is removed from this list and no further upgrades are attempted.</p>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-left">MIT License &middot; luminarr</div>
+        <div class="footer-links">
+          <a href="https://github.com/luminarr/luminarr" target="_blank" rel="noopener">GitHub</a>
+          <a href="/docs/">Docs</a>
+          <a href="https://github.com/luminarr/luminarr/issues" target="_blank" rel="noopener">Issues</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    function toggleTheme() {
+      var current = document.documentElement.getAttribute('data-theme');
+      var next = current === 'light' ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', next);
+      localStorage.setItem('theme', next);
+    }
+    var observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) entry.target.classList.add('visible');
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+    document.querySelectorAll('.fade-in').forEach(function(el) { observer.observe(el); });
+  </script>
+</body>
+</html>

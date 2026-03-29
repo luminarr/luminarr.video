@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Custom Formats - Luminarr Docs</title>
+  <meta name="description" content="Scoring rules that fine-tune release selection beyond quality tiers.">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-1L1C40L1T4"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-1L1C40L1T4');
+  </script>
+  <script>
+    (function() {
+      var t = localStorage.getItem('theme');
+      if (!t) t = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', t);
+    })();
+  </script>
+  <link rel="icon" href="/favicon.ico" sizes="32x32">
+  <link rel="icon" type="image/png" href="/luminarr-192.png" sizes="192x192">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+  <nav>
+    <div class="nav-inner">
+      <a href="/" class="nav-logo">luminarr</a>
+      <div class="nav-links">
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-trigger">
+            Docs
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="nav-dropdown-menu">
+            <a href="index.html">Documentation<div class="dd-desc">All docs in one place</div></a>
+            <a href="architecture.html">Architecture<div class="dd-desc">How Luminarr works</div></a>
+            <a href="security.html">Security<div class="dd-desc">Auth, secrets, SSRF protection</div></a>
+            <a href="custom-scripts.html">Custom Scripts<div class="dd-desc">Extend with any language</div></a>
+          </div>
+        </div>
+        <a href="https://github.com/luminarr/luminarr" class="gh-link" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+          GitHub
+        </a>
+        <button class="theme-toggle" onclick="toggleTheme()" title="Toggle theme" aria-label="Toggle theme">
+          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="doc-page">
+    <div class="container">
+
+      <h1 class="fade-in"><span class="gradient">Custom Formats</span></h1>
+      <p class="page-desc fade-in">
+        Scoring rules that fine-tune release selection beyond quality tiers. Add points for Dolby Atmos,
+        subtract them for CAM audio, require a specific release group — custom formats handle it all.
+      </p>
+
+      <!-- What are Custom Formats -->
+      <div class="content-section fade-in">
+        <div class="section-label">Overview</div>
+        <h2>What are Custom Formats?</h2>
+        <p>
+          A Custom Format is a named rule set that assigns a numeric score to a release when it matches.
+          Scores from all matching formats are summed and compared against thresholds in the movie's
+          quality profile (<strong>Min Custom Format Score</strong> and <strong>Upgrade Until CF Score</strong>).
+        </p>
+        <p>
+          This allows nuanced release selection that quality tiers alone cannot express: prefer
+          dual-audio releases (+100), avoid scene groups known for bad encodes (&minus;1000), require
+          Dolby Vision when available (+50). The score is a language for expressing preference and aversion.
+        </p>
+
+        <div class="callout info">
+          <p><strong>Negative scores are allowed.</strong> Assigning a large negative score to an unwanted
+          attribute (e.g. <code>&minus;10000</code> for CAM audio) effectively blocks those releases if the
+          profile's Min CF Score is 0 or higher, without needing to use a blocklist entry.</p>
+        </div>
+      </div>
+
+      <!-- Configuration -->
+      <div class="content-section fade-in">
+        <div class="section-label">Configuration</div>
+        <h2>Format Configuration</h2>
+
+        <table class="doc-table">
+          <thead>
+            <tr>
+              <th>Field</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Name</td>
+              <td>Display name for this format. Should clearly communicate what the format detects — e.g. "Dolby Atmos", "Remux", "Scene".</td>
+            </tr>
+            <tr>
+              <td>Include When Renaming</td>
+              <td>When enabled, the format name is appended to the imported filename when this format matches. Useful for tagging files with "Atmos" or "HDR10+" in the filename.</td>
+            </tr>
+            <tr>
+              <td>Specifications</td>
+              <td>One or more specification rules. A release must satisfy the specification logic to trigger the format's score. Multiple specifications within a format interact via Required/Optional logic (see below).</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3>Scoring in Quality Profiles</h3>
+        <p>
+          Formats don't have a built-in score — the score is assigned per quality profile. Navigate to
+          <strong>Settings &rarr; Quality Profiles</strong>, select a profile, and each known custom format
+          appears with a score input. This lets you assign different scores to the same format across
+          different profiles: +100 in your "4K" profile, +10 in your "HD" profile.
+        </p>
+      </div>
+
+      <!-- Specification Types -->
+      <div class="content-section fade-in">
+        <div class="section-label">Specifications</div>
+        <h2>Specification Types</h2>
+        <p>
+          Each specification targets a specific attribute of the release and matches it against a
+          value or pattern you define. Most support a <strong>negate</strong> flag to invert the match
+          (e.g. "does NOT contain x265").
+        </p>
+
+        <table class="doc-table">
+          <thead>
+            <tr>
+              <th>Type</th>
+              <th>What it matches</th>
+              <th>Input</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>release_title</code></td>
+              <td>The full release title string from the indexer feed</td>
+              <td>Regular expression</td>
+            </tr>
+            <tr>
+              <td><code>edition</code></td>
+              <td>Edition tag parsed from the title (e.g. Director's Cut, Extended, Theatrical)</td>
+              <td>Regular expression</td>
+            </tr>
+            <tr>
+              <td><code>language</code></td>
+              <td>Audio or subtitle language detected in the release title</td>
+              <td>Language code (e.g. <code>en</code>, <code>fr</code>, <code>multi</code>)</td>
+            </tr>
+            <tr>
+              <td><code>indexer_flag</code></td>
+              <td>Torznab flags set by the indexer (e.g. <code>freeleech</code>, <code>halfleech</code>)</td>
+              <td>Flag name</td>
+            </tr>
+            <tr>
+              <td><code>source</code></td>
+              <td>Parsed source: CAM, DVD, HDTV, WebRip, WebDL, Bluray, Remux</td>
+              <td>Source name from dropdown</td>
+            </tr>
+            <tr>
+              <td><code>resolution</code></td>
+              <td>Parsed resolution: SD, 720p, 1080p, 2160p</td>
+              <td>Resolution from dropdown</td>
+            </tr>
+            <tr>
+              <td><code>size</code></td>
+              <td>Release size in MB — min and max range check</td>
+              <td>Min MB / Max MB</td>
+            </tr>
+            <tr>
+              <td><code>release_group</code></td>
+              <td>Release group tag parsed from the end of the title (e.g. <code>-YIFY</code>, <code>-FGT</code>)</td>
+              <td>Regular expression</td>
+            </tr>
+            <tr>
+              <td><code>year</code></td>
+              <td>The movie's release year</td>
+              <td>Min year / Max year range</td>
+            </tr>
+            <tr>
+              <td><code>audio_codec</code></td>
+              <td>Parsed audio codec: AAC, AC3, EAC3, DTS, TrueHD, Atmos</td>
+              <td>Audio codec from dropdown</td>
+            </tr>
+            <tr>
+              <td><code>audio_channels</code></td>
+              <td>Number of audio channels: 2.0, 5.1, 7.1</td>
+              <td>Channel count from dropdown</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- How Matching Works -->
+      <div class="content-section fade-in">
+        <div class="section-label">Logic</div>
+        <h2>How Matching Works</h2>
+        <p>
+          Within a single Custom Format, specifications interact using Required and Optional flags:
+        </p>
+
+        <div class="card-grid">
+          <div class="info-card">
+            <h4>
+              <svg class="card-icon green" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              Required
+            </h4>
+            <p>All specifications marked Required <em>must</em> match for the format to apply. If any Required spec fails, the format does not trigger — regardless of Optional results.</p>
+          </div>
+          <div class="info-card">
+            <h4>
+              <svg class="card-icon blue" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              Optional
+            </h4>
+            <p>At least one Optional specification must match. If all Optional specs fail and there are no Required specs, the format does not trigger.</p>
+          </div>
+        </div>
+
+        <p>
+          In practice, most formats use a single Required specification (e.g. a regex on release title).
+          Multiple Required specs act as AND conditions; mixing Required and Optional specs lets you
+          build more nuanced "must have X and at least one of Y/Z" rules.
+        </p>
+
+        <div class="callout info">
+          <p><strong>Negate inverts the match.</strong> A negated Required spec means "must NOT match". This is how you build formats like "no YIFY releases" — one Required spec on <code>release_group</code> matching <code>YIFY</code> with negate enabled, assigned a large negative score.</p>
+        </div>
+      </div>
+
+      <!-- TRaSH Presets -->
+      <div class="content-section fade-in">
+        <div class="section-label">Recommended Setups</div>
+        <h2>TRaSH Preset Packs</h2>
+        <p>
+          The <a href="https://trash-guides.info" style="color:var(--accent)" target="_blank" rel="noopener">TRaSH Guides</a>
+          community maintains well-tested custom format collections for common use cases. These are the
+          most popular categories to import:
+        </p>
+
+        <div class="card-grid">
+          <div class="info-card">
+            <h4>
+              <svg class="card-icon blue" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+              HD Bluray
+            </h4>
+            <p>Detects and scores HD Bluray encodes from quality groups. Rewards FraMeSToR, KRaLiMaRKo, and similar top-tier encoders.</p>
+          </div>
+          <div class="info-card">
+            <h4>
+              <svg class="card-icon green" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 2H3v16h5v4l4-4h9V2z"/></svg>
+              WEB
+            </h4>
+            <p>Distinguishes high-quality WEB releases (NTG, FLUX, TEPES) from generic WebDL rips. Essential for streaming-source content.</p>
+          </div>
+          <div class="info-card">
+            <h4>
+              <svg class="card-icon red" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>
+              Unwanted
+            </h4>
+            <p>Large negative scores for CAM, telecine, retails, YIFY, 1337x-style encodes, and other releases broadly considered poor quality.</p>
+          </div>
+          <div class="info-card">
+            <h4>
+              <svg class="card-icon amber" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+              Audio
+            </h4>
+            <p>Scores audio codecs — rewards TrueHD Atmos, DTS-X, and DTS-HD MA; neutral for standard AC3 and AAC.</p>
+          </div>
+          <div class="info-card">
+            <h4>
+              <svg class="card-icon accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 6l4.5 4.5L9 7l3 5 2.5-3L18 13l5-7"/></svg>
+              HDR
+            </h4>
+            <p>Detects and scores HDR formats — Dolby Vision, HDR10+, HDR10, and HLG — with configurable score weights per format tier.</p>
+          </div>
+        </div>
+
+        <div class="callout success">
+          <p><strong>Start simple.</strong> Import the Unwanted pack first — it prevents the worst releases
+          with minimal configuration. Add scoring packs (HD Bluray, WEB) once you understand how your
+          indexers' releases are named and can verify the formats are matching correctly.</p>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-left">MIT License &middot; luminarr</div>
+        <div class="footer-links">
+          <a href="https://github.com/luminarr/luminarr" target="_blank" rel="noopener">GitHub</a>
+          <a href="/docs/">Docs</a>
+          <a href="https://github.com/luminarr/luminarr/issues" target="_blank" rel="noopener">Issues</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    function toggleTheme() {
+      var current = document.documentElement.getAttribute('data-theme');
+      var next = current === 'light' ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', next);
+      localStorage.setItem('theme', next);
+    }
+    var observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) entry.target.classList.add('visible');
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+    document.querySelectorAll('.fade-in').forEach(function(el) { observer.observe(el); });
+  </script>
+</body>
+</html>

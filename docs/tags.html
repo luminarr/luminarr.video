@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tags - Luminarr Docs</title>
+  <meta name="description" content="Organize and link related configuration with simple text labels.">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-1L1C40L1T4"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-1L1C40L1T4');
+  </script>
+  <script>
+    (function() {
+      var t = localStorage.getItem('theme');
+      if (!t) t = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', t);
+    })();
+  </script>
+  <link rel="icon" href="/favicon.ico" sizes="32x32">
+  <link rel="icon" type="image/png" href="/luminarr-192.png" sizes="192x192">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+  <nav>
+    <div class="nav-inner">
+      <a href="/" class="nav-logo">luminarr</a>
+      <div class="nav-links">
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-trigger">
+            Docs
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="nav-dropdown-menu">
+            <a href="index.html">Documentation<div class="dd-desc">All docs in one place</div></a>
+            <a href="architecture.html">Architecture<div class="dd-desc">How Luminarr works</div></a>
+            <a href="security.html">Security<div class="dd-desc">Auth, secrets, SSRF protection</div></a>
+            <a href="custom-scripts.html">Custom Scripts<div class="dd-desc">Extend with any language</div></a>
+          </div>
+        </div>
+        <a href="https://github.com/luminarr/luminarr" class="gh-link" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+          GitHub
+        </a>
+        <button class="theme-toggle" onclick="toggleTheme()" title="Toggle theme" aria-label="Toggle theme">
+          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="doc-page">
+    <div class="container">
+
+      <h1 class="fade-in"><span class="gradient">Tags</span></h1>
+      <p class="page-desc fade-in">
+        Organize and link related configuration with simple text labels. Tags are the mechanism
+        Luminarr uses to scope indexers, download clients, and notifications to specific movies.
+      </p>
+
+      <!-- What are Tags -->
+      <div class="content-section fade-in">
+        <div class="section-label">Overview</div>
+        <h2>What are Tags?</h2>
+        <p>
+          A tag is a short text label — like <code>4k</code>, <code>anime</code>, or <code>usenet</code>
+          — that can be attached to movies and configuration objects. When a movie and a configuration
+          object share at least one tag, they are considered linked. Luminarr uses these links to restrict
+          which indexers are searched, which download client is used, and which notifications are sent
+          for a given movie.
+        </p>
+        <p>
+          Tags are purely additive: adding a tag to a movie never removes access to untagged
+          configuration. If a movie has no tags, it uses all untagged configuration objects. If a movie
+          has tags, it uses those tagged objects plus all untagged objects.
+        </p>
+
+        <div class="callout info">
+          <p><strong>Untagged = global.</strong> A configuration object with no tags applies to every movie.
+          Only add tags when you need to restrict or direct behaviour for a subset of movies.</p>
+        </div>
+      </div>
+
+      <!-- What Can Be Tagged -->
+      <div class="content-section fade-in">
+        <div class="section-label">Supported Objects</div>
+        <h2>What Can Be Tagged</h2>
+
+        <div class="card-grid">
+          <div class="info-card">
+            <h4>
+              <svg class="card-icon accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="2"/><path d="M7 2v20M17 2v20M2 12h20M2 7h5M2 17h5M17 17h5M17 7h5"/></svg>
+              Movies
+            </h4>
+            <p>Tag movies to direct them to specific indexers, download clients, or notification channels. A movie with a <code>4k</code> tag will only use indexers and clients tagged <code>4k</code> (plus any untagged ones).</p>
+          </div>
+          <div class="info-card">
+            <h4>
+              <svg class="card-icon green" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              Indexers
+            </h4>
+            <p>Tag an indexer to restrict it to movies with a matching tag. Useful for niche indexers that only carry specific content types, such as a foreign-language indexer tagged <code>foreign</code>.</p>
+          </div>
+          <div class="info-card">
+            <h4>
+              <svg class="card-icon blue" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Download Clients
+            </h4>
+            <p>Route specific movies to a specific download client. For example, tag a client <code>usenet</code> and only Usenet-sourced movies will be sent to it.</p>
+          </div>
+          <div class="info-card">
+            <h4>
+              <svg class="card-icon amber" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+              Notifications
+            </h4>
+            <p>Scope notification channels to specific movies. Send Discord notifications only for movies tagged <code>watch-party</code>, or Slack alerts only for movies in your <code>work</code> collection.</p>
+          </div>
+          <div class="info-card">
+            <h4>
+              <svg class="card-icon red" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+              Import Lists
+            </h4>
+            <p>Tag an import list to automatically apply that tag to every movie added by the list. Movies from a "Trakt 4K Watchlist" list tagged <code>4k</code> will inherit the tag on creation.</p>
+          </div>
+          <div class="info-card">
+            <h4>
+              <svg class="card-icon accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+              Libraries
+            </h4>
+            <p>Tag a library so that movies imported into it automatically inherit the library's tags. Keeps tag assignment consistent without manual per-movie work.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- How Tag Matching Works -->
+      <div class="content-section fade-in">
+        <div class="section-label">Logic</div>
+        <h2>How Tag Matching Works</h2>
+        <p>
+          When Luminarr searches for releases, sends a download, or fires a notification, it checks
+          whether the movie and the target object (indexer, client, notifier) are compatible:
+        </p>
+
+        <ol class="step-list">
+          <li>
+            <span class="step-num">1</span>
+            <div class="step-content">
+              <p><strong>Does the configuration object have any tags?</strong></p>
+              <p>If no tags — the object is untagged — it applies to all movies unconditionally. No further check needed.</p>
+            </div>
+          </li>
+          <li>
+            <span class="step-num">2</span>
+            <div class="step-content">
+              <p><strong>Does the movie have any tags?</strong></p>
+              <p>If the movie has no tags, tagged configuration objects are skipped — a tagged indexer is not searched for an untagged movie.</p>
+            </div>
+          </li>
+          <li>
+            <span class="step-num">3</span>
+            <div class="step-content">
+              <p><strong>Do any tags overlap?</strong></p>
+              <p>Luminarr checks if the movie's tag set and the object's tag set share at least one tag. If yes, they are linked and the object is used.</p>
+            </div>
+          </li>
+        </ol>
+
+        <div class="callout warn">
+          <p><strong>A tagged movie with no matching objects.</strong> If a movie has tags but none of your
+          indexers share those tags, Luminarr will only search untagged indexers for that movie.
+          If all indexers are tagged and none match, no search is performed. Check your tag assignments
+          if a tagged movie is not getting grabbed.</p>
+        </div>
+      </div>
+
+      <!-- Example Workflow -->
+      <div class="content-section fade-in">
+        <div class="section-label">Example</div>
+        <h2>Example Workflow</h2>
+        <p>
+          A common setup uses tags to separate a 4K library from an HD library, each with dedicated
+          indexers and download clients:
+        </p>
+
+        <div class="code-block">
+          <div class="code-block-header">
+            <span class="code-block-filename">Tag: 4k</span>
+          </div>
+          <div class="code-block-body">
+<pre><span class="syn-comment"># Objects tagged "4k"</span>
+Indexer:         TorznabArr (4K-capable tracker)
+Download client: qBittorrent-4K (seeding directory on NAS)
+Library:         /data/movies-4k
+
+<span class="syn-comment"># Movies added to the 4k library inherit the "4k" tag</span>
+<span class="syn-comment"># Those movies are only searched on TorznabArr</span>
+<span class="syn-comment"># Completed downloads go to qBittorrent-4K</span>
+<span class="syn-comment"># All other indexers and clients remain untagged (apply globally to HD movies)</span></pre>
+          </div>
+        </div>
+
+        <p>
+          With this setup, adding a movie to your 4K library automatically routes all of its
+          automation through the 4K-specific stack. No per-movie manual configuration is required.
+        </p>
+
+        <div class="callout success">
+          <p><strong>Tag via import list.</strong> If you maintain a "4K Watchlist" on Trakt, create an
+          import list for it and tag the list <code>4k</code>. Every movie auto-added from that list
+          arrives pre-tagged and routes correctly without any manual intervention.</p>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-left">MIT License &middot; luminarr</div>
+        <div class="footer-links">
+          <a href="https://github.com/luminarr/luminarr" target="_blank" rel="noopener">GitHub</a>
+          <a href="/docs/">Docs</a>
+          <a href="https://github.com/luminarr/luminarr/issues" target="_blank" rel="noopener">Issues</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    function toggleTheme() {
+      var current = document.documentElement.getAttribute('data-theme');
+      var next = current === 'light' ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', next);
+      localStorage.setItem('theme', next);
+    }
+    var observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) entry.target.classList.add('visible');
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+    document.querySelectorAll('.fade-in').forEach(function(el) { observer.observe(el); });
+  </script>
+</body>
+</html>
